@@ -1,0 +1,190 @@
+[p LITE_MODE AUTOSTATIC LFSROK EMI_WORD ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F4620 ]
+[d frameptr 4065 ]
+"62 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\float.c
+[v ___ftpack __ftpack `(f  1 e 3 0 ]
+"86 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 3 0 ]
+"54 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 3 0 ]
+"62 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 3 0 ]
+"20 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftsub.c
+[v ___ftsub __ftsub `(f  1 e 3 0 ]
+"10 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 3 0 ]
+"245
+[v ___flsub __flsub `(d  1 e 3 0 ]
+"11 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 3 0 ]
+"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcmul.c
+[v ___flmul __flmul `(d  1 e 3 0 ]
+"15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+"11 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
+[v _lcdInst lcdInst `(v  1 e 1 0 ]
+"24
+[v _putch putch `(v  1 e 1 0 ]
+"37
+[v _lcdNibble lcdNibble `(v  1 e 1 0 ]
+"60
+[v _initLCD initLCD `(v  1 e 1 0 ]
+"95
+[v _lcd_shift_cursor lcd_shift_cursor `(v  1 e 1 0 ]
+"8 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+[v _main main `(v  1 e 1 0 ]
+"187 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+[v _PORTB PORTB `VEuc  1 e 1 @3969 ]
+[s S185 . 1 `uc 1 RB0 1 0 :1:0 
+`uc 1 RB1 1 0 :1:1 
+`uc 1 RB2 1 0 :1:2 
+`uc 1 RB3 1 0 :1:3 
+`uc 1 RB4 1 0 :1:4 
+`uc 1 RB5 1 0 :1:5 
+`uc 1 RB6 1 0 :1:6 
+`uc 1 RB7 1 0 :1:7 
+]
+"228
+[s S194 . 1 `uc 1 INT0 1 0 :1:0 
+`uc 1 INT1 1 0 :1:1 
+`uc 1 INT2 1 0 :1:2 
+`uc 1 CCP2 1 0 :1:3 
+`uc 1 KBI0 1 0 :1:4 
+`uc 1 KBI1 1 0 :1:5 
+`uc 1 KBI2 1 0 :1:6 
+`uc 1 KBI3 1 0 :1:7 
+]
+[s S203 . 1 `uc 1 AN12 1 0 :1:0 
+`uc 1 AN10 1 0 :1:1 
+`uc 1 AN8 1 0 :1:2 
+`uc 1 AN9 1 0 :1:3 
+`uc 1 AN11 1 0 :1:4 
+`uc 1 PGM 1 0 :1:5 
+`uc 1 PGC 1 0 :1:6 
+`uc 1 PGD 1 0 :1:7 
+]
+[s S212 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 CCP2_PA2 1 0 :1:3 
+]
+[u S215 . 1 `S185 1 . 1 0 `S194 1 . 1 0 `S203 1 . 1 0 `S212 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES215  1 e 1 @3969 ]
+"878
+[v _LATA LATA `VEuc  1 e 1 @3977 ]
+"990
+[v _LATB LATB `VEuc  1 e 1 @3978 ]
+"1102
+[v _LATC LATC `VEuc  1 e 1 @3979 ]
+"1214
+[v _LATD LATD `VEuc  1 e 1 @3980 ]
+[s S21 . 1 `uc 1 LATD0 1 0 :1:0 
+`uc 1 LATD1 1 0 :1:1 
+`uc 1 LATD2 1 0 :1:2 
+`uc 1 LATD3 1 0 :1:3 
+`uc 1 LATD4 1 0 :1:4 
+`uc 1 LATD5 1 0 :1:5 
+`uc 1 LATD6 1 0 :1:6 
+`uc 1 LATD7 1 0 :1:7 
+]
+"1241
+[s S30 . 1 `uc 1 LD0 1 0 :1:0 
+`uc 1 LD1 1 0 :1:1 
+`uc 1 LD2 1 0 :1:2 
+`uc 1 LD3 1 0 :1:3 
+`uc 1 LD4 1 0 :1:4 
+`uc 1 LD5 1 0 :1:5 
+`uc 1 LD6 1 0 :1:6 
+`uc 1 LD7 1 0 :1:7 
+]
+[u S39 . 1 `S21 1 . 1 0 `S30 1 . 1 0 ]
+[v _LATDbits LATDbits `VES39  1 e 1 @3980 ]
+"1326
+[v _LATE LATE `VEuc  1 e 1 @3981 ]
+"1378
+[v _TRISA TRISA `VEuc  1 e 1 @3986 ]
+"1600
+[v _TRISB TRISB `VEuc  1 e 1 @3987 ]
+"1822
+[v _TRISC TRISC `VEuc  1 e 1 @3988 ]
+"2044
+[v _TRISD TRISD `VEuc  1 e 1 @3989 ]
+"2266
+[v _TRISE TRISE `VEuc  1 e 1 @3990 ]
+"4442
+[v _ADCON1 ADCON1 `VEuc  1 e 1 @4033 ]
+"4527
+[v _ADCON0 ADCON0 `VEuc  1 e 1 @4034 ]
+[s S73 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INT0IF 1 0 :1:1 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INT0IE 1 0 :1:4 
+`uc 1 TMR0IE 1 0 :1:5 
+`uc 1 PEIE_GIEL 1 0 :1:6 
+`uc 1 GIE_GIEH 1 0 :1:7 
+]
+"6404
+[s S82 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 INT0F 1 0 :1:1 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 INT0E 1 0 :1:4 
+`uc 1 T0IE 1 0 :1:5 
+`uc 1 PEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+[s S91 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 GIEL 1 0 :1:6 
+`uc 1 GIEH 1 0 :1:7 
+]
+[u S95 . 1 `S73 1 . 1 0 `S82 1 . 1 0 `S91 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES95  1 e 1 @4082 ]
+"59 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.h
+[v _LCDinterruptState LCDinterruptState `uc  1 s 1 LCDinterruptState ]
+"6 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+[v _keys keys `C[17]uc  1 e 17 0 ]
+"8
+[v _main main `(v  1 e 1 0 ]
+{
+"50
+[v main@temp temp `uc  1 a 1 5 ]
+"43
+[v main@keypress keypress `uc  1 a 1 4 ]
+"53
+} 0
+"24 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
+[v _putch putch `(v  1 e 1 0 ]
+{
+[v putch@data data `uc  1 a 1 wreg ]
+[v putch@data data `uc  1 a 1 wreg ]
+"32
+[v putch@data data `uc  1 a 1 2 ]
+"35
+} 0
+"60
+[v _initLCD initLCD `(v  1 e 1 0 ]
+{
+"78
+} 0
+"11
+[v _lcdInst lcdInst `(v  1 e 1 0 ]
+{
+[v lcdInst@data data `uc  1 a 1 wreg ]
+[v lcdInst@data data `uc  1 a 1 wreg ]
+"19
+[v lcdInst@data data `uc  1 a 1 2 ]
+"22
+} 0
+"37
+[v _lcdNibble lcdNibble `(v  1 e 1 0 ]
+{
+[v lcdNibble@data data `uc  1 a 1 wreg ]
+"45
+[v lcdNibble@temp temp `uc  1 a 1 0 ]
+"37
+[v lcdNibble@data data `uc  1 a 1 wreg ]
+"45
+[v lcdNibble@data data `uc  1 a 1 1 ]
+"58
+} 0
