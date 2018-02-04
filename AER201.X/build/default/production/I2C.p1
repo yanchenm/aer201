@@ -1,41 +1,44 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"1220 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
-[s S47 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S47 . LATD0 LATD1 LATD2 LATD3 LATD4 LATD5 LATD6 LATD7 ]
-"1230
-[s S48 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S48 . LD0 LD1 LD2 LD3 LD4 LD5 LD6 LD7 ]
-"1219
-[u S46 `S47 1 `S48 1 ]
-[n S46 . . . ]
-"1241
-[v _LATDbits `VS46 ~T0 @X0 0 e@3980 ]
-"68 lcd.h
-[v _lcdNibble `(v ~T0 @X0 0 ef1`uc ]
-[v F2882 `(v ~T0 @X0 1 tf1`ul ]
-"164 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18.h
-[v __delay `JF2882 ~T0 @X0 0 e ]
-[p i __delay ]
-"1214 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
-[v _LATD `Vuc ~T0 @X0 0 e@3980 ]
-"6378
-[s S258 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S258 . RBIF INT0IF TMR0IF RBIE INT0IE TMR0IE PEIE_GIEL GIE_GIEH ]
-"6388
-[s S259 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S259 . . INT0F T0IF . INT0E T0IE PEIE GIE ]
-"6398
-[s S260 :6 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S260 . . GIEL GIEH ]
-"6377
-[u S257 `S258 1 `S259 1 `S260 1 ]
-[n S257 . . . . ]
-"6404
-[v _INTCONbits `VS257 ~T0 @X0 0 e@4082 ]
-"91 lcd.c
-[v ___lcd_newline `(i ~T0 @X0 0 ef ]
-"71 lcd.h
-[v _lcd_shift_cursor `(v ~T0 @X0 0 ef2`uc`uc ]
+"4735 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+[s S185 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S185 . SSPM CKP SSPEN SSPOV WCOL ]
+"4742
+[s S186 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S186 . SSPM0 SSPM1 SSPM2 SSPM3 ]
+"4734
+[u S184 `S185 1 `S186 1 ]
+[n S184 . . . ]
+"4749
+[v _SSPCON1bits `VS184 ~T0 @X0 0 e@4038 ]
+"1833
+[s S65 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S65 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
+"1843
+[s S66 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S66 . RC0 RC1 RC2 RC3 RC4 RC5 RC6 RC7 ]
+"1832
+[u S64 `S65 1 `S66 1 ]
+[n S64 . . . ]
+"1854
+[v _TRISCbits `VS64 ~T0 @X0 0 e@3988 ]
+"4799
+[v _SSPSTAT `Vuc ~T0 @X0 0 e@4039 ]
+"4729
+[v _SSPCON1 `Vuc ~T0 @X0 0 e@4038 ]
+"4667
+[v _SSPCON2 `Vuc ~T0 @X0 0 e@4037 ]
+"5020
+[v _SSPADD `Vuc ~T0 @X0 0 e@4040 ]
+"4673
+[s S183 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S183 . SEN RSEN PEN RCEN ACKEN ACKDT ACKSTAT GCEN ]
+"4672
+[u S182 `S183 1 ]
+[n S182 . . ]
+"4684
+[v _SSPCON2bits `VS182 ~T0 @X0 0 e@4037 ]
+"5027
+[v _SSPBUF `Vuc ~T0 @X0 0 e@4041 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -2719,36 +2722,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 164: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 166: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
-[; ;__size_t.h: 4: typedef unsigned size_t;
-[; ;stdarg.h: 7: typedef void * va_list[1];
-[; ;stdarg.h: 10: extern void * __va_start(void);
-[; ;stdarg.h: 13: extern void * __va_arg(void *, ...);
-[; ;stdio.h: 43: struct __prbuf
-[; ;stdio.h: 44: {
-[; ;stdio.h: 45: char * ptr;
-[; ;stdio.h: 46: void (* func)(char);
-[; ;stdio.h: 47: };
-[; ;errno.h: 29: extern int errno;
-[; ;conio.h: 12: extern void init_uart(void);
-[; ;conio.h: 14: extern char getch(void);
-[; ;conio.h: 15: extern char getche(void);
-[; ;conio.h: 16: extern void putch(char);
-[; ;conio.h: 17: extern void ungetch(char);
-[; ;conio.h: 19: extern __bit kbhit(void);
-[; ;conio.h: 23: extern char * cgets(char *);
-[; ;conio.h: 24: extern void cputs(const char *);
-[; ;stdio.h: 88: extern int cprintf(char *, ...);
-[; ;stdio.h: 93: extern int _doprnt(struct __prbuf *, const register char *, register va_list);
-[; ;stdio.h: 183: extern char * gets(char *);
-[; ;stdio.h: 184: extern int puts(const char *);
-[; ;stdio.h: 185: extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
-[; ;stdio.h: 186: extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
-[; ;stdio.h: 187: extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
-[; ;stdio.h: 188: extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
-[; ;stdio.h: 189: extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
-[; ;stdio.h: 190: extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
-[; ;stdio.h: 194: extern int sprintf(char *, const char *, ...);
-[; ;stdio.h: 195: extern int printf(const char *, ...);
 "5 configBits.h
 [p x OSC=HSPLL ]
 "6
@@ -2815,279 +2788,162 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x EBTR3=OFF ]
 "57
 [p x EBTRB=OFF ]
-"52 lcd.h
-[v _LCD_HORZ_LIMIT `Cuc ~T0 @X0 1 e ]
-[i _LCD_HORZ_LIMIT
--> -> 40 `i `uc
-]
-[; ;lcd.h: 52: const unsigned char LCD_HORZ_LIMIT = 40;
-"53
-[v _LCD_VERT_LIMIT `Cuc ~T0 @X0 1 e ]
-[i _LCD_VERT_LIMIT
--> -> 2 `i `uc
-]
-[; ;lcd.h: 53: const unsigned char LCD_VERT_LIMIT = 2;
-"56
-[v _LCD_SIZE_HORZ `Cuc ~T0 @X0 1 e ]
-[i _LCD_SIZE_HORZ
--> -> 16 `i `uc
-]
-[; ;lcd.h: 56: const unsigned char LCD_SIZE_HORZ = 16;
-"57
-[v _LCD_SIZE_VERT `Cuc ~T0 @X0 1 e ]
-[i _LCD_SIZE_VERT
--> -> 2 `i `uc
-]
-[; ;lcd.h: 57: const unsigned char LCD_SIZE_VERT = 2;
-"59
-[v _LCD_RIGHT `Cuc ~T0 @X0 1 e ]
-[i _LCD_RIGHT
--> -> 1 `i `uc
-]
-[; ;lcd.h: 59: const unsigned char LCD_RIGHT = 1;
-"60
-[v _LCD_LEFT `Cuc ~T0 @X0 1 e ]
-[i _LCD_LEFT
--> -> 0 `i `uc
-]
-[; ;lcd.h: 60: const unsigned char LCD_LEFT = 0;
-"63
-[v _LCDinterruptState `uc ~T0 @X0 1 s ]
-[; ;lcd.h: 63: static unsigned char LCDinterruptState;
-[; ;lcd.h: 66: void lcdInst(char data);
-[; ;lcd.h: 67: void putch(char data);
-[; ;lcd.h: 68: void lcdNibble(char data);
-[; ;lcd.h: 69: void initLCD(void);
-[; ;lcd.h: 70: void lcd_set_cursor(unsigned char x, unsigned char y);
-[; ;lcd.h: 71: void lcd_shift_cursor(unsigned char numChars, unsigned char direction);
-[; ;lcd.h: 72: void lcd_shift_display(unsigned char numChars, unsigned char direction);
-"11 lcd.c
-[v _lcdInst `(v ~T0 @X0 1 ef1`uc ]
+[; ;I2C.h: 22: void I2C_Master_Init(const unsigned long c);
+[; ;I2C.h: 23: void I2C_Master_Start(void);
+[; ;I2C.h: 24: void I2C_Master_RepeatedStart(void);
+[; ;I2C.h: 25: void I2C_Master_Stop(void);
+[; ;I2C.h: 26: void I2C_Master_Write(unsigned byteToWrite);
+[; ;I2C.h: 27: unsigned char I2C_Master_Read(unsigned char ackBit);
+"14 I2C.c
+[v _I2C_Master_Init `(v ~T0 @X0 1 ef1`Cul ]
 {
-[; ;lcd.c: 11: void lcdInst(char data){
-[e :U _lcdInst ]
-[v _data `uc ~T0 @X0 1 r1 ]
+[; ;I2C.c: 14: void I2C_Master_Init(const unsigned long clockFreq){
+[e :U _I2C_Master_Init ]
+[v _clockFreq `Cul ~T0 @X0 1 r1 ]
 [f ]
-[; ;lcd.c: 19: LATDbits.LATD2 = 0;
-"19
-[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
-[; ;lcd.c: 20: lcdNibble(data);
-"20
-[e ( _lcdNibble (1 _data ]
-[; ;lcd.c: 21: _delay((unsigned long)((100)*(40000000/4000000.0)));
-"21
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 40000000 `l `d .4000000.0 `ul ]
-[; ;lcd.c: 22: }
-"22
+[; ;I2C.c: 34: SSPCON1bits.SSPEN = 0;
+"34
+[e = . . _SSPCON1bits 0 2 -> -> 0 `i `uc ]
+[; ;I2C.c: 37: TRISCbits.TRISC3 = 1;
+"37
+[e = . . _TRISCbits 0 3 -> -> 1 `i `uc ]
+[; ;I2C.c: 38: TRISCbits.TRISC4 = 1;
+"38
+[e = . . _TRISCbits 0 4 -> -> 1 `i `uc ]
+[; ;I2C.c: 41: SSPSTAT = 0b10000000;
+"41
+[e = _SSPSTAT -> -> 128 `i `uc ]
+[; ;I2C.c: 42: SSPCON1 = 0b00101000;
+"42
+[e = _SSPCON1 -> -> 40 `i `uc ]
+[; ;I2C.c: 43: SSPCON2 = 0b00000000;
+"43
+[e = _SSPCON2 -> -> 0 `i `uc ]
+[; ;I2C.c: 48: SSPADD = (40000000 / (4 * clockFreq)) - 1;
+"48
+[e = _SSPADD -> - / -> -> 40000000 `l `ul * -> -> -> 4 `i `l `ul _clockFreq -> -> -> 1 `i `l `ul `uc ]
+[; ;I2C.c: 49: }
+"49
+[e :UE 265 ]
+}
+"51
+[v _I2C_Master_Wait `(v ~T0 @X0 1 sf ]
+{
+[; ;I2C.c: 51: static void I2C_Master_Wait(){
+[e :U _I2C_Master_Wait ]
+[f ]
+[; ;I2C.c: 66: while ((SSPSTAT & 0x04) || (SSPCON2 & 0x1F));
+"66
+[e $U 267  ]
+[e :U 268 ]
+[e :U 267 ]
+[e $ || != & -> _SSPSTAT `i -> 4 `i -> 0 `i != & -> _SSPCON2 `i -> 31 `i -> 0 `i 268  ]
+[e :U 269 ]
+[; ;I2C.c: 67: }
+"67
 [e :UE 266 ]
 }
-"24
-[v _putch `(v ~T0 @X0 1 ef1`uc ]
-{
-[; ;lcd.c: 24: void putch(char data){
-[e :U _putch ]
-[v _data `uc ~T0 @X0 1 r1 ]
-[f ]
-[; ;lcd.c: 32: LATDbits.LATD2 = 1;
-"32
-[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
-[; ;lcd.c: 33: lcdNibble(data);
-"33
-[e ( _lcdNibble (1 _data ]
-[; ;lcd.c: 34: _delay((unsigned long)((100)*(40000000/4000000.0)));
-"34
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 40000000 `l `d .4000000.0 `ul ]
-[; ;lcd.c: 35: }
-"35
-[e :UE 267 ]
-}
-"37
-[v _lcdNibble `(v ~T0 @X0 1 ef1`uc ]
-{
-[; ;lcd.c: 37: void lcdNibble(char data){
-[e :U _lcdNibble ]
-[v _data `uc ~T0 @X0 1 r1 ]
-[f ]
-"45
-[v _temp `uc ~T0 @X0 1 a ]
-[; ;lcd.c: 45: char temp = (unsigned char) (data & 0xF0);
-[e = _temp -> & -> _data `i -> 240 `i `uc ]
-[; ;lcd.c: 46: LATD = (unsigned char) (LATD & 0x0F);
-"46
-[e = _LATD -> & -> _LATD `i -> 15 `i `uc ]
-[; ;lcd.c: 47: LATD = (unsigned char) (temp | LATD);
-"47
-[e = _LATD -> | -> _temp `i -> _LATD `i `uc ]
-[; ;lcd.c: 49: { LCDinterruptState = INTCONbits.GIE; (INTCONbits.GIE = 0); LATDbits.LATD3 = 1; _delay((unsigned long)((25)*(40000000/4000000.0))); LATDbits.LATD3 = 0; _delay((unsigned long)((100)*(40000000/4000000.0))); INTCONbits.GIE = LCDinterruptState;};
-"49
-{
-[e = _LCDinterruptState . . _INTCONbits 1 7 ]
-[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
-[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
-[e ( __delay (1 -> * -> -> 25 `i `d / -> -> 40000000 `l `d .4000000.0 `ul ]
-[e = . . _LATDbits 0 3 -> -> 0 `i `uc ]
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 40000000 `l `d .4000000.0 `ul ]
-[e = . . _INTCONbits 1 7 _LCDinterruptState ]
-}
-[; ;lcd.c: 52: data = (unsigned char) (data << 4);
-"52
-[e = _data -> << -> _data `i -> 4 `i `uc ]
-[; ;lcd.c: 53: temp = (unsigned char) (data & 0xF0);
-"53
-[e = _temp -> & -> _data `i -> 240 `i `uc ]
-[; ;lcd.c: 54: LATD = (unsigned char) (LATD & 0x0F);
-"54
-[e = _LATD -> & -> _LATD `i -> 15 `i `uc ]
-[; ;lcd.c: 55: LATD = (unsigned char) (temp | LATD);
-"55
-[e = _LATD -> | -> _temp `i -> _LATD `i `uc ]
-[; ;lcd.c: 57: { LCDinterruptState = INTCONbits.GIE; (INTCONbits.GIE = 0); LATDbits.LATD3 = 1; _delay((unsigned long)((25)*(40000000/4000000.0))); LATDbits.LATD3 = 0; _delay((unsigned long)((100)*(40000000/4000000.0))); INTCONbits.GIE = LCDinterruptState;};
-"57
-{
-[e = _LCDinterruptState . . _INTCONbits 1 7 ]
-[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
-[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
-[e ( __delay (1 -> * -> -> 25 `i `d / -> -> 40000000 `l `d .4000000.0 `ul ]
-[e = . . _LATDbits 0 3 -> -> 0 `i `uc ]
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 40000000 `l `d .4000000.0 `ul ]
-[e = . . _INTCONbits 1 7 _LCDinterruptState ]
-}
-[; ;lcd.c: 58: }
-"58
-[e :UE 268 ]
-}
-"60
-[v _initLCD `(v ~T0 @X0 1 ef ]
-{
-[; ;lcd.c: 60: void initLCD(void){
-[e :U _initLCD ]
-[f ]
-[; ;lcd.c: 68: _delay((unsigned long)((15)*(40000000/4000.0)));
-"68
-[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
-[; ;lcd.c: 69: lcdInst(0b00110011);
 "69
-[e ( _lcdInst (1 -> -> 51 `i `uc ]
-[; ;lcd.c: 70: lcdInst(0b00110010);
-"70
-[e ( _lcdInst (1 -> -> 50 `i `uc ]
-[; ;lcd.c: 71: lcdInst(0b00101000);
-"71
-[e ( _lcdInst (1 -> -> 40 `i `uc ]
-[; ;lcd.c: 72: lcdInst(0b00001111);
-"72
-[e ( _lcdInst (1 -> -> 15 `i `uc ]
-[; ;lcd.c: 73: lcdInst(0b00000110);
-"73
-[e ( _lcdInst (1 -> -> 6 `i `uc ]
-[; ;lcd.c: 74: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
-"74
-[e ( _lcdInst (1 -> -> 1 `i `uc ]
-[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
-[; ;lcd.c: 77: lcdInst(8 | (1 << 2) | (1 << 1)| 1);;
-"77
-[e ( _lcdInst (1 -> | | | -> 8 `i << -> 1 `i -> 2 `i << -> 1 `i -> 1 `i -> 1 `i `uc ]
-[; ;lcd.c: 78: }
-"78
-[e :UE 269 ]
-}
-"80
-[v _lcd_set_cursor `(v ~T0 @X0 1 ef2`uc`uc ]
+[v _I2C_Master_Start `(v ~T0 @X0 1 ef ]
 {
-[; ;lcd.c: 80: void lcd_set_cursor(unsigned char x, unsigned char y){
-[e :U _lcd_set_cursor ]
-[v _x `uc ~T0 @X0 1 r1 ]
-[v _y `uc ~T0 @X0 1 r2 ]
+[; ;I2C.c: 69: void I2C_Master_Start(){
+[e :U _I2C_Master_Start ]
 [f ]
-[; ;lcd.c: 90: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
-"90
-[e ( _lcdInst (1 -> -> 128 `i `uc ]
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
-[; ;lcd.c: 91: for(unsigned char i = 0; i < y; i++){__lcd_newline();}
-"91
-{
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 0 `i `uc ]
-[e $U 274  ]
-[e :U 271 ]
-{
-[e ( ___lcd_newline ..  ]
-}
-[e ++ _i -> -> 1 `i `uc ]
-[e :U 274 ]
-[e $ < -> _i `i -> _y `i 271  ]
-[e :U 272 ]
-}
-[; ;lcd.c: 92: lcd_shift_cursor(x, 1);
-"92
-[e ( _lcd_shift_cursor (2 , _x -> -> 1 `i `uc ]
-[; ;lcd.c: 93: }
-"93
+[; ;I2C.c: 78: I2C_Master_Wait();
+"78
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 79: SSPCON2bits.SEN = 1;
+"79
+[e = . . _SSPCON2bits 0 0 -> -> 1 `i `uc ]
+[; ;I2C.c: 80: }
+"80
 [e :UE 270 ]
 }
+"82
+[v _I2C_Master_RepeatedStart `(v ~T0 @X0 1 ef ]
+{
+[; ;I2C.c: 82: void I2C_Master_RepeatedStart(){
+[e :U _I2C_Master_RepeatedStart ]
+[f ]
+[; ;I2C.c: 91: I2C_Master_Wait();
+"91
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 92: SSPCON2bits.RSEN = 1;
+"92
+[e = . . _SSPCON2bits 0 1 -> -> 1 `i `uc ]
+[; ;I2C.c: 93: }
+"93
+[e :UE 271 ]
+}
 "95
-[v _lcd_shift_cursor `(v ~T0 @X0 1 ef2`uc`uc ]
+[v _I2C_Master_Stop `(v ~T0 @X0 1 ef ]
 {
-[; ;lcd.c: 95: void lcd_shift_cursor(unsigned char numChars, unsigned char direction){
-[e :U _lcd_shift_cursor ]
-[v _numChars `uc ~T0 @X0 1 r1 ]
-[v _direction `uc ~T0 @X0 1 r2 ]
+[; ;I2C.c: 95: void I2C_Master_Stop(){
+[e :U _I2C_Master_Stop ]
 [f ]
-[; ;lcd.c: 107: for(unsigned char n = numChars; n > 0; n--){
-"107
-{
-[v _n `uc ~T0 @X0 1 a ]
-[e = _n _numChars ]
-[e $ > -> _n `i -> 0 `i 276  ]
-[e $U 277  ]
-[e :U 276 ]
-{
-[; ;lcd.c: 110: lcdInst((unsigned char)(0x10 | (direction << 2)));
-"110
-[e ( _lcdInst (1 -> | -> 16 `i << -> _direction `i -> 2 `i `uc ]
-"111
+[; ;I2C.c: 104: I2C_Master_Wait();
+"104
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 105: SSPCON2bits.PEN = 1;
+"105
+[e = . . _SSPCON2bits 0 2 -> -> 1 `i `uc ]
+[; ;I2C.c: 106: }
+"106
+[e :UE 272 ]
 }
-"107
-[e -- _n -> -> 1 `i `uc ]
-[e $ > -> _n `i -> 0 `i 276  ]
-[e :U 277 ]
-"111
-}
-[; ;lcd.c: 111: }
-[; ;lcd.c: 112: }
-"112
-[e :UE 275 ]
-}
-"114
-[v _lcd_shift_display `(v ~T0 @X0 1 ef2`uc`uc ]
+"108
+[v _I2C_Master_Write `(v ~T0 @X0 1 ef1`ui ]
 {
-[; ;lcd.c: 114: void lcd_shift_display(unsigned char numChars, unsigned char direction){
-[e :U _lcd_shift_display ]
-[v _numChars `uc ~T0 @X0 1 r1 ]
-[v _direction `uc ~T0 @X0 1 r2 ]
+[; ;I2C.c: 108: void I2C_Master_Write(unsigned byteToWrite){
+[e :U _I2C_Master_Write ]
+[v _byteToWrite `ui ~T0 @X0 1 r1 ]
 [f ]
-[; ;lcd.c: 126: for(unsigned char n = numChars; n > 0; n--){
-"126
-{
-[v _n `uc ~T0 @X0 1 a ]
-[e = _n _numChars ]
-[e $ > -> _n `i -> 0 `i 280  ]
-[e $U 281  ]
-[e :U 280 ]
-{
-[; ;lcd.c: 129: lcdInst((unsigned char)(0x18 | (direction << 2)));
-"129
-[e ( _lcdInst (1 -> | -> 24 `i << -> _direction `i -> 2 `i `uc ]
-"130
+[; ;I2C.c: 116: I2C_Master_Wait();
+"116
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 117: SSPBUF = byteToWrite;
+"117
+[e = _SSPBUF -> _byteToWrite `uc ]
+[; ;I2C.c: 118: }
+"118
+[e :UE 273 ]
 }
-"126
-[e -- _n -> -> 1 `i `uc ]
-[e $ > -> _n `i -> 0 `i 280  ]
-[e :U 281 ]
+"120
+[v _I2C_Master_Read `(uc ~T0 @X0 1 ef1`uc ]
+{
+[; ;I2C.c: 120: unsigned char I2C_Master_Read(unsigned char ackBit){
+[e :U _I2C_Master_Read ]
+[v _ackBit `uc ~T0 @X0 1 r1 ]
+[f ]
 "130
-}
-[; ;lcd.c: 130: }
-[; ;lcd.c: 131: }
-"131
-[e :UE 279 ]
+[v _receivedByte `uc ~T0 @X0 1 a ]
+[; ;I2C.c: 130: unsigned char receivedByte;
+[; ;I2C.c: 132: I2C_Master_Wait();
+"132
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 133: SSPCON2bits.RCEN = 1;
+"133
+[e = . . _SSPCON2bits 0 3 -> -> 1 `i `uc ]
+[; ;I2C.c: 135: I2C_Master_Wait();
+"135
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 136: receivedByte = SSPBUF;
+"136
+[e = _receivedByte _SSPBUF ]
+[; ;I2C.c: 138: I2C_Master_Wait();
+"138
+[e ( _I2C_Master_Wait ..  ]
+[; ;I2C.c: 139: SSPCON2bits.ACKDT = ackBit;
+"139
+[e = . . _SSPCON2bits 0 5 _ackBit ]
+[; ;I2C.c: 140: SSPCON2bits.ACKEN = 1;
+"140
+[e = . . _SSPCON2bits 0 4 -> -> 1 `i `uc ]
+[; ;I2C.c: 142: return receivedByte;
+"142
+[e ) _receivedByte ]
+[e $UE 274  ]
+[; ;I2C.c: 143: }
+"143
+[e :UE 274 ]
 }

@@ -8,7 +8,11 @@
 
 /*********************************** Macros ***********************************/
 /* Sets cursor position to start of second line. */
-#define __lcd_newline() lcdInst(0xC0);
+#define __lcd_2line() lcdInst(0xC0);
+
+#define __lcd_3line() lcdInst(0x94);
+
+#define __lcd_4line() lcdInst(0xD4);
 
 /* Clears both LCD lines. */
 #define __lcd_clear() lcdInst(0x01);__delay_ms(15);

@@ -24,32 +24,40 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _ADCON0 `Vuc ~T0 @X0 0 e@4034 ]
 "4442
 [v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
-"65 lcd.h
+"69 lcd.h
 [v _initLCD `(v ~T0 @X0 0 ef ]
-"193 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
-[s S11 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S11 . RB0 RB1 RB2 RB3 RB4 RB5 RB6 RB7 ]
-"203
-[s S12 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S12 . INT0 INT1 INT2 CCP2 KBI0 KBI1 KBI2 KBI3 ]
-"213
-[s S13 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S13 . AN12 AN10 AN8 AN9 AN11 PGM PGC PGD ]
-"223
-[s S14 :3 `uc 1 :1 `uc 1 ]
-[n S14 . . CCP2_PA2 ]
-"192
-[u S10 `S11 1 `S12 1 `S13 1 `S14 1 ]
-[n S10 . . . . . ]
-"228
-[v _PORTBbits `VS10 ~T0 @X0 0 e@3969 ]
-"187
-[v _PORTB `Vuc ~T0 @X0 0 e@3969 ]
-"43 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18.h
-[v ___nop `(v ~T0 @X0 0 ef ]
-[p i ___nop ]
-"16 C:\Program Files (x86)\Microchip\xc8\v1.45\include\conio.h
-[v _putch `(v ~T0 @X0 0 ef1`uc ]
+"22 I2C.h
+[v _I2C_Master_Init `(v ~T0 @X0 0 ef1`Cul ]
+"6378 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+[s S258 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S258 . RBIF INT0IF TMR0IF RBIE INT0IE TMR0IE PEIE_GIEL GIE_GIEH ]
+"6388
+[s S259 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S259 . . INT0F T0IF . INT0E T0IE PEIE GIE ]
+"6398
+[s S260 :6 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S260 . . GIEL GIEH ]
+"6377
+[u S257 `S258 1 `S259 1 `S260 1 ]
+[n S257 . . . . ]
+"6404
+[v _INTCONbits `VS257 ~T0 @X0 0 e@4082 ]
+"23 I2C.h
+[v _I2C_Master_Start `(v ~T0 @X0 0 ef ]
+"26
+[v _I2C_Master_Write `(v ~T0 @X0 0 ef1`ui ]
+"25
+[v _I2C_Master_Stop `(v ~T0 @X0 0 ef ]
+"27
+[v _I2C_Master_Read `(uc ~T0 @X0 0 ef1`uc ]
+"66 lcd.h
+[v _lcdInst `(v ~T0 @X0 0 ef1`uc ]
+[v F2882 `(v ~T0 @X0 1 tf1`ul ]
+"164 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18.h
+[v __delay `JF2882 ~T0 @X0 0 e ]
+[p i __delay ]
+"195 C:\Program Files (x86)\Microchip\xc8\v1.45\include\stdio.h
+[v _printf `(i ~T0 @X0 0 ev`*Cuc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -2733,6 +2741,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 164: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 166: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
+[; ;__size_t.h: 4: typedef unsigned size_t;
+[; ;stdarg.h: 7: typedef void * va_list[1];
+[; ;stdarg.h: 10: extern void * __va_start(void);
+[; ;stdarg.h: 13: extern void * __va_arg(void *, ...);
+[; ;stdio.h: 43: struct __prbuf
+[; ;stdio.h: 44: {
+[; ;stdio.h: 45: char * ptr;
+[; ;stdio.h: 46: void (* func)(char);
+[; ;stdio.h: 47: };
+[; ;errno.h: 29: extern int errno;
+[; ;conio.h: 12: extern void init_uart(void);
+[; ;conio.h: 14: extern char getch(void);
+[; ;conio.h: 15: extern char getche(void);
+[; ;conio.h: 16: extern void putch(char);
+[; ;conio.h: 17: extern void ungetch(char);
+[; ;conio.h: 19: extern __bit kbhit(void);
+[; ;conio.h: 23: extern char * cgets(char *);
+[; ;conio.h: 24: extern void cputs(const char *);
+[; ;stdio.h: 88: extern int cprintf(char *, ...);
+[; ;stdio.h: 93: extern int _doprnt(struct __prbuf *, const register char *, register va_list);
+[; ;stdio.h: 183: extern char * gets(char *);
+[; ;stdio.h: 184: extern int puts(const char *);
+[; ;stdio.h: 185: extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
+[; ;stdio.h: 186: extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
+[; ;stdio.h: 187: extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
+[; ;stdio.h: 188: extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
+[; ;stdio.h: 189: extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
+[; ;stdio.h: 190: extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
+[; ;stdio.h: 194: extern int sprintf(char *, const char *, ...);
+[; ;stdio.h: 195: extern int printf(const char *, ...);
 "5 configBits.h
 [p x OSC=HSPLL ]
 "6
@@ -2799,83 +2837,61 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x EBTR3=OFF ]
 "57
 [p x EBTRB=OFF ]
-[; ;__size_t.h: 4: typedef unsigned size_t;
-[; ;stdarg.h: 7: typedef void * va_list[1];
-[; ;stdarg.h: 10: extern void * __va_start(void);
-[; ;stdarg.h: 13: extern void * __va_arg(void *, ...);
-[; ;stdio.h: 43: struct __prbuf
-[; ;stdio.h: 44: {
-[; ;stdio.h: 45: char * ptr;
-[; ;stdio.h: 46: void (* func)(char);
-[; ;stdio.h: 47: };
-[; ;errno.h: 29: extern int errno;
-[; ;conio.h: 12: extern void init_uart(void);
-[; ;conio.h: 14: extern char getch(void);
-[; ;conio.h: 15: extern char getche(void);
-[; ;conio.h: 16: extern void putch(char);
-[; ;conio.h: 17: extern void ungetch(char);
-[; ;conio.h: 19: extern __bit kbhit(void);
-[; ;conio.h: 23: extern char * cgets(char *);
-[; ;conio.h: 24: extern void cputs(const char *);
-[; ;stdio.h: 88: extern int cprintf(char *, ...);
-[; ;stdio.h: 93: extern int _doprnt(struct __prbuf *, const register char *, register va_list);
-[; ;stdio.h: 183: extern char * gets(char *);
-[; ;stdio.h: 184: extern int puts(const char *);
-[; ;stdio.h: 185: extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
-[; ;stdio.h: 186: extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
-[; ;stdio.h: 187: extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
-[; ;stdio.h: 188: extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
-[; ;stdio.h: 189: extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
-[; ;stdio.h: 190: extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
-[; ;stdio.h: 194: extern int sprintf(char *, const char *, ...);
-[; ;stdio.h: 195: extern int printf(const char *, ...);
-"48 lcd.h
+"52 lcd.h
 [v _LCD_HORZ_LIMIT `Cuc ~T0 @X0 1 e ]
 [i _LCD_HORZ_LIMIT
 -> -> 40 `i `uc
 ]
-[; ;lcd.h: 48: const unsigned char LCD_HORZ_LIMIT = 40;
-"49
+[; ;lcd.h: 52: const unsigned char LCD_HORZ_LIMIT = 40;
+"53
 [v _LCD_VERT_LIMIT `Cuc ~T0 @X0 1 e ]
 [i _LCD_VERT_LIMIT
 -> -> 2 `i `uc
 ]
-[; ;lcd.h: 49: const unsigned char LCD_VERT_LIMIT = 2;
-"52
+[; ;lcd.h: 53: const unsigned char LCD_VERT_LIMIT = 2;
+"56
 [v _LCD_SIZE_HORZ `Cuc ~T0 @X0 1 e ]
 [i _LCD_SIZE_HORZ
 -> -> 16 `i `uc
 ]
-[; ;lcd.h: 52: const unsigned char LCD_SIZE_HORZ = 16;
-"53
+[; ;lcd.h: 56: const unsigned char LCD_SIZE_HORZ = 16;
+"57
 [v _LCD_SIZE_VERT `Cuc ~T0 @X0 1 e ]
 [i _LCD_SIZE_VERT
 -> -> 2 `i `uc
 ]
-[; ;lcd.h: 53: const unsigned char LCD_SIZE_VERT = 2;
-"55
+[; ;lcd.h: 57: const unsigned char LCD_SIZE_VERT = 2;
+"59
 [v _LCD_RIGHT `Cuc ~T0 @X0 1 e ]
 [i _LCD_RIGHT
 -> -> 1 `i `uc
 ]
-[; ;lcd.h: 55: const unsigned char LCD_RIGHT = 1;
-"56
+[; ;lcd.h: 59: const unsigned char LCD_RIGHT = 1;
+"60
 [v _LCD_LEFT `Cuc ~T0 @X0 1 e ]
 [i _LCD_LEFT
 -> -> 0 `i `uc
 ]
-[; ;lcd.h: 56: const unsigned char LCD_LEFT = 0;
-"59
+[; ;lcd.h: 60: const unsigned char LCD_LEFT = 0;
+"63
 [v _LCDinterruptState `uc ~T0 @X0 1 s ]
-[; ;lcd.h: 59: static unsigned char LCDinterruptState;
-[; ;lcd.h: 62: void lcdInst(char data);
-[; ;lcd.h: 63: void putch(char data);
-[; ;lcd.h: 64: void lcdNibble(char data);
-[; ;lcd.h: 65: void initLCD(void);
-[; ;lcd.h: 66: void lcd_set_cursor(unsigned char x, unsigned char y);
-[; ;lcd.h: 67: void lcd_shift_cursor(unsigned char numChars, unsigned char direction);
-[; ;lcd.h: 68: void lcd_shift_display(unsigned char numChars, unsigned char direction);
-"6 main.c
+[; ;lcd.h: 63: static unsigned char LCDinterruptState;
+[; ;lcd.h: 66: void lcdInst(char data);
+[; ;lcd.h: 67: void putch(char data);
+[; ;lcd.h: 68: void lcdNibble(char data);
+[; ;lcd.h: 69: void initLCD(void);
+[; ;lcd.h: 70: void lcd_set_cursor(unsigned char x, unsigned char y);
+[; ;lcd.h: 71: void lcd_shift_cursor(unsigned char numChars, unsigned char direction);
+[; ;lcd.h: 72: void lcd_shift_display(unsigned char numChars, unsigned char direction);
+[; ;I2C.h: 22: void I2C_Master_Init(const unsigned long c);
+[; ;I2C.h: 23: void I2C_Master_Start(void);
+[; ;I2C.h: 24: void I2C_Master_RepeatedStart(void);
+[; ;I2C.h: 25: void I2C_Master_Stop(void);
+[; ;I2C.h: 26: void I2C_Master_Write(unsigned byteToWrite);
+[; ;I2C.h: 27: unsigned char I2C_Master_Read(unsigned char ackBit);
+[; ;main.c: 12: void RTC_setTime(void);
+[; ;main.c: 13: void operation(void);
+"16 main.c
 [v _keys `Cuc ~T0 @X0 -> 0 `x e ]
 [i _keys
 :U ..
@@ -2898,99 +2914,217 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-[; ;main.c: 6: const char keys[] = "123A456B789C*0#D";
+[; ;main.c: 16: const char keys[] = "123A456B789C*0#D";
+"17
+[v _currDate `Cuc ~T0 @X0 -> 7 `i e ]
+[i _currDate
+:U ..
+-> -> 0 `i `uc
+"18
+-> -> 40 `i `uc
+"19
+-> -> 6 `i `uc
+"20
+-> -> 0 `i `uc
+"21
+-> -> 4 `i `uc
+"22
+-> -> 2 `i `uc
+"24
+-> -> 24 `i `uc
+..
+]
+[; ;main.c: 17: const char currDate[7] = { 0x00,
+[; ;main.c: 18: 0x28,
+[; ;main.c: 19: 0x06,
+[; ;main.c: 20: 0x00,
+[; ;main.c: 21: 0x04,
+[; ;main.c: 22: 0x02,
+[; ;main.c: 23: 0x18
+[; ;main.c: 24: };
 [v $root$_main `(v ~T0 @X0 0 e ]
-"8
+"26
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 8: void main(void){
+[; ;main.c: 26: void main(void) {
 [e :U _main ]
 [f ]
-[; ;main.c: 14: LATA = 0x00;
-"14
+[; ;main.c: 32: LATA = 0x00;
+"32
 [e = _LATA -> -> 0 `i `uc ]
-[; ;main.c: 15: LATB = 0x00;
-"15
+[; ;main.c: 33: LATB = 0x00;
+"33
 [e = _LATB -> -> 0 `i `uc ]
-[; ;main.c: 16: LATC = 0x00;
-"16
-[e = _LATC -> -> 0 `i `uc ]
-[; ;main.c: 17: LATD = 0x00;
-"17
-[e = _LATD -> -> 0 `i `uc ]
-[; ;main.c: 18: LATE = 0x00;
-"18
-[e = _LATE -> -> 0 `i `uc ]
-[; ;main.c: 22: TRISA = 0xFF;
-"22
-[e = _TRISA -> -> 255 `i `uc ]
-[; ;main.c: 23: TRISB = 0xFF;
-"23
-[e = _TRISB -> -> 255 `i `uc ]
-[; ;main.c: 24: TRISC = 0x00;
-"24
-[e = _TRISC -> -> 0 `i `uc ]
-[; ;main.c: 25: TRISD = 0x00;
-"25
-[e = _TRISD -> -> 0 `i `uc ]
-[; ;main.c: 26: TRISE = 0x00;
-"26
-[e = _TRISE -> -> 0 `i `uc ]
-[; ;main.c: 29: ADCON0 = 0x00;
-"29
-[e = _ADCON0 -> -> 0 `i `uc ]
-[; ;main.c: 30: ADCON1 = 0b00001111;
-"30
-[e = _ADCON1 -> -> 15 `i `uc ]
-[; ;main.c: 34: initLCD();
+[; ;main.c: 34: LATC = 0x00;
 "34
+[e = _LATC -> -> 0 `i `uc ]
+[; ;main.c: 35: LATD = 0x00;
+"35
+[e = _LATD -> -> 0 `i `uc ]
+[; ;main.c: 36: LATE = 0x00;
+"36
+[e = _LATE -> -> 0 `i `uc ]
+[; ;main.c: 40: TRISA = 0xFF;
+"40
+[e = _TRISA -> -> 255 `i `uc ]
+[; ;main.c: 41: TRISB = 0xFF;
+"41
+[e = _TRISB -> -> 255 `i `uc ]
+[; ;main.c: 42: TRISC = 0b10000000;
+"42
+[e = _TRISC -> -> 128 `i `uc ]
+[; ;main.c: 46: TRISD = 0x00;
+"46
+[e = _TRISD -> -> 0 `i `uc ]
+[; ;main.c: 47: TRISE = 0x00;
+"47
+[e = _TRISE -> -> 0 `i `uc ]
+[; ;main.c: 50: ADCON0 = 0x00;
+"50
+[e = _ADCON0 -> -> 0 `i `uc ]
+[; ;main.c: 51: ADCON1 = 0b00001111;
+"51
+[e = _ADCON1 -> -> 15 `i `uc ]
+[; ;main.c: 55: initLCD();
+"55
 [e ( _initLCD ..  ]
-[; ;main.c: 37: while(1){
-"37
+[; ;main.c: 57: I2C_Master_Init(100000);
+"57
+[e ( _I2C_Master_Init (1 -> -> 100000 `l `ul ]
+[; ;main.c: 58: (INTCONbits.GIE = 0);
+"58
+[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
+"67
+[v _time `uc ~T0 @X0 -> 7 `i a ]
+"68
+[v _i `uc ~T0 @X0 1 a ]
+[; ;main.c: 67: unsigned char time[7];
+[; ;main.c: 68: unsigned char i;
+[; ;main.c: 71: while(1){
+"71
 [e :U 268 ]
 {
-[; ;main.c: 40: while(PORTBbits.RB1 == 0){ continue; }
-"40
-[e $U 270  ]
-[e :U 271 ]
+[; ;main.c: 73: I2C_Master_Start();
+"73
+[e ( _I2C_Master_Start ..  ]
+[; ;main.c: 74: I2C_Master_Write(0b11010000);
+"74
+[e ( _I2C_Master_Write (1 -> -> 208 `i `ui ]
+[; ;main.c: 75: I2C_Master_Write(0x00);
+"75
+[e ( _I2C_Master_Write (1 -> -> 0 `i `ui ]
+[; ;main.c: 76: I2C_Master_Stop();
+"76
+[e ( _I2C_Master_Stop ..  ]
+[; ;main.c: 79: I2C_Master_Start();
+"79
+[e ( _I2C_Master_Start ..  ]
+[; ;main.c: 80: I2C_Master_Write(0b11010001);
+"80
+[e ( _I2C_Master_Write (1 -> -> 209 `i `ui ]
+[; ;main.c: 81: for(i = 0; i < 6; i++){
+"81
 {
-[e $U 270  ]
-}
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 6 `i 270  ]
+[e $U 271  ]
 [e :U 270 ]
-[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 271  ]
-[e :U 272 ]
-"43
-[v _keypress `uc ~T0 @X0 1 a ]
-[; ;main.c: 43: unsigned char keypress = (PORTB & 0xF0) >> 4;
-[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
-[; ;main.c: 46: while(PORTBbits.RB1 == 1){ continue; }
-"46
-[e $U 273  ]
-[e :U 274 ]
 {
-[e $U 273  ]
+[; ;main.c: 82: time[i] = I2C_Master_Read(0);
+"82
+[e = *U + &U _time * -> _i `ux -> -> # *U &U _time `ui `ux ( _I2C_Master_Read (1 -> -> 0 `i `uc ]
+"83
 }
-[e :U 273 ]
-[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 274  ]
-[e :U 275 ]
-[; ;main.c: 48: __nop();
-"48
-[e ( ___nop ..  ]
-"50
-[v _temp `uc ~T0 @X0 1 a ]
-[; ;main.c: 50: unsigned char temp = keys[keypress];
-[e = _temp *U + &U _keys * -> _keypress `ux -> -> # *U &U _keys `ui `ux ]
-[; ;main.c: 51: putch(temp);
-"51
-[e ( _putch (1 _temp ]
-"52
+"81
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 6 `i 270  ]
+[e :U 271 ]
+"83
+}
+[; ;main.c: 83: }
+[; ;main.c: 84: time[6] = I2C_Master_Read(1);
+"84
+[e = *U + &U _time * -> -> -> 6 `i `ui `ux -> -> # *U &U _time `ui `ux ( _I2C_Master_Read (1 -> -> 1 `i `uc ]
+[; ;main.c: 85: I2C_Master_Stop();
+"85
+[e ( _I2C_Master_Stop ..  ]
+[; ;main.c: 88: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"88
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 89: printf("%02x/%02x/%02x    %02x:%02x:%02x", time[6],time[5],time[4],time[2],time[1],time[0]);
+"89
+[e ( _printf , , , , , , (. :s 1C -> *U + &U _time * -> -> -> 6 `i `ui `ux -> -> # *U &U _time `ui `ux `i -> *U + &U _time * -> -> -> 5 `i `ui `ux -> -> # *U &U _time `ui `ux `i -> *U + &U _time * -> -> -> 4 `i `ui `ux -> -> # *U &U _time `ui `ux `i -> *U + &U _time * -> -> -> 2 `i `ui `ux -> -> # *U &U _time `ui `ux `i -> *U + &U _time * -> -> -> 1 `i `ui `ux -> -> # *U &U _time `ui `ux `i -> *U + &U _time * -> -> -> 0 `i `ui `ux -> -> # *U &U _time `ui `ux `i ]
+[; ;main.c: 90: lcdInst(0x94);;
+"90
+[e ( _lcdInst (1 -> -> 148 `i `uc ]
+[; ;main.c: 91: printf("     * to BEGIN     ");
+"91
+[e ( _printf :s 2C ]
+[; ;main.c: 92: lcdInst(0xD4);;
+"92
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;main.c: 93: printf("    # for LOGGING   ");
+"93
+[e ( _printf :s 3C ]
+[; ;main.c: 94: _delay((unsigned long)((1000)*(40000000/4000.0)));
+"94
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+"95
 }
 [e :U 267 ]
-"37
+"71
 [e $U 268  ]
 [e :U 269 ]
-[; ;main.c: 52: }
-[; ;main.c: 53: }
-"53
+[; ;main.c: 95: }
+[; ;main.c: 96: }
+"96
 [e :UE 266 ]
 }
+"98
+[v _RTC_setTime `(v ~T0 @X0 1 ef ]
+{
+[; ;main.c: 98: void RTC_setTime(void){
+[e :U _RTC_setTime ]
+[f ]
+[; ;main.c: 106: I2C_Master_Start();
+"106
+[e ( _I2C_Master_Start ..  ]
+[; ;main.c: 107: I2C_Master_Write(0b11010000);
+"107
+[e ( _I2C_Master_Write (1 -> -> 208 `i `ui ]
+[; ;main.c: 108: I2C_Master_Write(0x00);
+"108
+[e ( _I2C_Master_Write (1 -> -> 0 `i `ui ]
+[; ;main.c: 111: for(char i=0; i<7; i++){
+"111
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 7 `i 274  ]
+[e $U 275  ]
+[e :U 274 ]
+{
+[; ;main.c: 112: I2C_Master_Write(currDate[i]);
+"112
+[e ( _I2C_Master_Write (1 -> *U + &U _currDate * -> _i `ux -> -> # *U &U _currDate `ui `ux `ui ]
+"113
+}
+"111
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 7 `i 274  ]
+[e :U 275 ]
+"113
+}
+[; ;main.c: 113: }
+[; ;main.c: 115: I2C_Master_Stop();
+"115
+[e ( _I2C_Master_Stop ..  ]
+[; ;main.c: 116: }
+"116
+[e :UE 273 ]
+}
+[p f _printf 12615684 ]
+[a 1C 37 48 50 120 47 37 48 50 120 47 37 48 50 120 32 32 32 32 37 48 50 120 58 37 48 50 120 58 37 48 50 120 0 ]
+[a 3C 32 32 32 32 35 32 102 111 114 32 76 79 71 71 73 78 71 32 32 32 0 ]
+[a 2C 32 32 32 32 32 42 32 116 111 32 66 69 71 73 78 32 32 32 32 32 0 ]
