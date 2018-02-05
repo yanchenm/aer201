@@ -1,0 +1,54 @@
+// Machine Pseudocode
+
+void operation (void) {
+
+    /* Current prescription code here */
+    
+    // Run current colour sensor calibration code (5 seconds)
+    // Spin reservoir agitator motors (RE2, RC0, RC1)
+    // Advance stepper motor 1 (RA4, RA5, RE0, RE2)
+    
+    // Check colour for orientation (AN0 input)
+    
+    while (i < 7) {
+        // Advance stepper motor 1
+        // Dispense pill 1 (number in prescription[0], RC2 & RB3)
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // Dispense pill 2 (number in prescription[1], RD0 & RB2)
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // Dispense pill 3 (number in prescription[2], RD1 & RB0)
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // Flip branch gate if needed (RC3)
+        // Repeat dispensing if needed
+    
+        // i++
+    }
+    
+    // Advance box to drop-off (stepper 1)
+    
+    while (1) {
+        // Offload remaining pills
+        // While light-break sensor detects pills still falling through
+        // Keep rotating agitators and dispenser
+        // Break once no pills detected for 3 actuations
+        
+        // Count and store number of pills dropped
+        // using light-break sensors
+        
+    }
+    
+    // Store run data to EEPROM
+    // Print to screen using existing interface
+
+}
+
+void logging (void) {
+    // Read data from EEPROM
+    // Print to screen using current interface
+}
