@@ -3862,8 +3862,8 @@ void logging(void);
 
 const char keys[] = "123A456B789C*0#D";
 const char currDate[7] = { 0x00,
-0x30,
-0x07,
+0x04,
+0x20,
 0x00,
 0x04,
 0x02,
@@ -3874,6 +3874,7 @@ const char currDate[7] = { 0x00,
 int begin_operation = 0;
 int begin_logging = 0;
 int num_runs = 0;
+int total_time = 0;
 
 
 
@@ -3883,19 +3884,19 @@ enum freq {every, alt_sun, alt_mon, na_freq};
 
 void main(void) {
 
-# 44
+# 45
 LATA = 0x00;
 LATB = 0x00;
 LATC = 0x00;
 LATD = 0x00;
 LATE = 0x00;
 
-# 52
+# 53
 TRISA = 0xFF;
 TRISB = 0xFF;
 TRISC = 0b10000000;
 
-# 58
+# 59
 TRISD = 0x00;
 TRISE = 0x00;
 
@@ -3913,7 +3914,10 @@ initLCD();
 
 I2C_Master_Init(100000);
 
-# 82
+# 80
+RTC_setTime();
+
+
 unsigned char time[7];
 unsigned char i;
 
@@ -3942,7 +3946,7 @@ break;
 
 
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
-printf("%02x/%02x/%02x    %02x:%02x:%02x", time[6],time[5],time[4],time[2],time[1],time[0]);
+printf("%02x/%02x/%02x    %02x:%02x:%02x", time[5],time[4],time[6],time[2],time[1],time[0]);
 lcdInst(0x94);;
 printf("     * to BEGIN     ");
 lcdInst(0xD4);;
@@ -4127,7 +4131,7 @@ _delay((unsigned long)((1000)*(40000000/4000.0)));
 
 lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
-printf("Repetition: _");
+printf("Repetition: ");
 lcdInst(0xC0);;
 printf("(1)Morning");
 lcdInst(0x94);;
@@ -4135,10 +4139,6 @@ printf("(2)Afternoon");
 lcdInst(0xD4);;
 printf("(3)Both (4)Alternate");
 lcd_set_cursor(12, 0);
-
-prescription[0] = -1;
-prescription[1] = -1;
-prescription[2] = -1;
 
 while (1) {
 while (PORTBbits.RB1 == 0) {
@@ -4153,18 +4153,130 @@ continue;
 
 __nop();
 
-if (keypress == 0 || keypress == 1 || keypress == 13) {
-lcd_set_cursor(6, 1);
+if (keypress == 0 || keypress == 1 || keypress == 2 || keypress == 4) {
+lcd_set_cursor(12, 0);
 putch(keys[keypress]);
-prescription[0] = keys[keypress];
+
+switch(keypress) {
+case 0:
+repetition = morning;
+break;
+case 1:
+repetition = afternoon;
+break;
+case 2:
+repetition = both;
+break;
+case 4:
+repetition = alt;
+break;
+default:
+repetition = na_rep;
+break;
+}
 }
 else if (keypress == 14) {
-if (prescription[0] != -1) {
-lcd_set_cursor(6, 2);
+if (repetition != na_rep) {
 break;
 }
 }
 }
+
+# 351
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Frequency: ");
+lcdInst(0xC0);;
+printf("(1) Everyday");
+lcdInst(0x94);;
+printf("(2) Alternate (Sun)");
+lcdInst(0xD4);;
+printf("(3) Alternate (Mon)");
+lcd_set_cursor(11, 0);
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 0 || keypress == 1 || keypress == 2) {
+lcd_set_cursor(11, 0);
+putch(keys[keypress]);
+
+switch(keypress) {
+case 0:
+frequency = every;
+break;
+case 1:
+frequency = alt_sun;
+break;
+case 2:
+frequency = alt_mon;
+break;
+default:
+frequency = na_freq;
+break;
+}
+}
+else if (keypress == 14) {
+if (repetition != na_freq) {
+break;
+}
+}
+}
+
+
+
+lcdInst(8 | (1 << 2) | (0 << 1)| 0);;
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Prescrip. details:");
+lcdInst(0xC0);;
+printf("- %dR %dF %dL", prescription[0], prescription[1], prescription[2]);;
+lcdInst(0x94);;
+switch (repetition) {
+case morning:
+printf("- Mornings");
+break;
+case afternoon:
+printf("- Afternoons");
+break;
+case both:
+printf("- Morn. & Afternoon");
+break;
+case alt:
+printf("- Alternating");
+break;
+}
+
+lcdInst(0xD4);;
+switch (frequency) {
+case every:
+printf("- Everyday");
+break;
+case alt_sun:
+printf("- Alternate (Sun)");
+break;
+case alt_mon:
+printf("- Alternate (Mon)");
+break;
+}
+_delay((unsigned long)((3000)*(40000000/4000.0)));
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0xC0);;
+printf("     DISPENSING     ");
+lcdInst(0x94);;
+printf("      PILLS...      ");
+_delay((unsigned long)((3600)*(40000000/4000.0)));
 
 
 

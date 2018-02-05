@@ -16,8 +16,8 @@ void logging(void);
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
 const char currDate[7] = {  0x00, // 00 Seconds 
-                                0x30, // 28 Minutes
-                                0x07, // 24 hour mode, set to 5:00
+                                0x04, // 28 Minutes
+                                0x20, // 24 hour mode, set to 5:00
                                 0x00, // Sunday
                                 0x04, // 4th
                                 0x02, // February
@@ -77,7 +77,7 @@ void main(void) {
      * 
      * To see the RTC keep time, comment this line out after programming the PIC
      * directly before with this line included. */
-    // RTC_setTime();
+     RTC_setTime();
     
     /* Declare local variables. */
     unsigned char time[7]; // Create a byte array to hold time read from RTC
@@ -108,7 +108,7 @@ void main(void) {
         
         /* Print received data to LCD. */
         __lcd_home();
-        printf("%02x/%02x/%02x    %02x:%02x:%02x", time[6],time[5],time[4],time[2],time[1],time[0]); // Print date in YY/MM/DD   HH:MM:SS
+        printf("%02x/%02x/%02x    %02x:%02x:%02x", time[5],time[4],time[6],time[2],time[1],time[0]); // Print date in YY/MM/DD   HH:MM:SS
         __lcd_3line();
         printf("     * to BEGIN     ");
         __lcd_4line();
@@ -293,7 +293,7 @@ void operation(void) {
     
     __lcd_clear();
     __lcd_home();
-    printf("Repetition: _");
+    printf("Repetition: ");
     __lcd_2line();
     printf("(1)Morning");
     __lcd_3line();
@@ -301,10 +301,6 @@ void operation(void) {
     __lcd_4line();
     printf("(3)Both (4)Alternate");
     lcd_set_cursor(12, 0);
-
-    prescription[0] = -1;
-    prescription[1] = -1;
-    prescription[2] = -1;
 
     while (1) {
         while (PORTBbits.RB1 == 0) {
@@ -319,20 +315,135 @@ void operation(void) {
 
         Nop();
 
-        if (keypress == 0 || keypress == 1 || keypress == 13) {
-            lcd_set_cursor(6, 1);
+        if (keypress == 0 || keypress == 1 || keypress == 2 || keypress == 4) {
+            lcd_set_cursor(12, 0);
             putch(keys[keypress]);
-            prescription[0] = keys[keypress];
+            
+            switch(keypress) {
+                case 0:
+                    repetition = morning;
+                    break;
+                case 1:
+                    repetition = afternoon;
+                    break;
+                case 2:
+                    repetition = both;
+                    break;
+                case 4:
+                    repetition = alt;
+                    break;
+                default:
+                    repetition = na_rep;
+                    break;                   
+            }           
         }
         else if (keypress == 14) {
-            if (prescription[0] != -1) {
-                lcd_set_cursor(6, 2);
+            if (repetition != na_rep) {
                 break;
             }
         }
     }
     
     // </editor-fold>
+    
+    // <editor-fold defaultstate="expanded" desc="Frequency Input">
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Frequency: ");
+    __lcd_2line();
+    printf("(1) Everyday");
+    __lcd_3line();
+    printf("(2) Alternate (Sun)");
+    __lcd_4line();
+    printf("(3) Alternate (Mon)");
+    lcd_set_cursor(11, 0);
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 0 || keypress == 1 || keypress == 2) {
+            lcd_set_cursor(11, 0);
+            putch(keys[keypress]);
+            
+            switch(keypress) {
+                case 0:
+                    frequency = every;
+                    break;
+                case 1:
+                    frequency = alt_sun;
+                    break;
+                case 2:
+                    frequency = alt_mon;
+                    break;
+                default:
+                    frequency = na_freq;
+                    break;                   
+            }           
+        }
+        else if (keypress == 14) {
+            if (repetition != na_freq) {
+                break;
+            }
+        }
+    }
+    
+    // </editor-fold>
+    
+    __lcd_display_control(1, 0, 0);
+    __lcd_clear();
+    __lcd_home();
+    printf("Prescrip. details:");
+    __lcd_2line();
+    printf("- %dR %dF %dL", prescription[0], prescription[1], prescription[2]);;
+    __lcd_3line();    
+    switch (repetition) {
+        case morning:
+            printf("- Mornings");
+            break;
+        case afternoon:
+            printf("- Afternoons");
+            break;
+        case both:
+            printf("- Morn. & Afternoon");
+            break;
+        case alt:
+            printf("- Alternating");
+            break;            
+    }
+    
+    __lcd_4line();
+    switch (frequency) {
+        case every:
+            printf("- Everyday");
+            break;
+        case alt_sun:
+            printf("- Alternate (Sun)");
+            break;
+        case alt_mon:
+            printf("- Alternate (Mon)");
+            break;            
+    }
+    __delay_ms(3000);
+    
+    __lcd_clear();
+    __lcd_2line();
+    printf("     DISPENSING     ");
+    __lcd_3line();
+    printf("      PILLS...      ");
+    __delay_ms(3600);
+    
+    /****** OPERATION CODE ******/
     
     return;
 }
