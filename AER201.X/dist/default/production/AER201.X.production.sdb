@@ -3,6 +3,21 @@
 [d edition pro ]
 [d chip 18F4620 ]
 [d frameptr 4065 ]
+"133 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+[e E3001 rep `uc
+morning 0
+afternoon 1
+alt 2
+both 3
+na_rep 4
+]
+"134
+[e E3007 freq `uc
+every 0
+alt_sun 1
+alt_mon 2
+na_freq 3
+]
 "464 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\doprnt.c
 [v _printf printf `(i  1 e 2 0 ]
 "62 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\float.c
@@ -53,11 +68,54 @@
 [v _lcdNibble lcdNibble `(v  1 e 1 0 ]
 "60
 [v _initLCD initLCD `(v  1 e 1 0 ]
-"95
+"80
+[v _lcd_set_cursor lcd_set_cursor `(v  1 e 1 0 ]
+"110
 [v _lcd_shift_cursor lcd_shift_cursor `(v  1 e 1 0 ]
-"26 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+"38 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"878 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+"128
+[v _operation operation `(v  1 e 1 0 ]
+"339
+[v _logging logging `(v  1 e 1 0 ]
+"356
+[v _interruptHandler interruptHandler `II(v  1 e 1 0 ]
+"187 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+[v _PORTB PORTB `VEuc  1 e 1 @3969 ]
+[s S263 . 1 `uc 1 RB0 1 0 :1:0 
+`uc 1 RB1 1 0 :1:1 
+`uc 1 RB2 1 0 :1:2 
+`uc 1 RB3 1 0 :1:3 
+`uc 1 RB4 1 0 :1:4 
+`uc 1 RB5 1 0 :1:5 
+`uc 1 RB6 1 0 :1:6 
+`uc 1 RB7 1 0 :1:7 
+]
+"228
+[s S272 . 1 `uc 1 INT0 1 0 :1:0 
+`uc 1 INT1 1 0 :1:1 
+`uc 1 INT2 1 0 :1:2 
+`uc 1 CCP2 1 0 :1:3 
+`uc 1 KBI0 1 0 :1:4 
+`uc 1 KBI1 1 0 :1:5 
+`uc 1 KBI2 1 0 :1:6 
+`uc 1 KBI3 1 0 :1:7 
+]
+[s S281 . 1 `uc 1 AN12 1 0 :1:0 
+`uc 1 AN10 1 0 :1:1 
+`uc 1 AN8 1 0 :1:2 
+`uc 1 AN9 1 0 :1:3 
+`uc 1 AN11 1 0 :1:4 
+`uc 1 PGM 1 0 :1:5 
+`uc 1 PGC 1 0 :1:6 
+`uc 1 PGD 1 0 :1:7 
+]
+[s S290 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 CCP2_PA2 1 0 :1:3 
+]
+[u S293 . 1 `S263 1 . 1 0 `S272 1 . 1 0 `S281 1 . 1 0 `S290 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES293  1 e 1 @3969 ]
+"878
 [v _LATA LATA `VEuc  1 e 1 @3977 ]
 "990
 [v _LATB LATB `VEuc  1 e 1 @3978 ]
@@ -94,7 +152,7 @@
 [v _TRISB TRISB `VEuc  1 e 1 @3987 ]
 "1822
 [v _TRISC TRISC `VEuc  1 e 1 @3988 ]
-[s S295 . 1 `uc 1 TRISC0 1 0 :1:0 
+[s S427 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -104,7 +162,7 @@
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "1854
-[s S304 . 1 `uc 1 RC0 1 0 :1:0 
+[s S436 . 1 `uc 1 RC0 1 0 :1:0 
 `uc 1 RC1 1 0 :1:1 
 `uc 1 RC2 1 0 :1:2 
 `uc 1 RC3 1 0 :1:3 
@@ -113,8 +171,8 @@
 `uc 1 RC6 1 0 :1:6 
 `uc 1 RC7 1 0 :1:7 
 ]
-[u S313 . 1 `S295 1 . 1 0 `S304 1 . 1 0 ]
-[v _TRISCbits TRISCbits `VES313  1 e 1 @3988 ]
+[u S445 . 1 `S427 1 . 1 0 `S436 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES445  1 e 1 @3988 ]
 "2044
 [v _TRISD TRISD `VEuc  1 e 1 @3989 ]
 "2266
@@ -125,7 +183,7 @@
 [v _ADCON0 ADCON0 `VEuc  1 e 1 @4034 ]
 "4667
 [v _SSPCON2 SSPCON2 `VEuc  1 e 1 @4037 ]
-[s S339 . 1 `uc 1 SEN 1 0 :1:0 
+[s S471 . 1 `uc 1 SEN 1 0 :1:0 
 `uc 1 RSEN 1 0 :1:1 
 `uc 1 PEN 1 0 :1:2 
 `uc 1 RCEN 1 0 :1:3 
@@ -135,24 +193,24 @@
 `uc 1 GCEN 1 0 :1:7 
 ]
 "4684
-[u S348 . 1 `S339 1 . 1 0 ]
-[v _SSPCON2bits SSPCON2bits `VES348  1 e 1 @4037 ]
+[u S480 . 1 `S471 1 . 1 0 ]
+[v _SSPCON2bits SSPCON2bits `VES480  1 e 1 @4037 ]
 "4729
 [v _SSPCON1 SSPCON1 `VEuc  1 e 1 @4038 ]
-[s S269 . 1 `uc 1 SSPM 1 0 :4:0 
+[s S401 . 1 `uc 1 SSPM 1 0 :4:0 
 `uc 1 CKP 1 0 :1:4 
 `uc 1 SSPEN 1 0 :1:5 
 `uc 1 SSPOV 1 0 :1:6 
 `uc 1 WCOL 1 0 :1:7 
 ]
 "4749
-[s S275 . 1 `uc 1 SSPM0 1 0 :1:0 
+[s S407 . 1 `uc 1 SSPM0 1 0 :1:0 
 `uc 1 SSPM1 1 0 :1:1 
 `uc 1 SSPM2 1 0 :1:2 
 `uc 1 SSPM3 1 0 :1:3 
 ]
-[u S280 . 1 `S269 1 . 1 0 `S275 1 . 1 0 ]
-[v _SSPCON1bits SSPCON1bits `VES280  1 e 1 @4038 ]
+[u S412 . 1 `S401 1 . 1 0 `S407 1 . 1 0 ]
+[v _SSPCON1bits SSPCON1bits `VES412  1 e 1 @4038 ]
 "4799
 [v _SSPSTAT SSPSTAT `VEuc  1 e 1 @4039 ]
 "5020
@@ -184,40 +242,71 @@
 ]
 [u S95 . 1 `S73 1 . 1 0 `S82 1 . 1 0 `S91 1 . 1 0 ]
 [v _INTCONbits INTCONbits `VES95  1 e 1 @4082 ]
+"7019
+[v _INT1IE INT1IE `VEb  1 e 0 @32643 ]
+"7021
+[v _INT1IF INT1IF `VEb  1 e 0 @32640 ]
 "362 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\doprnt.c
 [v _hexpowers hexpowers `C[4]ui  1 s 8 hexpowers ]
-"63 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.h
+"65 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.h
 [v _LCDinterruptState LCDinterruptState `uc  1 s 1 LCDinterruptState ]
 "17 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+[v _keys keys `C[17]uc  1 e 17 0 ]
+"18
 [v _currDate currDate `C[7]uc  1 e 7 0 ]
-"26
+"28
+[v _begin_operation begin_operation `i  1 e 2 0 ]
+"29
+[v _begin_logging begin_logging `i  1 e 2 0 ]
+"38
 [v _main main `(v  1 e 1 0 ]
 {
-"67
-[v main@time time `[7]uc  1 a 7 37 ]
-"68
-[v main@i i `uc  1 a 1 44 ]
-"96
+"82
+[v main@time time `[7]uc  1 a 7 70 ]
+"83
+[v main@i i `uc  1 a 1 77 ]
+"126
+} 0
+"128
+[v _operation operation `(v  1 e 1 0 ]
+{
+"242
+[v operation@keypress_383 keypress `uc  1 a 1 61 ]
+"205
+[v operation@keypress_382 keypress `uc  1 a 1 59 ]
+"168
+[v operation@keypress keypress `uc  1 a 1 58 ]
+"313
+[v operation@keypress_390 keypress `uc  1 a 1 60 ]
+"132
+[v operation@prescription prescription `[3]i  1 a 6 62 ]
+"134
+[v operation@frequency frequency `E3007  1 a 1 57 ]
+"133
+[v operation@repetition repetition `E3001  1 a 1 56 ]
+"130
+[v operation@F3020 F3020 `[3]i  1 s 6 F3020 ]
+"337
 } 0
 "464 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\doprnt.c
 [v _printf printf `(i  1 e 2 0 ]
 {
 "1500
-[v printf@idx idx `uc  1 a 1 27 ]
+[v printf@idx idx `uc  1 a 1 46 ]
 "501
-[v printf@width width `i  1 a 2 32 ]
+[v printf@width width `i  1 a 2 51 ]
 "528
-[v printf@val val `ui  1 a 2 29 ]
+[v printf@val val `ui  1 a 2 48 ]
 "466
-[v printf@ap ap `[1]*.39v  1 a 2 25 ]
+[v printf@ap ap `[1]*.39v  1 a 2 44 ]
 "499
-[v printf@c c `c  1 a 1 34 ]
+[v printf@c c `c  1 a 1 53 ]
 "506
-[v printf@prec prec `c  1 a 1 31 ]
+[v printf@prec prec `c  1 a 1 50 ]
 "508
-[v printf@flag flag `uc  1 a 1 28 ]
+[v printf@flag flag `uc  1 a 1 47 ]
 "464
-[v printf@f f `*.25Cuc  1 p 2 7 ]
+[v printf@f f `*.25Cuc  1 p 2 26 ]
 "1541
 } 0
 "24 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
@@ -226,7 +315,7 @@
 [v putch@data data `uc  1 a 1 wreg ]
 [v putch@data data `uc  1 a 1 wreg ]
 "32
-[v putch@data data `uc  1 a 1 2 ]
+[v putch@data data `uc  1 a 1 21 ]
 "35
 } 0
 "8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\isdigit.c
@@ -235,30 +324,58 @@
 [v isdigit@c c `uc  1 a 1 wreg ]
 [v isdigit@c c `uc  1 a 1 wreg ]
 "14
-[v isdigit@c c `uc  1 a 1 2 ]
+[v isdigit@c c `uc  1 a 1 21 ]
 "15
 } 0
 "15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
 {
 "17
-[v ___wmul@product product `ui  1 a 2 4 ]
+[v ___wmul@product product `ui  1 a 2 23 ]
 "15
-[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
-[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+[v ___wmul@multiplier multiplier `ui  1 p 2 19 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 21 ]
 "53
 } 0
 "8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lwdiv.c
 [v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
 {
 "11
-[v ___lwdiv@quotient quotient `ui  1 a 2 4 ]
+[v ___lwdiv@quotient quotient `ui  1 a 2 23 ]
 "12
-[v ___lwdiv@counter counter `uc  1 a 1 6 ]
+[v ___lwdiv@counter counter `uc  1 a 1 25 ]
 "8
-[v ___lwdiv@dividend dividend `ui  1 p 2 0 ]
-[v ___lwdiv@divisor divisor `ui  1 p 2 2 ]
+[v ___lwdiv@dividend dividend `ui  1 p 2 19 ]
+[v ___lwdiv@divisor divisor `ui  1 p 2 21 ]
 "31
+} 0
+"80 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
+[v _lcd_set_cursor lcd_set_cursor `(v  1 e 1 0 ]
+{
+[v lcd_set_cursor@x x `uc  1 a 1 wreg ]
+[v lcd_set_cursor@x x `uc  1 a 1 wreg ]
+[v lcd_set_cursor@y y `uc  1 p 1 25 ]
+"90
+[v lcd_set_cursor@x x `uc  1 a 1 27 ]
+"108
+} 0
+"110
+[v _lcd_shift_cursor lcd_shift_cursor `(v  1 e 1 0 ]
+{
+[v lcd_shift_cursor@numChars numChars `uc  1 a 1 wreg ]
+"122
+[v lcd_shift_cursor@n n `uc  1 a 1 24 ]
+"110
+[v lcd_shift_cursor@numChars numChars `uc  1 a 1 wreg ]
+[v lcd_shift_cursor@direction direction `uc  1 p 1 22 ]
+"122
+[v lcd_shift_cursor@numChars numChars `uc  1 a 1 23 ]
+"127
+} 0
+"339 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+[v _logging logging `(v  1 e 1 0 ]
+{
+"341
 } 0
 "60 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
 [v _initLCD initLCD `(v  1 e 1 0 ]
@@ -271,7 +388,7 @@
 [v lcdInst@data data `uc  1 a 1 wreg ]
 [v lcdInst@data data `uc  1 a 1 wreg ]
 "19
-[v lcdInst@data data `uc  1 a 1 2 ]
+[v lcdInst@data data `uc  1 a 1 21 ]
 "22
 } 0
 "37
@@ -279,17 +396,17 @@
 {
 [v lcdNibble@data data `uc  1 a 1 wreg ]
 "45
-[v lcdNibble@temp temp `uc  1 a 1 0 ]
+[v lcdNibble@temp temp `uc  1 a 1 19 ]
 "37
 [v lcdNibble@data data `uc  1 a 1 wreg ]
 "45
-[v lcdNibble@data data `uc  1 a 1 1 ]
+[v lcdNibble@data data `uc  1 a 1 20 ]
 "58
 } 0
 "108 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\I2C.c
 [v _I2C_Master_Write I2C_Master_Write `(v  1 e 1 0 ]
 {
-[v I2C_Master_Write@byteToWrite byteToWrite `ui  1 p 2 1 ]
+[v I2C_Master_Write@byteToWrite byteToWrite `ui  1 p 2 20 ]
 "118
 } 0
 "95
@@ -307,11 +424,11 @@
 {
 [v I2C_Master_Read@ackBit ackBit `uc  1 a 1 wreg ]
 "130
-[v I2C_Master_Read@receivedByte receivedByte `uc  1 a 1 2 ]
+[v I2C_Master_Read@receivedByte receivedByte `uc  1 a 1 21 ]
 "120
 [v I2C_Master_Read@ackBit ackBit `uc  1 a 1 wreg ]
 "132
-[v I2C_Master_Read@ackBit ackBit `uc  1 a 1 1 ]
+[v I2C_Master_Read@ackBit ackBit `uc  1 a 1 20 ]
 "143
 } 0
 "51
@@ -322,18 +439,25 @@
 "14
 [v _I2C_Master_Init I2C_Master_Init `(v  1 e 1 0 ]
 {
-[v I2C_Master_Init@clockFreq clockFreq `Cul  1 p 4 13 ]
+[v I2C_Master_Init@clockFreq clockFreq `Cul  1 p 4 32 ]
 "49
 } 0
 "8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lldiv.c
 [v ___lldiv __lldiv `(ul  1 e 4 0 ]
 {
 "11
-[v ___lldiv@quotient quotient `ul  1 a 4 8 ]
+[v ___lldiv@quotient quotient `ul  1 a 4 27 ]
 "12
-[v ___lldiv@counter counter `uc  1 a 1 12 ]
+[v ___lldiv@counter counter `uc  1 a 1 31 ]
 "8
-[v ___lldiv@dividend dividend `ul  1 p 4 0 ]
-[v ___lldiv@divisor divisor `ul  1 p 4 4 ]
+[v ___lldiv@dividend dividend `ul  1 p 4 19 ]
+[v ___lldiv@divisor divisor `ul  1 p 4 23 ]
 "31
+} 0
+"356 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+[v _interruptHandler interruptHandler `II(v  1 e 1 0 ]
+{
+"361
+[v interruptHandler@keypress keypress `uc  1 a 1 18 ]
+"376
 } 0

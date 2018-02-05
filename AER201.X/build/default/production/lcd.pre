@@ -3823,9 +3823,9 @@ extern int printf(const char *, ...);
 
 #pragma config EBTRB = OFF
 
-# 52 "lcd.h"
-const unsigned char LCD_HORZ_LIMIT = 40;
-const unsigned char LCD_VERT_LIMIT = 2;
+# 54 "lcd.h"
+const unsigned char LCD_HORZ_LIMIT = 20;
+const unsigned char LCD_VERT_LIMIT = 4;
 
 
 const unsigned char LCD_SIZE_HORZ = 16;
@@ -3900,26 +3900,41 @@ void lcd_set_cursor(unsigned char x, unsigned char y){
 
 # 90
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
-for(unsigned char i = 0; i < y; i++){__lcd_newline();}
+
+switch (y) {
+case 0:
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+break;
+case 1:
+lcdInst(0xC0);;
+break;
+case 2:
+lcdInst(0x94);;
+break;
+case 3:
+lcdInst(0xD4);;
+break;
+}
+
 lcd_shift_cursor(x, 1);
 }
 
 void lcd_shift_cursor(unsigned char numChars, unsigned char direction){
 
-# 107
+# 122
 for(unsigned char n = numChars; n > 0; n--){
 
-# 110
+# 125
 lcdInst((unsigned char)(0x10 | (direction << 2)));
 }
 }
 
 void lcd_shift_display(unsigned char numChars, unsigned char direction){
 
-# 126
+# 141
 for(unsigned char n = numChars; n > 0; n--){
 
-# 129
+# 144
 lcdInst((unsigned char)(0x18 | (direction << 2)));
 }
 }

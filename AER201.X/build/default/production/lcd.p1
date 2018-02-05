@@ -10,7 +10,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S46 . . . ]
 "1241
 [v _LATDbits `VS46 ~T0 @X0 0 e@3980 ]
-"68 lcd.h
+"70 lcd.h
 [v _lcdNibble `(v ~T0 @X0 0 ef1`uc ]
 [v F2882 `(v ~T0 @X0 1 tf1`ul ]
 "164 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18.h
@@ -32,9 +32,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S257 . . . . ]
 "6404
 [v _INTCONbits `VS257 ~T0 @X0 0 e@4082 ]
-"91 lcd.c
-[v ___lcd_newline `(i ~T0 @X0 0 ef ]
-"71 lcd.h
+"73 lcd.h
 [v _lcd_shift_cursor `(v ~T0 @X0 0 ef2`uc`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
@@ -2815,52 +2813,52 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x EBTR3=OFF ]
 "57
 [p x EBTRB=OFF ]
-"52 lcd.h
+"54 lcd.h
 [v _LCD_HORZ_LIMIT `Cuc ~T0 @X0 1 e ]
 [i _LCD_HORZ_LIMIT
--> -> 40 `i `uc
+-> -> 20 `i `uc
 ]
-[; ;lcd.h: 52: const unsigned char LCD_HORZ_LIMIT = 40;
-"53
+[; ;lcd.h: 54: const unsigned char LCD_HORZ_LIMIT = 20;
+"55
 [v _LCD_VERT_LIMIT `Cuc ~T0 @X0 1 e ]
 [i _LCD_VERT_LIMIT
--> -> 2 `i `uc
+-> -> 4 `i `uc
 ]
-[; ;lcd.h: 53: const unsigned char LCD_VERT_LIMIT = 2;
-"56
+[; ;lcd.h: 55: const unsigned char LCD_VERT_LIMIT = 4;
+"58
 [v _LCD_SIZE_HORZ `Cuc ~T0 @X0 1 e ]
 [i _LCD_SIZE_HORZ
 -> -> 16 `i `uc
 ]
-[; ;lcd.h: 56: const unsigned char LCD_SIZE_HORZ = 16;
-"57
+[; ;lcd.h: 58: const unsigned char LCD_SIZE_HORZ = 16;
+"59
 [v _LCD_SIZE_VERT `Cuc ~T0 @X0 1 e ]
 [i _LCD_SIZE_VERT
 -> -> 2 `i `uc
 ]
-[; ;lcd.h: 57: const unsigned char LCD_SIZE_VERT = 2;
-"59
+[; ;lcd.h: 59: const unsigned char LCD_SIZE_VERT = 2;
+"61
 [v _LCD_RIGHT `Cuc ~T0 @X0 1 e ]
 [i _LCD_RIGHT
 -> -> 1 `i `uc
 ]
-[; ;lcd.h: 59: const unsigned char LCD_RIGHT = 1;
-"60
+[; ;lcd.h: 61: const unsigned char LCD_RIGHT = 1;
+"62
 [v _LCD_LEFT `Cuc ~T0 @X0 1 e ]
 [i _LCD_LEFT
 -> -> 0 `i `uc
 ]
-[; ;lcd.h: 60: const unsigned char LCD_LEFT = 0;
-"63
+[; ;lcd.h: 62: const unsigned char LCD_LEFT = 0;
+"65
 [v _LCDinterruptState `uc ~T0 @X0 1 s ]
-[; ;lcd.h: 63: static unsigned char LCDinterruptState;
-[; ;lcd.h: 66: void lcdInst(char data);
-[; ;lcd.h: 67: void putch(char data);
-[; ;lcd.h: 68: void lcdNibble(char data);
-[; ;lcd.h: 69: void initLCD(void);
-[; ;lcd.h: 70: void lcd_set_cursor(unsigned char x, unsigned char y);
-[; ;lcd.h: 71: void lcd_shift_cursor(unsigned char numChars, unsigned char direction);
-[; ;lcd.h: 72: void lcd_shift_display(unsigned char numChars, unsigned char direction);
+[; ;lcd.h: 65: static unsigned char LCDinterruptState;
+[; ;lcd.h: 68: void lcdInst(char data);
+[; ;lcd.h: 69: void putch(char data);
+[; ;lcd.h: 70: void lcdNibble(char data);
+[; ;lcd.h: 71: void initLCD(void);
+[; ;lcd.h: 72: void lcd_set_cursor(unsigned char x, unsigned char y);
+[; ;lcd.h: 73: void lcd_shift_cursor(unsigned char numChars, unsigned char direction);
+[; ;lcd.h: 74: void lcd_shift_display(unsigned char numChars, unsigned char direction);
 "11 lcd.c
 [v _lcdInst `(v ~T0 @X0 1 ef1`uc ]
 {
@@ -3003,91 +3001,130 @@ Version 3.2 HI-TECH Software Intermediate Code
 "90
 [e ( _lcdInst (1 -> -> 128 `i `uc ]
 [e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
-[; ;lcd.c: 91: for(unsigned char i = 0; i < y; i++){__lcd_newline();}
-"91
-{
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 0 `i `uc ]
-[e $U 274  ]
-[e :U 271 ]
-{
-[e ( ___lcd_newline ..  ]
-}
-[e ++ _i -> -> 1 `i `uc ]
-[e :U 274 ]
-[e $ < -> _i `i -> _y `i 271  ]
-[e :U 272 ]
-}
-[; ;lcd.c: 92: lcd_shift_cursor(x, 1);
+[; ;lcd.c: 92: switch (y) {
 "92
-[e ( _lcd_shift_cursor (2 , _x -> -> 1 `i `uc ]
-[; ;lcd.c: 93: }
+[e $U 272  ]
+{
+[; ;lcd.c: 93: case 0:
 "93
+[e :U 273 ]
+[; ;lcd.c: 94: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"94
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;lcd.c: 95: break;
+"95
+[e $U 271  ]
+[; ;lcd.c: 96: case 1:
+"96
+[e :U 274 ]
+[; ;lcd.c: 97: lcdInst(0xC0);;
+"97
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;lcd.c: 98: break;
+"98
+[e $U 271  ]
+[; ;lcd.c: 99: case 2:
+"99
+[e :U 275 ]
+[; ;lcd.c: 100: lcdInst(0x94);;
+"100
+[e ( _lcdInst (1 -> -> 148 `i `uc ]
+[; ;lcd.c: 101: break;
+"101
+[e $U 271  ]
+[; ;lcd.c: 102: case 3:
+"102
+[e :U 276 ]
+[; ;lcd.c: 103: lcdInst(0xD4);;
+"103
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;lcd.c: 104: break;
+"104
+[e $U 271  ]
+"105
+}
+[; ;lcd.c: 105: }
+[e $U 271  ]
+"92
+[e :U 272 ]
+[e [\ _y , $ -> -> 0 `i `uc 273
+ , $ -> -> 1 `i `uc 274
+ , $ -> -> 2 `i `uc 275
+ , $ -> -> 3 `i `uc 276
+ 271 ]
+"105
+[e :U 271 ]
+[; ;lcd.c: 107: lcd_shift_cursor(x, 1);
+"107
+[e ( _lcd_shift_cursor (2 , _x -> -> 1 `i `uc ]
+[; ;lcd.c: 108: }
+"108
 [e :UE 270 ]
 }
-"95
+"110
 [v _lcd_shift_cursor `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;lcd.c: 95: void lcd_shift_cursor(unsigned char numChars, unsigned char direction){
+[; ;lcd.c: 110: void lcd_shift_cursor(unsigned char numChars, unsigned char direction){
 [e :U _lcd_shift_cursor ]
 [v _numChars `uc ~T0 @X0 1 r1 ]
 [v _direction `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;lcd.c: 107: for(unsigned char n = numChars; n > 0; n--){
-"107
+[; ;lcd.c: 122: for(unsigned char n = numChars; n > 0; n--){
+"122
 {
 [v _n `uc ~T0 @X0 1 a ]
 [e = _n _numChars ]
-[e $ > -> _n `i -> 0 `i 276  ]
-[e $U 277  ]
-[e :U 276 ]
+[e $ > -> _n `i -> 0 `i 278  ]
+[e $U 279  ]
+[e :U 278 ]
 {
-[; ;lcd.c: 110: lcdInst((unsigned char)(0x10 | (direction << 2)));
-"110
+[; ;lcd.c: 125: lcdInst((unsigned char)(0x10 | (direction << 2)));
+"125
 [e ( _lcdInst (1 -> | -> 16 `i << -> _direction `i -> 2 `i `uc ]
-"111
+"126
 }
-"107
+"122
 [e -- _n -> -> 1 `i `uc ]
-[e $ > -> _n `i -> 0 `i 276  ]
-[e :U 277 ]
-"111
+[e $ > -> _n `i -> 0 `i 278  ]
+[e :U 279 ]
+"126
 }
-[; ;lcd.c: 111: }
-[; ;lcd.c: 112: }
-"112
-[e :UE 275 ]
+[; ;lcd.c: 126: }
+[; ;lcd.c: 127: }
+"127
+[e :UE 277 ]
 }
-"114
+"129
 [v _lcd_shift_display `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;lcd.c: 114: void lcd_shift_display(unsigned char numChars, unsigned char direction){
+[; ;lcd.c: 129: void lcd_shift_display(unsigned char numChars, unsigned char direction){
 [e :U _lcd_shift_display ]
 [v _numChars `uc ~T0 @X0 1 r1 ]
 [v _direction `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;lcd.c: 126: for(unsigned char n = numChars; n > 0; n--){
-"126
+[; ;lcd.c: 141: for(unsigned char n = numChars; n > 0; n--){
+"141
 {
 [v _n `uc ~T0 @X0 1 a ]
 [e = _n _numChars ]
-[e $ > -> _n `i -> 0 `i 280  ]
-[e $U 281  ]
-[e :U 280 ]
+[e $ > -> _n `i -> 0 `i 282  ]
+[e $U 283  ]
+[e :U 282 ]
 {
-[; ;lcd.c: 129: lcdInst((unsigned char)(0x18 | (direction << 2)));
-"129
+[; ;lcd.c: 144: lcdInst((unsigned char)(0x18 | (direction << 2)));
+"144
 [e ( _lcdInst (1 -> | -> 24 `i << -> _direction `i -> 2 `i `uc ]
-"130
+"145
 }
-"126
+"141
 [e -- _n -> -> 1 `i `uc ]
-[e $ > -> _n `i -> 0 `i 280  ]
-[e :U 281 ]
-"130
+[e $ > -> _n `i -> 0 `i 282  ]
+[e :U 283 ]
+"145
 }
-[; ;lcd.c: 130: }
-[; ;lcd.c: 131: }
-"131
-[e :UE 279 ]
+[; ;lcd.c: 145: }
+[; ;lcd.c: 146: }
+"146
+[e :UE 281 ]
 }

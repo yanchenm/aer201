@@ -11,17 +11,30 @@
 /***** Function Prototypes *****/
 void RTC_setTime(void);
 void operation(void);
+void logging(void);
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
 const char currDate[7] = {  0x00, // 00 Seconds 
-                                0x28, // 28 Minutes
-                                0x06, // 24 hour mode, set to 5:00
+                                0x30, // 28 Minutes
+                                0x07, // 24 hour mode, set to 5:00
                                 0x00, // Sunday
                                 0x04, // 4th
                                 0x02, // February
                                 0x18  // 2018
 };
+
+/***** Global Variables *****/
+int begin_operation = 0;
+int begin_logging = 0;
+int num_runs = 0;
+int total_time = 0;
+
+/***** Enumerations *****/
+
+enum prescrip {R, F, L};
+enum rep {morning, afternoon, alt, both, na_rep};
+enum freq {every, alt_sun, alt_mon, na_freq};
 
 void main(void) {
 
@@ -49,13 +62,16 @@ void main(void) {
     /************************** A/D Converter Module **************************/
     ADCON0 = 0x00;  // Disable ADC
     ADCON1 = 0b00001111; // Set all A/D ports to digital (pg. 222)
+    
+    INT1IE = 1;
+    ei();
+    
     // </editor-fold>
     
     /* Initialize LCD. */
     initLCD();
 
     I2C_Master_Init(100000); //Initialize I2C Master with 100 kHz clock
-    di(); // Disable all interrupts
     
     /* Set the time in the RTC.
      * 
@@ -68,7 +84,7 @@ void main(void) {
     unsigned char i; // Loop counter
     
     /* Main loop. */
-    while(1){
+    while(1) {
         /* Reset RTC memory pointer. */
         I2C_Master_Start(); // Start condition
         I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
@@ -84,6 +100,12 @@ void main(void) {
         time[6] = I2C_Master_Read(NACK); // Final Read with NACK
         I2C_Master_Stop(); // Stop condition
         
+        __lcd_display_control(1, 0, 0);
+        
+        if (begin_operation || begin_logging) {
+            break;
+        }
+        
         /* Print received data to LCD. */
         __lcd_home();
         printf("%02x/%02x/%02x    %02x:%02x:%02x", time[6],time[5],time[4],time[2],time[1],time[0]); // Print date in YY/MM/DD   HH:MM:SS
@@ -93,16 +115,233 @@ void main(void) {
         printf("    # for LOGGING   ");
         __delay_ms(1000);
     }
+    
+    if (begin_operation) {
+        begin_operation = 0;
+        operation();
+    }
+    else if (begin_logging) {
+        begin_logging = 0;
+        logging();
+    }
 }
 
-void RTC_setTime(void){
-    /* Writes the happynewyear array to the RTC memory.
-     *
-     * Arguments: none
-     *
-     * Returns: none
-     */
+void operation(void) {
     
+    di();
+    
+    int prescription[3] = {-1, -1, -1};
+    enum rep repetition = na_rep;
+    enum freq frequency = na_freq;
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("   After entering   ");
+    __lcd_2line();
+    printf("  selection, press  ");
+    __lcd_3line();
+    printf("    # to confirm    ");
+    __delay_ms(1800);
+    
+    // <editor-fold defaultstate="expanded" desc="Prescription Input">
+    while (1) {
+        __lcd_clear();
+        __lcd_home();
+        printf("Number of pills:");
+        __lcd_2line();
+        printf("   R: _");
+        __lcd_3line();
+        printf("   F: _");
+        __lcd_4line();
+        printf("   L: _");
+        lcd_set_cursor(6, 1);
+        __lcd_display_control(1, 1, 1);
+        
+        prescription[0] = -1;
+        prescription[1] = -1;
+        prescription[2] = -1;
+
+        while (1) {
+            while (PORTBbits.RB1 == 0) {
+                continue;
+            }
+
+            unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+            while (PORTBbits.RB1 == 1) {
+                continue;
+            }
+
+            Nop();
+
+            if (keypress == 0 || keypress == 1 || keypress == 13) {
+                lcd_set_cursor(6, 1);
+                putch(keys[keypress]);
+                
+                switch (keypress) {
+                    case 0:
+                        prescription[0] = 1;
+                        break;
+                    case 1:
+                        prescription[0] = 2;
+                        break;
+                    case 13:
+                        prescription[0] = 0;
+                        break;
+                }
+            }
+            else if (keypress == 14) {
+                if (prescription[0] != -1) {
+                    lcd_set_cursor(6, 2);
+                    break;
+                }
+            }
+        }
+        
+        while (1) {
+            while (PORTBbits.RB1 == 0) {
+                continue;
+            }
+
+            unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+            while (PORTBbits.RB1 == 1) {
+                continue;
+            }
+
+            Nop();
+
+            if (keypress == 0 || keypress == 1 || keypress == 13) {
+                lcd_set_cursor(6, 2);
+                putch(keys[keypress]);
+                
+                switch (keypress) {
+                    case 0:
+                        prescription[1] = 1;
+                        break;
+                    case 1:
+                        prescription[1] = 2;
+                        break;
+                    case 13:
+                        prescription[1] = 0;
+                        break;
+                }
+            }
+            else if (keypress == 14) {
+                if (prescription[1] != -1) {
+                    lcd_set_cursor(6, 3);
+                    break;
+                }
+            }
+        }
+        
+        while (1) {
+            while (PORTBbits.RB1 == 0) {
+                continue;
+            }
+
+            unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+            while (PORTBbits.RB1 == 1) {
+                continue;
+            }
+
+            Nop();
+
+            if (keypress == 0 || keypress == 1 || keypress == 2 || keypress == 13) {
+                lcd_set_cursor(6, 3);
+                putch(keys[keypress]);
+                
+                switch (keypress) {
+                    case 0:
+                        prescription[2] = 1;
+                        break;
+                    case 1:
+                        prescription[2] = 2;
+                        break;
+                    case 2:
+                        prescription[2] = 3;
+                        break;
+                    case 13:
+                        prescription[2] = 0;
+                        break;
+                }
+            }
+            else if (keypress == 14) {
+                if (prescription[2] != -1) {
+                    break;
+                }
+            }
+        }
+        
+        if ((prescription[0] + prescription[1] + prescription[2]) <= 4) {
+            break;
+        }
+        else {
+            __lcd_display_control(1, 0, 0);
+            __lcd_clear();
+            __lcd_2line();
+            printf("   INVALID INPUT    ");
+            __lcd_3line();
+            printf("     TRY AGAIN      ");
+            __delay_ms(1000);
+        }
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="expanded" desc="Repetition Input">
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Repetition: _");
+    __lcd_2line();
+    printf("(1)Morning");
+    __lcd_3line();
+    printf("(2)Afternoon");
+    __lcd_4line();
+    printf("(3)Both (4)Alternate");
+    lcd_set_cursor(12, 0);
+
+    prescription[0] = -1;
+    prescription[1] = -1;
+    prescription[2] = -1;
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 0 || keypress == 1 || keypress == 13) {
+            lcd_set_cursor(6, 1);
+            putch(keys[keypress]);
+            prescription[0] = keys[keypress];
+        }
+        else if (keypress == 14) {
+            if (prescription[0] != -1) {
+                lcd_set_cursor(6, 2);
+                break;
+            }
+        }
+    }
+    
+    // </editor-fold>
+    
+    return;
+}
+
+void logging(void) {
+    return;
+}
+
+void RTC_setTime(void){    
     I2C_Master_Start(); // Start condition
     I2C_Master_Write(0b11010000); //7 bit RTC address + Write
     I2C_Master_Write(0x00); // Set memory pointer to seconds
@@ -116,5 +355,23 @@ void RTC_setTime(void){
 }
 
 void interrupt interruptHandler(void) {
+    
+    if (INT1IF) {
+    /* Interrupt on change handler for RB1 (key press) */
+        
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+        
+        if (keypress == 12) {
+            begin_operation = 1;
+            INT1IF = 0;
+        }
+        else if (keypress == 14) {
+            begin_logging = 1;
+            INT1IF = 0;
+        }
+        else {
+            INT1IF = 0;
+        }
+    }
     
 }

@@ -88,7 +88,22 @@ void lcd_set_cursor(unsigned char x, unsigned char y){
      */
     
     __lcd_home();
-    for(unsigned char i = 0; i < y; i++){__lcd_newline();}
+    
+    switch (y) {
+        case 0:
+            __lcd_home();
+            break;
+        case 1:
+            __lcd_2line();
+            break;
+        case 2:
+            __lcd_3line();
+            break;
+        case 3:
+            __lcd_4line();
+            break;
+    }
+    
     lcd_shift_cursor(x, 1);
 }
 

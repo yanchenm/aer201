@@ -3823,9 +3823,9 @@ extern int printf(const char *, ...);
 
 #pragma config EBTRB = OFF
 
-# 52 "lcd.h"
-const unsigned char LCD_HORZ_LIMIT = 40;
-const unsigned char LCD_VERT_LIMIT = 2;
+# 54 "lcd.h"
+const unsigned char LCD_HORZ_LIMIT = 20;
+const unsigned char LCD_VERT_LIMIT = 4;
 
 
 const unsigned char LCD_SIZE_HORZ = 16;
@@ -3857,33 +3857,45 @@ unsigned char I2C_Master_Read(unsigned char ackBit);
 # 12 "main.c"
 void RTC_setTime(void);
 void operation(void);
+void logging(void);
 
 
 const char keys[] = "123A456B789C*0#D";
 const char currDate[7] = { 0x00,
-0x28,
-0x06,
+0x30,
+0x07,
 0x00,
 0x04,
 0x02,
 0x18
 };
 
+
+int begin_operation = 0;
+int begin_logging = 0;
+int num_runs = 0;
+
+
+
+enum prescrip {R, F, L};
+enum rep {morning, afternoon, alt, both, na_rep};
+enum freq {every, alt_sun, alt_mon, na_freq};
+
 void main(void) {
 
-# 32
+# 44
 LATA = 0x00;
 LATB = 0x00;
 LATC = 0x00;
 LATD = 0x00;
 LATE = 0x00;
 
-# 40
+# 52
 TRISA = 0xFF;
 TRISB = 0xFF;
 TRISC = 0b10000000;
 
-# 46
+# 58
 TRISD = 0x00;
 TRISE = 0x00;
 
@@ -3891,19 +3903,22 @@ TRISE = 0x00;
 ADCON0 = 0x00;
 ADCON1 = 0b00001111;
 
+INT1IE = 1;
+(INTCONbits.GIE = 1);
+
+
 
 
 initLCD();
 
 I2C_Master_Init(100000);
-(INTCONbits.GIE = 0);
 
-# 67
+# 82
 unsigned char time[7];
 unsigned char i;
 
 
-while(1){
+while(1) {
 
 I2C_Master_Start();
 I2C_Master_Write(0b11010000);
@@ -3919,6 +3934,12 @@ time[i] = I2C_Master_Read(0);
 time[6] = I2C_Master_Read(1);
 I2C_Master_Stop();
 
+lcdInst(8 | (1 << 2) | (0 << 1)| 0);;
+
+if (begin_operation || begin_logging) {
+break;
+}
+
 
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
 printf("%02x/%02x/%02x    %02x:%02x:%02x", time[6],time[5],time[4],time[2],time[1],time[0]);
@@ -3928,11 +3949,233 @@ lcdInst(0xD4);;
 printf("    # for LOGGING   ");
 _delay((unsigned long)((1000)*(40000000/4000.0)));
 }
+
+if (begin_operation) {
+begin_operation = 0;
+operation();
+}
+else if (begin_logging) {
+begin_logging = 0;
+logging();
+}
+}
+
+void operation(void) {
+
+(INTCONbits.GIE = 0);
+
+int prescription[3] = {-1, -1, -1};
+enum rep repetition = na_rep;
+enum freq frequency = na_freq;
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("   After entering   ");
+lcdInst(0xC0);;
+printf("  selection, press  ");
+lcdInst(0x94);;
+printf("    # to confirm    ");
+_delay((unsigned long)((1800)*(40000000/4000.0)));
+
+
+while (1) {
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Number of pills:");
+lcdInst(0xC0);;
+printf("   R: _");
+lcdInst(0x94);;
+printf("   F: _");
+lcdInst(0xD4);;
+printf("   L: _");
+lcd_set_cursor(6, 1);
+lcdInst(8 | (1 << 2) | (1 << 1)| 1);;
+
+prescription[0] = -1;
+prescription[1] = -1;
+prescription[2] = -1;
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 0 || keypress == 1 || keypress == 13) {
+lcd_set_cursor(6, 1);
+putch(keys[keypress]);
+
+switch (keypress) {
+case 0:
+prescription[0] = 1;
+break;
+case 1:
+prescription[0] = 2;
+break;
+case 13:
+prescription[0] = 0;
+break;
+}
+}
+else if (keypress == 14) {
+if (prescription[0] != -1) {
+lcd_set_cursor(6, 2);
+break;
+}
+}
+}
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 0 || keypress == 1 || keypress == 13) {
+lcd_set_cursor(6, 2);
+putch(keys[keypress]);
+
+switch (keypress) {
+case 0:
+prescription[1] = 1;
+break;
+case 1:
+prescription[1] = 2;
+break;
+case 13:
+prescription[1] = 0;
+break;
+}
+}
+else if (keypress == 14) {
+if (prescription[1] != -1) {
+lcd_set_cursor(6, 3);
+break;
+}
+}
+}
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 0 || keypress == 1 || keypress == 2 || keypress == 13) {
+lcd_set_cursor(6, 3);
+putch(keys[keypress]);
+
+switch (keypress) {
+case 0:
+prescription[2] = 1;
+break;
+case 1:
+prescription[2] = 2;
+break;
+case 2:
+prescription[2] = 3;
+break;
+case 13:
+prescription[2] = 0;
+break;
+}
+}
+else if (keypress == 14) {
+if (prescription[2] != -1) {
+break;
+}
+}
+}
+
+if ((prescription[0] + prescription[1] + prescription[2]) <= 4) {
+break;
+}
+else {
+lcdInst(8 | (1 << 2) | (0 << 1)| 0);;
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0xC0);;
+printf("   INVALID INPUT    ");
+lcdInst(0x94);;
+printf("     TRY AGAIN      ");
+_delay((unsigned long)((1000)*(40000000/4000.0)));
+}
+}
+
+
+
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Repetition: _");
+lcdInst(0xC0);;
+printf("(1)Morning");
+lcdInst(0x94);;
+printf("(2)Afternoon");
+lcdInst(0xD4);;
+printf("(3)Both (4)Alternate");
+lcd_set_cursor(12, 0);
+
+prescription[0] = -1;
+prescription[1] = -1;
+prescription[2] = -1;
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 0 || keypress == 1 || keypress == 13) {
+lcd_set_cursor(6, 1);
+putch(keys[keypress]);
+prescription[0] = keys[keypress];
+}
+else if (keypress == 14) {
+if (prescription[0] != -1) {
+lcd_set_cursor(6, 2);
+break;
+}
+}
+}
+
+
+
+return;
+}
+
+void logging(void) {
+return;
 }
 
 void RTC_setTime(void){
-
-# 106
 I2C_Master_Start();
 I2C_Master_Write(0b11010000);
 I2C_Master_Write(0x00);
@@ -3943,4 +4186,26 @@ I2C_Master_Write(currDate[i]);
 }
 
 I2C_Master_Stop();
+}
+
+void interrupt interruptHandler(void) {
+
+if (INT1IF) {
+
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+if (keypress == 12) {
+begin_operation = 1;
+INT1IF = 0;
+}
+else if (keypress == 14) {
+begin_logging = 1;
+INT1IF = 0;
+}
+else {
+INT1IF = 0;
+}
+}
+
 }

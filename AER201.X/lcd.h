@@ -10,8 +10,10 @@
 /* Sets cursor position to start of second line. */
 #define __lcd_2line() lcdInst(0xC0);
 
+/* Sets cursor position to start of third line. */
 #define __lcd_3line() lcdInst(0x94);
 
+/* Sets cursor position to start of fourth line. */
 #define __lcd_4line() lcdInst(0xD4);
 
 /* Clears both LCD lines. */
@@ -49,8 +51,8 @@
  * The embedded controller can address more characters than are visible on the
  * LCD provided in class so that it can be used in a variety of displays. Note
  * that the Hitachi HD44780 controller can only address 40 x 2 = 80 characters.*/
-const unsigned char LCD_HORZ_LIMIT = 40; // Number of addressable columns
-const unsigned char LCD_VERT_LIMIT = 2; // Number of addressable rows
+const unsigned char LCD_HORZ_LIMIT = 20; // Number of addressable columns
+const unsigned char LCD_VERT_LIMIT = 4; // Number of addressable rows
 
 /* Display dimensions as seen in the real world. */
 const unsigned char LCD_SIZE_HORZ = 16; // Number of visible columns
