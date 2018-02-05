@@ -3862,7 +3862,7 @@ void logging(void);
 
 const char keys[] = "123A456B789C*0#D";
 const char currDate[7] = { 0x00,
-0x04,
+0x30,
 0x20,
 0x00,
 0x04,
@@ -3914,10 +3914,7 @@ initLCD();
 
 I2C_Master_Init(100000);
 
-# 80
-RTC_setTime();
-
-
+# 83
 unsigned char time[7];
 unsigned char i;
 
@@ -4277,6 +4274,192 @@ printf("     DISPENSING     ");
 lcdInst(0x94);;
 printf("      PILLS...      ");
 _delay((unsigned long)((3600)*(40000000/4000.0)));
+
+# 452
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0xC0);;
+printf(" OPERATION COMPLETE ");
+lcdInst(0x94);;
+printf("  PRESS ANY KEY...  ");
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+break;
+}
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Run %d", num_runs);
+lcdInst(0xC0);;
+printf("Total time: %d s", total_time);
+lcdInst(0xD4);;
+printf("(# to continue...)");
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 14) {
+break;
+}
+}
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Run %d", num_runs);
+lcdInst(0xC0);;
+printf("Prescrip.: %dR %dF %dL", prescription[0], prescription[1], prescription[2]);
+lcdInst(0xD4);;
+printf("(# to continue...)");
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 14) {
+break;
+}
+}
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Run %d", num_runs);
+lcdInst(0xC0);;
+printf("Repetition:");
+lcdInst(0x94);;
+switch (repetition) {
+case morning:
+printf("- Mornings");
+break;
+case afternoon:
+printf("- Afternoons");
+break;
+case both:
+printf("- Morn. & Afternoon");
+break;
+case alt:
+printf("- Alternating");
+break;
+}
+lcdInst(0xD4);;
+printf("(# to continue...)");
+
+
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 14) {
+break;
+}
+}
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Run %d", num_runs);
+lcdInst(0xC0);;
+printf("Frequency:");
+lcdInst(0x94);;
+switch (frequency) {
+case every:
+printf("- Everyday");
+break;
+case alt_sun:
+printf("- Alternate (Sun)");
+break;
+case alt_mon:
+printf("- Alternate (Mon)");
+break;
+}
+lcdInst(0xD4);;
+printf("(# to continue...)");
+
+
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 14) {
+break;
+}
+}
+
+lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+printf("Run %d ", num_runs);
+lcdInst(0xC0);;
+printf("Pills Remaining:");
+lcdInst(0x94);;
+printf("R: %d F: %d L: %d", 0, 0, 0);
+lcdInst(0xD4);;
+printf("(# to continue...)");
+
+while (1) {
+while (PORTBbits.RB1 == 0) {
+continue;
+}
+
+unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+while (PORTBbits.RB1 == 1) {
+continue;
+}
+
+__nop();
+
+if (keypress == 14) {
+break;
+}
+}
 
 
 

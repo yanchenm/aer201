@@ -16,7 +16,7 @@ void logging(void);
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
 const char currDate[7] = {  0x00, // 00 Seconds 
-                                0x04, // 28 Minutes
+                                0x30, // 28 Minutes
                                 0x20, // 24 hour mode, set to 5:00
                                 0x00, // Sunday
                                 0x04, // 4th
@@ -77,7 +77,7 @@ void main(void) {
      * 
      * To see the RTC keep time, comment this line out after programming the PIC
      * directly before with this line included. */
-     RTC_setTime();
+    // RTC_setTime();
     
     /* Declare local variables. */
     unsigned char time[7]; // Create a byte array to hold time read from RTC
@@ -444,6 +444,197 @@ void operation(void) {
     __delay_ms(3600);
     
     /****** OPERATION CODE ******/
+    
+    
+    /****************************/
+    
+    // <editor-fold defaultstate="expanded" desc="End of Operation Info">
+    __lcd_clear();
+    __lcd_2line();
+    printf(" OPERATION COMPLETE ");
+    __lcd_3line();
+    printf("  PRESS ANY KEY...  ");
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        break;
+    }
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Run %d", num_runs);
+    __lcd_2line();
+    printf("Total time: %d s", total_time);
+    __lcd_4line();
+    printf("(# to continue...)");
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 14) {
+            break;
+        }
+    }
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Run %d", num_runs);
+    __lcd_2line();
+    printf("Prescrip.: %dR %dF %dL", prescription[0], prescription[1], prescription[2]);
+    __lcd_4line();
+    printf("(# to continue...)");
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 14) {
+            break;
+        }
+    }
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Run %d", num_runs);
+    __lcd_2line();
+    printf("Repetition:");
+    __lcd_3line();
+    switch (repetition) {
+        case morning:
+            printf("- Mornings");
+            break;
+        case afternoon:
+            printf("- Afternoons");
+            break;
+        case both:
+            printf("- Morn. & Afternoon");
+            break;
+        case alt:
+            printf("- Alternating");
+            break;            
+    }
+    __lcd_4line();
+    printf("(# to continue...)");
+    
+    
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 14) {
+            break;
+        }
+    }
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Run %d", num_runs);
+    __lcd_2line();
+    printf("Frequency:");
+    __lcd_3line();
+    switch (frequency) {
+        case every:
+            printf("- Everyday");
+            break;
+        case alt_sun:
+            printf("- Alternate (Sun)");
+            break;
+        case alt_mon:
+            printf("- Alternate (Mon)");
+            break;            
+    }
+    __lcd_4line();
+    printf("(# to continue...)");
+    
+    
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 14) {
+            break;
+        }
+    }
+    
+    __lcd_clear();
+    __lcd_home();
+    printf("Run %d ", num_runs);
+    __lcd_2line();
+    printf("Pills Remaining:");
+    __lcd_3line();
+    printf("R: %d F: %d L: %d", 0, 0, 0);
+    __lcd_4line();
+    printf("(# to continue...)");
+
+    while (1) {
+        while (PORTBbits.RB1 == 0) {
+            continue;
+        }
+
+        unsigned char keypress = (PORTB & 0xF0) >> 4;
+
+        while (PORTBbits.RB1 == 1) {
+            continue;
+        }
+
+        Nop();
+
+        if (keypress == 14) {
+            break;
+        }
+    }
+    
+    // </editor-fold>
     
     return;
 }

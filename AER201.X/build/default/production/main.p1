@@ -44,9 +44,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _initLCD `(v ~T0 @X0 0 ef ]
 "22 I2C.h
 [v _I2C_Master_Init `(v ~T0 @X0 0 ef1`Cul ]
-"12 main.c
-[v _RTC_setTime `(v ~T0 @X0 0 ef ]
-"23 I2C.h
+"23
 [v _I2C_Master_Start `(v ~T0 @X0 0 ef ]
 "26
 [v _I2C_Master_Write `(v ~T0 @X0 0 ef1`ui ]
@@ -2964,7 +2962,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 :U ..
 -> -> 0 `i `uc
 "19
--> -> 4 `i `uc
+-> -> 48 `i `uc
 "20
 -> -> 32 `i `uc
 "21
@@ -2978,7 +2976,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 [; ;main.c: 18: const char currDate[7] = { 0x00,
-[; ;main.c: 19: 0x04,
+[; ;main.c: 19: 0x30,
 [; ;main.c: 20: 0x20,
 [; ;main.c: 21: 0x00,
 [; ;main.c: 22: 0x04,
@@ -3067,9 +3065,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 74: I2C_Master_Init(100000);
 "74
 [e ( _I2C_Master_Init (1 -> -> 100000 `l `ul ]
-[; ;main.c: 80: RTC_setTime();
-"80
-[e ( _RTC_setTime ..  ]
 "83
 [v _time `uc ~T0 @X0 -> 7 `i a ]
 "84
@@ -4234,158 +4229,768 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 444: _delay((unsigned long)((3600)*(40000000/4000.0)));
 "444
 [e ( __delay (1 -> * -> -> 3600 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
-[; ;main.c: 448: return;
-"448
+[; ;main.c: 452: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+"452
+[e ( _lcdInst (1 -> -> 1 `i `uc ]
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 453: lcdInst(0xC0);;
+"453
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;main.c: 454: printf(" OPERATION COMPLETE ");
+"454
+[e ( _printf :s 32C ]
+[; ;main.c: 455: lcdInst(0x94);;
+"455
+[e ( _lcdInst (1 -> -> 148 `i `uc ]
+[; ;main.c: 456: printf("  PRESS ANY KEY...  ");
+"456
+[e ( _printf :s 33C ]
+[; ;main.c: 458: while (1) {
+"458
+[e :U 389 ]
+{
+[; ;main.c: 459: while (PORTBbits.RB1 == 0) {
+"459
+[e $U 391  ]
+[e :U 392 ]
+{
+[; ;main.c: 460: continue;
+"460
+[e $U 391  ]
+"461
+}
+[e :U 391 ]
+"459
+[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 392  ]
+[e :U 393 ]
+"463
+[v _keypress `uc ~T0 @X0 1 a ]
+[; ;main.c: 461: }
+[; ;main.c: 463: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
+[; ;main.c: 465: while (PORTBbits.RB1 == 1) {
+"465
+[e $U 394  ]
+[e :U 395 ]
+{
+[; ;main.c: 466: continue;
+"466
+[e $U 394  ]
+"467
+}
+[e :U 394 ]
+"465
+[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 395  ]
+[e :U 396 ]
+[; ;main.c: 467: }
+[; ;main.c: 469: __nop();
+"469
+[e ( ___nop ..  ]
+[; ;main.c: 471: break;
+"471
+[e $U 390  ]
+"472
+}
+[e :U 388 ]
+"458
+[e $U 389  ]
+[e :U 390 ]
+[; ;main.c: 472: }
+[; ;main.c: 474: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+"474
+[e ( _lcdInst (1 -> -> 1 `i `uc ]
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 475: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"475
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 476: printf("Run %d", num_runs);
+"476
+[e ( _printf , (. :s 34C _num_runs ]
+[; ;main.c: 477: lcdInst(0xC0);;
+"477
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;main.c: 478: printf("Total time: %d s", total_time);
+"478
+[e ( _printf , (. :s 35C _total_time ]
+[; ;main.c: 479: lcdInst(0xD4);;
+"479
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;main.c: 480: printf("(# to continue...)");
+"480
+[e ( _printf :s 36C ]
+[; ;main.c: 482: while (1) {
+"482
+[e :U 398 ]
+{
+[; ;main.c: 483: while (PORTBbits.RB1 == 0) {
+"483
+[e $U 400  ]
+[e :U 401 ]
+{
+[; ;main.c: 484: continue;
+"484
+[e $U 400  ]
+"485
+}
+[e :U 400 ]
+"483
+[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 401  ]
+[e :U 402 ]
+"487
+[v _keypress `uc ~T0 @X0 1 a ]
+[; ;main.c: 485: }
+[; ;main.c: 487: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
+[; ;main.c: 489: while (PORTBbits.RB1 == 1) {
+"489
+[e $U 403  ]
+[e :U 404 ]
+{
+[; ;main.c: 490: continue;
+"490
+[e $U 403  ]
+"491
+}
+[e :U 403 ]
+"489
+[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 404  ]
+[e :U 405 ]
+[; ;main.c: 491: }
+[; ;main.c: 493: __nop();
+"493
+[e ( ___nop ..  ]
+[; ;main.c: 495: if (keypress == 14) {
+"495
+[e $ ! == -> _keypress `i -> 14 `i 406  ]
+{
+[; ;main.c: 496: break;
+"496
+[e $U 399  ]
+"497
+}
+[e :U 406 ]
+"498
+}
+[e :U 397 ]
+"482
+[e $U 398  ]
+[e :U 399 ]
+[; ;main.c: 497: }
+[; ;main.c: 498: }
+[; ;main.c: 500: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+"500
+[e ( _lcdInst (1 -> -> 1 `i `uc ]
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 501: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"501
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 502: printf("Run %d", num_runs);
+"502
+[e ( _printf , (. :s 37C _num_runs ]
+[; ;main.c: 503: lcdInst(0xC0);;
+"503
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;main.c: 504: printf("Prescrip.: %dR %dF %dL", prescription[0], prescription[1], prescription[2]);
+"504
+[e ( _printf , , , (. :s 38C *U + &U _prescription * -> -> -> 0 `i `ui `ux -> -> # *U &U _prescription `ui `ux *U + &U _prescription * -> -> -> 1 `i `ui `ux -> -> # *U &U _prescription `ui `ux *U + &U _prescription * -> -> -> 2 `i `ui `ux -> -> # *U &U _prescription `ui `ux ]
+[; ;main.c: 505: lcdInst(0xD4);;
+"505
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;main.c: 506: printf("(# to continue...)");
+"506
+[e ( _printf :s 39C ]
+[; ;main.c: 508: while (1) {
+"508
+[e :U 408 ]
+{
+[; ;main.c: 509: while (PORTBbits.RB1 == 0) {
+"509
+[e $U 410  ]
+[e :U 411 ]
+{
+[; ;main.c: 510: continue;
+"510
+[e $U 410  ]
+"511
+}
+[e :U 410 ]
+"509
+[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 411  ]
+[e :U 412 ]
+"513
+[v _keypress `uc ~T0 @X0 1 a ]
+[; ;main.c: 511: }
+[; ;main.c: 513: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
+[; ;main.c: 515: while (PORTBbits.RB1 == 1) {
+"515
+[e $U 413  ]
+[e :U 414 ]
+{
+[; ;main.c: 516: continue;
+"516
+[e $U 413  ]
+"517
+}
+[e :U 413 ]
+"515
+[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 414  ]
+[e :U 415 ]
+[; ;main.c: 517: }
+[; ;main.c: 519: __nop();
+"519
+[e ( ___nop ..  ]
+[; ;main.c: 521: if (keypress == 14) {
+"521
+[e $ ! == -> _keypress `i -> 14 `i 416  ]
+{
+[; ;main.c: 522: break;
+"522
+[e $U 409  ]
+"523
+}
+[e :U 416 ]
+"524
+}
+[e :U 407 ]
+"508
+[e $U 408  ]
+[e :U 409 ]
+[; ;main.c: 523: }
+[; ;main.c: 524: }
+[; ;main.c: 526: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+"526
+[e ( _lcdInst (1 -> -> 1 `i `uc ]
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 527: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"527
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 528: printf("Run %d", num_runs);
+"528
+[e ( _printf , (. :s 40C _num_runs ]
+[; ;main.c: 529: lcdInst(0xC0);;
+"529
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;main.c: 530: printf("Repetition:");
+"530
+[e ( _printf :s 41C ]
+[; ;main.c: 531: lcdInst(0x94);;
+"531
+[e ( _lcdInst (1 -> -> 148 `i `uc ]
+[; ;main.c: 532: switch (repetition) {
+"532
+[e $U 418  ]
+{
+[; ;main.c: 533: case morning:
+"533
+[e :U 419 ]
+[; ;main.c: 534: printf("- Mornings");
+"534
+[e ( _printf :s 42C ]
+[; ;main.c: 535: break;
+"535
+[e $U 417  ]
+[; ;main.c: 536: case afternoon:
+"536
+[e :U 420 ]
+[; ;main.c: 537: printf("- Afternoons");
+"537
+[e ( _printf :s 43C ]
+[; ;main.c: 538: break;
+"538
+[e $U 417  ]
+[; ;main.c: 539: case both:
+"539
+[e :U 421 ]
+[; ;main.c: 540: printf("- Morn. & Afternoon");
+"540
+[e ( _printf :s 44C ]
+[; ;main.c: 541: break;
+"541
+[e $U 417  ]
+[; ;main.c: 542: case alt:
+"542
+[e :U 422 ]
+[; ;main.c: 543: printf("- Alternating");
+"543
+[e ( _printf :s 45C ]
+[; ;main.c: 544: break;
+"544
+[e $U 417  ]
+"545
+}
+[; ;main.c: 545: }
+[e $U 417  ]
+"532
+[e :U 418 ]
+[e [\ _repetition , $ . `E3002 0 419
+ , $ . `E3002 1 420
+ , $ . `E3002 3 421
+ , $ . `E3002 2 422
+ 417 ]
+"545
+[e :U 417 ]
+[; ;main.c: 546: lcdInst(0xD4);;
+"546
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;main.c: 547: printf("(# to continue...)");
+"547
+[e ( _printf :s 46C ]
+[; ;main.c: 551: while (1) {
+"551
+[e :U 424 ]
+{
+[; ;main.c: 552: while (PORTBbits.RB1 == 0) {
+"552
+[e $U 426  ]
+[e :U 427 ]
+{
+[; ;main.c: 553: continue;
+"553
+[e $U 426  ]
+"554
+}
+[e :U 426 ]
+"552
+[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 427  ]
+[e :U 428 ]
+"556
+[v _keypress `uc ~T0 @X0 1 a ]
+[; ;main.c: 554: }
+[; ;main.c: 556: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
+[; ;main.c: 558: while (PORTBbits.RB1 == 1) {
+"558
+[e $U 429  ]
+[e :U 430 ]
+{
+[; ;main.c: 559: continue;
+"559
+[e $U 429  ]
+"560
+}
+[e :U 429 ]
+"558
+[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 430  ]
+[e :U 431 ]
+[; ;main.c: 560: }
+[; ;main.c: 562: __nop();
+"562
+[e ( ___nop ..  ]
+[; ;main.c: 564: if (keypress == 14) {
+"564
+[e $ ! == -> _keypress `i -> 14 `i 432  ]
+{
+[; ;main.c: 565: break;
+"565
+[e $U 425  ]
+"566
+}
+[e :U 432 ]
+"567
+}
+[e :U 423 ]
+"551
+[e $U 424  ]
+[e :U 425 ]
+[; ;main.c: 566: }
+[; ;main.c: 567: }
+[; ;main.c: 569: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+"569
+[e ( _lcdInst (1 -> -> 1 `i `uc ]
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 570: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"570
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 571: printf("Run %d", num_runs);
+"571
+[e ( _printf , (. :s 47C _num_runs ]
+[; ;main.c: 572: lcdInst(0xC0);;
+"572
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;main.c: 573: printf("Frequency:");
+"573
+[e ( _printf :s 48C ]
+[; ;main.c: 574: lcdInst(0x94);;
+"574
+[e ( _lcdInst (1 -> -> 148 `i `uc ]
+[; ;main.c: 575: switch (frequency) {
+"575
+[e $U 434  ]
+{
+[; ;main.c: 576: case every:
+"576
+[e :U 435 ]
+[; ;main.c: 577: printf("- Everyday");
+"577
+[e ( _printf :s 49C ]
+[; ;main.c: 578: break;
+"578
+[e $U 433  ]
+[; ;main.c: 579: case alt_sun:
+"579
+[e :U 436 ]
+[; ;main.c: 580: printf("- Alternate (Sun)");
+"580
+[e ( _printf :s 50C ]
+[; ;main.c: 581: break;
+"581
+[e $U 433  ]
+[; ;main.c: 582: case alt_mon:
+"582
+[e :U 437 ]
+[; ;main.c: 583: printf("- Alternate (Mon)");
+"583
+[e ( _printf :s 51C ]
+[; ;main.c: 584: break;
+"584
+[e $U 433  ]
+"585
+}
+[; ;main.c: 585: }
+[e $U 433  ]
+"575
+[e :U 434 ]
+[e [\ _frequency , $ . `E3008 0 435
+ , $ . `E3008 1 436
+ , $ . `E3008 2 437
+ 433 ]
+"585
+[e :U 433 ]
+[; ;main.c: 586: lcdInst(0xD4);;
+"586
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;main.c: 587: printf("(# to continue...)");
+"587
+[e ( _printf :s 52C ]
+[; ;main.c: 591: while (1) {
+"591
+[e :U 439 ]
+{
+[; ;main.c: 592: while (PORTBbits.RB1 == 0) {
+"592
+[e $U 441  ]
+[e :U 442 ]
+{
+[; ;main.c: 593: continue;
+"593
+[e $U 441  ]
+"594
+}
+[e :U 441 ]
+"592
+[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 442  ]
+[e :U 443 ]
+"596
+[v _keypress `uc ~T0 @X0 1 a ]
+[; ;main.c: 594: }
+[; ;main.c: 596: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
+[; ;main.c: 598: while (PORTBbits.RB1 == 1) {
+"598
+[e $U 444  ]
+[e :U 445 ]
+{
+[; ;main.c: 599: continue;
+"599
+[e $U 444  ]
+"600
+}
+[e :U 444 ]
+"598
+[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 445  ]
+[e :U 446 ]
+[; ;main.c: 600: }
+[; ;main.c: 602: __nop();
+"602
+[e ( ___nop ..  ]
+[; ;main.c: 604: if (keypress == 14) {
+"604
+[e $ ! == -> _keypress `i -> 14 `i 447  ]
+{
+[; ;main.c: 605: break;
+"605
+[e $U 440  ]
+"606
+}
+[e :U 447 ]
+"607
+}
+[e :U 438 ]
+"591
+[e $U 439  ]
+[e :U 440 ]
+[; ;main.c: 606: }
+[; ;main.c: 607: }
+[; ;main.c: 609: lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
+"609
+[e ( _lcdInst (1 -> -> 1 `i `uc ]
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 610: lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
+"610
+[e ( _lcdInst (1 -> -> 128 `i `uc ]
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 40000000 `l `d .4000.0 `ul ]
+[; ;main.c: 611: printf("Run %d ", num_runs);
+"611
+[e ( _printf , (. :s 53C _num_runs ]
+[; ;main.c: 612: lcdInst(0xC0);;
+"612
+[e ( _lcdInst (1 -> -> 192 `i `uc ]
+[; ;main.c: 613: printf("Pills Remaining:");
+"613
+[e ( _printf :s 54C ]
+[; ;main.c: 614: lcdInst(0x94);;
+"614
+[e ( _lcdInst (1 -> -> 148 `i `uc ]
+[; ;main.c: 615: printf("R: %d F: %d L: %d", 0, 0, 0);
+"615
+[e ( _printf , , , (. :s 55C -> 0 `i -> 0 `i -> 0 `i ]
+[; ;main.c: 616: lcdInst(0xD4);;
+"616
+[e ( _lcdInst (1 -> -> 212 `i `uc ]
+[; ;main.c: 617: printf("(# to continue...)");
+"617
+[e ( _printf :s 56C ]
+[; ;main.c: 619: while (1) {
+"619
+[e :U 449 ]
+{
+[; ;main.c: 620: while (PORTBbits.RB1 == 0) {
+"620
+[e $U 451  ]
+[e :U 452 ]
+{
+[; ;main.c: 621: continue;
+"621
+[e $U 451  ]
+"622
+}
+[e :U 451 ]
+"620
+[e $ == -> . . _PORTBbits 0 1 `i -> 0 `i 452  ]
+[e :U 453 ]
+"624
+[v _keypress `uc ~T0 @X0 1 a ]
+[; ;main.c: 622: }
+[; ;main.c: 624: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
+[; ;main.c: 626: while (PORTBbits.RB1 == 1) {
+"626
+[e $U 454  ]
+[e :U 455 ]
+{
+[; ;main.c: 627: continue;
+"627
+[e $U 454  ]
+"628
+}
+[e :U 454 ]
+"626
+[e $ == -> . . _PORTBbits 0 1 `i -> 1 `i 455  ]
+[e :U 456 ]
+[; ;main.c: 628: }
+[; ;main.c: 630: __nop();
+"630
+[e ( ___nop ..  ]
+[; ;main.c: 632: if (keypress == 14) {
+"632
+[e $ ! == -> _keypress `i -> 14 `i 457  ]
+{
+[; ;main.c: 633: break;
+"633
+[e $U 450  ]
+"634
+}
+[e :U 457 ]
+"635
+}
+[e :U 448 ]
+"619
+[e $U 449  ]
+[e :U 450 ]
+[; ;main.c: 634: }
+[; ;main.c: 635: }
+[; ;main.c: 639: return;
+"639
 [e $UE 277  ]
-[; ;main.c: 449: }
-"449
+[; ;main.c: 640: }
+"640
 [e :UE 277 ]
 }
-"451
+"642
 [v _logging `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 451: void logging(void) {
+[; ;main.c: 642: void logging(void) {
 [e :U _logging ]
 [f ]
-[; ;main.c: 452: return;
-"452
-[e $UE 388  ]
-[; ;main.c: 453: }
-"453
-[e :UE 388 ]
+[; ;main.c: 643: return;
+"643
+[e $UE 458  ]
+[; ;main.c: 644: }
+"644
+[e :UE 458 ]
 }
-"455
+"646
 [v _RTC_setTime `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 455: void RTC_setTime(void){
+[; ;main.c: 646: void RTC_setTime(void){
 [e :U _RTC_setTime ]
 [f ]
-[; ;main.c: 456: I2C_Master_Start();
-"456
+[; ;main.c: 647: I2C_Master_Start();
+"647
 [e ( _I2C_Master_Start ..  ]
-[; ;main.c: 457: I2C_Master_Write(0b11010000);
-"457
+[; ;main.c: 648: I2C_Master_Write(0b11010000);
+"648
 [e ( _I2C_Master_Write (1 -> -> 208 `i `ui ]
-[; ;main.c: 458: I2C_Master_Write(0x00);
-"458
+[; ;main.c: 649: I2C_Master_Write(0x00);
+"649
 [e ( _I2C_Master_Write (1 -> -> 0 `i `ui ]
-[; ;main.c: 461: for(char i=0; i<7; i++){
-"461
+[; ;main.c: 652: for(char i=0; i<7; i++){
+"652
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 7 `i 390  ]
-[e $U 391  ]
-[e :U 390 ]
+[e $ < -> _i `i -> 7 `i 460  ]
+[e $U 461  ]
+[e :U 460 ]
 {
-[; ;main.c: 462: I2C_Master_Write(currDate[i]);
-"462
+[; ;main.c: 653: I2C_Master_Write(currDate[i]);
+"653
 [e ( _I2C_Master_Write (1 -> *U + &U _currDate * -> _i `ux -> -> # *U &U _currDate `ui `ux `ui ]
-"463
+"654
 }
-"461
+"652
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 7 `i 390  ]
-[e :U 391 ]
-"463
+[e $ < -> _i `i -> 7 `i 460  ]
+[e :U 461 ]
+"654
 }
-[; ;main.c: 463: }
-[; ;main.c: 465: I2C_Master_Stop();
-"465
+[; ;main.c: 654: }
+[; ;main.c: 656: I2C_Master_Stop();
+"656
 [e ( _I2C_Master_Stop ..  ]
-[; ;main.c: 466: }
-"466
-[e :UE 389 ]
+[; ;main.c: 657: }
+"657
+[e :UE 459 ]
 }
 [v $root$_interruptHandler `(v ~T0 @X0 0 e ]
-[v F3050 `(v ~T0 @X0 1 tf ]
-"468
-[v _interruptHandler `IF3050 ~T0 @X0 1 e ]
+[v F3067 `(v ~T0 @X0 1 tf ]
+"659
+[v _interruptHandler `IF3067 ~T0 @X0 1 e ]
 {
-[; ;main.c: 468: void interrupt interruptHandler(void) {
+[; ;main.c: 659: void interrupt interruptHandler(void) {
 [e :U _interruptHandler ]
 [f ]
-[; ;main.c: 470: if (INT1IF) {
-"470
-[e $ ! _INT1IF 394  ]
+[; ;main.c: 661: if (INT1IF) {
+"661
+[e $ ! _INT1IF 464  ]
 {
-"473
+"664
 [v _keypress `uc ~T0 @X0 1 a ]
-[; ;main.c: 473: unsigned char keypress = (PORTB & 0xF0) >> 4;
+[; ;main.c: 664: unsigned char keypress = (PORTB & 0xF0) >> 4;
 [e = _keypress -> >> & -> _PORTB `i -> 240 `i -> 4 `i `uc ]
-[; ;main.c: 475: if (keypress == 12) {
-"475
-[e $ ! == -> _keypress `i -> 12 `i 395  ]
+[; ;main.c: 666: if (keypress == 12) {
+"666
+[e $ ! == -> _keypress `i -> 12 `i 465  ]
 {
-[; ;main.c: 476: begin_operation = 1;
-"476
+[; ;main.c: 667: begin_operation = 1;
+"667
 [e = _begin_operation -> 1 `i ]
-[; ;main.c: 477: INT1IF = 0;
-"477
+[; ;main.c: 668: INT1IF = 0;
+"668
 [e = _INT1IF -> -> 0 `i `b ]
-"478
+"669
 }
-[; ;main.c: 478: }
-[e $U 396  ]
-"479
-[e :U 395 ]
-[; ;main.c: 479: else if (keypress == 14) {
-[e $ ! == -> _keypress `i -> 14 `i 397  ]
+[; ;main.c: 669: }
+[e $U 466  ]
+"670
+[e :U 465 ]
+[; ;main.c: 670: else if (keypress == 14) {
+[e $ ! == -> _keypress `i -> 14 `i 467  ]
 {
-[; ;main.c: 480: begin_logging = 1;
-"480
+[; ;main.c: 671: begin_logging = 1;
+"671
 [e = _begin_logging -> 1 `i ]
-[; ;main.c: 481: INT1IF = 0;
-"481
+[; ;main.c: 672: INT1IF = 0;
+"672
 [e = _INT1IF -> -> 0 `i `b ]
-"482
+"673
 }
-[; ;main.c: 482: }
-[e $U 398  ]
-"483
-[e :U 397 ]
-[; ;main.c: 483: else {
+[; ;main.c: 673: }
+[e $U 468  ]
+"674
+[e :U 467 ]
+[; ;main.c: 674: else {
 {
-[; ;main.c: 484: INT1IF = 0;
-"484
+[; ;main.c: 675: INT1IF = 0;
+"675
 [e = _INT1IF -> -> 0 `i `b ]
-"485
+"676
 }
-[e :U 398 ]
-[e :U 396 ]
-"486
+[e :U 468 ]
+[e :U 466 ]
+"677
 }
-[e :U 394 ]
-[; ;main.c: 485: }
-[; ;main.c: 486: }
-[; ;main.c: 488: }
-"488
-[e :UE 393 ]
+[e :U 464 ]
+[; ;main.c: 676: }
+[; ;main.c: 677: }
+[; ;main.c: 679: }
+"679
+[e :UE 463 ]
 }
 [p f _printf 12615812 ]
 [a 27C 45 32 69 118 101 114 121 100 97 121 0 ]
+[a 49C 45 32 69 118 101 114 121 100 97 121 0 ]
 [a 18C 40 49 41 32 69 118 101 114 121 100 97 121 0 ]
 [a 1C 37 48 50 120 47 37 48 50 120 47 37 48 50 120 32 32 32 32 37 48 50 120 58 37 48 50 120 58 37 48 50 120 0 ]
 [a 24C 45 32 65 102 116 101 114 110 111 111 110 115 0 ]
+[a 43C 45 32 65 102 116 101 114 110 111 111 110 115 0 ]
 [a 23C 45 32 77 111 114 110 105 110 103 115 0 ]
+[a 42C 45 32 77 111 114 110 105 110 103 115 0 ]
+[a 35C 84 111 116 97 108 32 116 105 109 101 58 32 37 100 32 115 0 ]
 [a 15C 40 50 41 65 102 116 101 114 110 111 111 110 0 ]
 [a 25C 45 32 77 111 114 110 46 32 38 32 65 102 116 101 114 110 111 111 110 0 ]
+[a 44C 45 32 77 111 114 110 46 32 38 32 65 102 116 101 114 110 111 111 110 0 ]
 [a 26C 45 32 65 108 116 101 114 110 97 116 105 110 103 0 ]
+[a 45C 45 32 65 108 116 101 114 110 97 116 105 110 103 0 ]
 [a 14C 40 49 41 77 111 114 110 105 110 103 0 ]
 [a 16C 40 51 41 66 111 116 104 32 40 52 41 65 108 116 101 114 110 97 116 101 0 ]
+[a 34C 82 117 110 32 37 100 0 ]
+[a 37C 82 117 110 32 37 100 0 ]
+[a 40C 82 117 110 32 37 100 0 ]
+[a 47C 82 117 110 32 37 100 0 ]
+[a 55C 82 58 32 37 100 32 70 58 32 37 100 32 76 58 32 37 100 0 ]
 [a 8C 32 32 32 82 58 32 95 0 ]
 [a 10C 32 32 32 76 58 32 95 0 ]
 [a 9C 32 32 32 70 58 32 95 0 ]
+[a 38C 80 114 101 115 99 114 105 112 46 58 32 37 100 82 32 37 100 70 32 37 100 76 0 ]
 [a 22C 45 32 37 100 82 32 37 100 70 32 37 100 76 0 ]
+[a 48C 70 114 101 113 117 101 110 99 121 58 0 ]
 [a 7C 78 117 109 98 101 114 32 111 102 32 112 105 108 108 115 58 0 ]
 [a 21C 80 114 101 115 99 114 105 112 46 32 100 101 116 97 105 108 115 58 0 ]
+[a 41C 82 101 112 101 116 105 116 105 111 110 58 0 ]
+[a 54C 80 105 108 108 115 32 82 101 109 97 105 110 105 110 103 58 0 ]
 [a 28C 45 32 65 108 116 101 114 110 97 116 101 32 40 83 117 110 41 0 ]
+[a 50C 45 32 65 108 116 101 114 110 97 116 101 32 40 83 117 110 41 0 ]
 [a 19C 40 50 41 32 65 108 116 101 114 110 97 116 101 32 40 83 117 110 41 0 ]
 [a 29C 45 32 65 108 116 101 114 110 97 116 101 32 40 77 111 110 41 0 ]
+[a 51C 45 32 65 108 116 101 114 110 97 116 101 32 40 77 111 110 41 0 ]
 [a 20C 40 51 41 32 65 108 116 101 114 110 97 116 101 32 40 77 111 110 41 0 ]
+[a 36C 40 35 32 116 111 32 99 111 110 116 105 110 117 101 46 46 46 41 0 ]
+[a 39C 40 35 32 116 111 32 99 111 110 116 105 110 117 101 46 46 46 41 0 ]
+[a 46C 40 35 32 116 111 32 99 111 110 116 105 110 117 101 46 46 46 41 0 ]
+[a 52C 40 35 32 116 111 32 99 111 110 116 105 110 117 101 46 46 46 41 0 ]
+[a 56C 40 35 32 116 111 32 99 111 110 116 105 110 117 101 46 46 46 41 0 ]
+[a 53C 82 117 110 32 37 100 32 0 ]
+[a 32C 32 79 80 69 82 65 84 73 79 78 32 67 79 77 80 76 69 84 69 32 0 ]
 [a 17C 70 114 101 113 117 101 110 99 121 58 32 0 ]
 [a 13C 82 101 112 101 116 105 116 105 111 110 58 32 0 ]
 [a 5C 32 32 115 101 108 101 99 116 105 111 110 44 32 112 114 101 115 115 32 32 0 ]
+[a 33C 32 32 80 82 69 83 83 32 65 78 89 32 75 69 89 46 46 46 32 32 0 ]
 [a 4C 32 32 32 65 102 116 101 114 32 101 110 116 101 114 105 110 103 32 32 32 0 ]
 [a 3C 32 32 32 32 35 32 102 111 114 32 76 79 71 71 73 78 71 32 32 32 0 ]
 [a 6C 32 32 32 32 35 32 116 111 32 99 111 110 102 105 114 109 32 32 32 32 0 ]
