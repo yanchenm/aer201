@@ -28,13 +28,15 @@ const char currDate[7] = {  0x00, // 00 Seconds
 int begin_operation = 0;
 int begin_logging = 0;
 int num_runs = 0;
-int total_time = 0;
+unsigned char total_time = 0;
+int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 
 /***** Enumerations *****/
 
 enum prescrip {R, F, L};
 enum rep {morning, afternoon, alt, both, na_rep};
 enum freq {every, alt_sun, alt_mon, na_freq};
+enum orientation {sat, sun, na};
 
 void main(void) {
 
@@ -133,6 +135,10 @@ void operation(void) {
     int prescription[3] = {-1, -1, -1};
     enum rep repetition = na_rep;
     enum freq frequency = na_freq;
+    enum orientation dir = na;
+    
+    unsigned char start_time[7];
+    unsigned char end_time[7];
     
     __lcd_clear();
     __lcd_home();
@@ -400,6 +406,8 @@ void operation(void) {
     
     // </editor-fold>
     
+    
+    
     __lcd_display_control(1, 0, 0);
     __lcd_clear();
     __lcd_home();
@@ -436,6 +444,17 @@ void operation(void) {
     }
     __delay_ms(3000);
     
+    unsigned char i;
+    
+    /* Read start time. */
+    I2C_Master_Start(); // Start condition
+    I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
+    for(i = 0; i < 6; i++){
+        start_time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
+    }
+    start_time[6] = I2C_Master_Read(NACK); // Final Read with NACK
+    I2C_Master_Stop(); // Stop condition
+    
     __lcd_clear();
     __lcd_2line();
     printf("     DISPENSING     ");
@@ -445,12 +464,148 @@ void operation(void) {
     
     /****** OPERATION CODE ******/
     
+    // Run current colour sensor calibration code (5 seconds)
+    // Spin reservoir agitator motors (RE2, RC0, RC1)
+    // Advance stepper motor 1 (RA4, RA5, RE0, RE2)
+    
+    // Check colour for orientation (AN0 input)
+    
+    dir = sat;
+    
+    int fill_start = 0;
+    int fill_increment = 0;
+    
+    switch(frequency) {
+        case every:
+            fill_start = 0;
+            fill_increment = 1;
+            break;
+        case alt_sun:
+            fill_start = 0;
+            fill_increment = 2;
+            break;
+        case alt_mon:
+            fill_start = 1;
+            fill_increment = 2;
+            break;
+    }
+    
+    for (i = fill_start; i < 7; i += fill_increment) {
+        if (dir == sat) {
+            if (repetition == afternoon) {
+                box_fill[i][0] = 0;
+                box_fill[i][1] = 1;
+            }
+            else if (repetition == morning) {
+                box_fill[i][0] = 1;
+                box_fill[i][1] = 0;
+            }
+            else if (repetition == both) {
+                box_fill[i][0] = 1;
+                box_fill[i][1] = 1;
+            }
+            else {
+                if (i == fill_start) {
+                    box_fill[i][0] = 1;
+                    box_fill[i][1] = 0;
+                }
+                else {
+                    box_fill[i][0] = !box_fill[i - fill_increment][0];
+                    box_fill[i][1] = !box_fill[i - fill_increment][1];
+                }
+            }
+        }
+        else if (dir == sun) {
+            if (repetition == afternoon) {
+                box_fill[i][0] = 1;
+                box_fill[i][1] = 0;
+            }
+            else if (repetition == morning) {
+                box_fill[i][0] = 0;
+                box_fill[i][1] = 1;
+            }
+            else if (repetition == both) {
+                box_fill[i][0] = 1;
+                box_fill[i][1] = 1;
+            }
+            else {
+                if (i == fill_start) {
+                    box_fill[i][0] = 0;
+                    box_fill[i][1] = 1;
+                }
+                else {
+                    box_fill[i][0] = !box_fill[i - fill_increment][0];
+                    box_fill[i][1] = !box_fill[i - fill_increment][1];
+                }
+            }
+        }
+    }
+    
+    // while (i < 7) {
+        // Advance stepper motor 1
+        // if box_fill[i][0], dispense prescription[0] number of pills
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // // if box_fill[i][0], dispense prescription[1] number of pills
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // // if box_fill[i][0], dispense prescription[2] number of pills
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // Flip branch gate (RC3)
+    
+        // if box_fill[i][1], dispense prescription[0] number of pills
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // // if box_fill[i][1], dispense prescription[1] number of pills
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+        
+        // // if box_fill[i][1], dispense prescription[2] number of pills
+        // Count pills as they fall (light break sensor AN1)
+        // Cross-check dispenser actuation & sensor count
+    
+        // i++
+    // }
+    
+    // Advance box to drop-off (stepper 1)
+    
+    // while (1) {
+        // Offload remaining pills
+        // While light-break sensor detects pills still falling through
+        // Keep rotating agitators and dispenser
+        // Break once no pills detected for 3 actuations
+        
+        // Count and store number of pills dropped
+        // using light-break sensors
+        
+    // }
+    
+    // Store run data to EEPROM
+    // Print to screen using existing interface
+
+// }
+    
     
     /****************************/
     
+    /* Read end time. */
+    I2C_Master_Start(); // Start condition
+    I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
+    for(i = 0; i < 6; i++){
+        end_time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
+    }
+    end_time[6] = I2C_Master_Read(NACK); // Final Read with NACK
+    I2C_Master_Stop(); // Stop condition
+    
+    total_time = (3600 * end_time[2]) + (60 * end_time[1]) + end_time[0] - (3600 * start_time[2]) - (60 * start_time[1]) - start_time[0];
+    
     // <editor-fold defaultstate="expanded" desc="End of Operation Info">
     __lcd_clear();
-    __lcd_2line();
     printf(" OPERATION COMPLETE ");
     __lcd_3line();
     printf("  PRESS ANY KEY...  ");

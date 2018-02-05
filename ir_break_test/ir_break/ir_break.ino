@@ -6,9 +6,12 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   int sensorValue = analogRead(sensorPin);
-  Serial.print(sensorValue);
+
+  if (sensorValue < 50) {
+    Serial.print(sensorValue);
+  }
+  
   Serial.print('\n');
-  delay(100);
+  delay(10);
 }

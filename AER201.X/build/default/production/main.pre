@@ -1,17 +1,17 @@
 
 # 1 "main.c"
 
-# 26 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\htc.h"
+# 26 "/opt/microchip/xc8/v1.45/include/htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
 extern double __fpnormalize(double);
 
 
-# 13 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\xc8debug.h"
+# 13 "/opt/microchip/xc8/v1.45/include/xc8debug.h"
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
 
-# 50 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h"
+# 50 "/opt/microchip/xc8/v1.45/include/pic18f4620.h"
 extern volatile unsigned char PORTA @ 0xF80;
 
 asm("PORTA equ 0F80h");
@@ -3677,7 +3677,7 @@ extern volatile __bit nWR @ (((unsigned) &PORTE)*8) + 1;
 
 extern volatile __bit nWRITE @ (((unsigned) &SSPSTAT)*8) + 2;
 
-# 18 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18.h"
+# 18 "/opt/microchip/xc8/v1.45/include/pic18.h"
 __attribute__((__unsupported__("The " "flash_write" " routine is no longer supported. Please use the MPLAB X MCC."))) void flash_write(const unsigned char *, unsigned int, __far unsigned char *);
 __attribute__((__unsupported__("The " "EraseFlash" " routine is no longer supported. Please use the MPLAB X MCC."))) void EraseFlash(unsigned long startaddr, unsigned long endaddr);
 
@@ -3704,10 +3704,10 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 4 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\__size_t.h"
+# 4 "/opt/microchip/xc8/v1.45/include/__size_t.h"
 typedef unsigned size_t;
 
-# 7 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\stdarg.h"
+# 7 "/opt/microchip/xc8/v1.45/include/stdarg.h"
 typedef void * va_list[1];
 
 #pragma intrinsic(__va_start)
@@ -3716,17 +3716,17 @@ extern void * __va_start(void);
 #pragma intrinsic(__va_arg)
 extern void * __va_arg(void *, ...);
 
-# 43 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\stdio.h"
+# 43 "/opt/microchip/xc8/v1.45/include/stdio.h"
 struct __prbuf
 {
 char * ptr;
 void (* func)(char);
 };
 
-# 29 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\errno.h"
+# 29 "/opt/microchip/xc8/v1.45/include/errno.h"
 extern int errno;
 
-# 12 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\conio.h"
+# 12 "/opt/microchip/xc8/v1.45/include/conio.h"
 extern void init_uart(void);
 
 extern char getch(void);
@@ -3740,7 +3740,7 @@ extern __bit kbhit(void);
 extern char * cgets(char *);
 extern void cputs(const char *);
 
-# 88 "C:\Program Files (x86)\Microchip\xc8\v1.45\include\stdio.h"
+# 88 "/opt/microchip/xc8/v1.45/include/stdio.h"
 extern int cprintf(char *, ...);
 #pragma printf_check(cprintf)
 
@@ -3874,29 +3874,31 @@ const char currDate[7] = { 0x00,
 int begin_operation = 0;
 int begin_logging = 0;
 int num_runs = 0;
-int total_time = 0;
+unsigned char total_time = 0;
+int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 
 
 
 enum prescrip {R, F, L};
 enum rep {morning, afternoon, alt, both, na_rep};
 enum freq {every, alt_sun, alt_mon, na_freq};
+enum orientation {sat, sun, na};
 
 void main(void) {
 
-# 45
+# 47
 LATA = 0x00;
 LATB = 0x00;
 LATC = 0x00;
 LATD = 0x00;
 LATE = 0x00;
 
-# 53
+# 55
 TRISA = 0xFF;
 TRISB = 0xFF;
 TRISC = 0b10000000;
 
-# 59
+# 61
 TRISD = 0x00;
 TRISE = 0x00;
 
@@ -3914,7 +3916,7 @@ initLCD();
 
 I2C_Master_Init(100000);
 
-# 83
+# 85
 unsigned char time[7];
 unsigned char i;
 
@@ -3968,6 +3970,10 @@ void operation(void) {
 int prescription[3] = {-1, -1, -1};
 enum rep repetition = na_rep;
 enum freq frequency = na_freq;
+enum orientation dir = na;
+
+unsigned char start_time[7];
+unsigned char end_time[7];
 
 lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
@@ -4179,7 +4185,7 @@ break;
 }
 }
 
-# 351
+# 357
 lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
 printf("Frequency: ");
@@ -4230,8 +4236,7 @@ break;
 }
 }
 
-
-
+# 411
 lcdInst(8 | (1 << 2) | (0 << 1)| 0);;
 lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
 lcdInst(0x80);_delay((unsigned long)((5)*(40000000/4000.0)));;
@@ -4268,6 +4273,17 @@ break;
 }
 _delay((unsigned long)((3000)*(40000000/4000.0)));
 
+unsigned char i;
+
+
+I2C_Master_Start();
+I2C_Master_Write(0b11010001);
+for(i = 0; i < 6; i++){
+start_time[i] = I2C_Master_Read(0);
+}
+start_time[6] = I2C_Master_Read(1);
+I2C_Master_Stop();
+
 lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
 lcdInst(0xC0);;
 printf("     DISPENSING     ");
@@ -4275,9 +4291,91 @@ lcdInst(0x94);;
 printf("      PILLS...      ");
 _delay((unsigned long)((3600)*(40000000/4000.0)));
 
-# 452
+# 473
+dir = sat;
+
+int fill_start = 0;
+int fill_increment = 0;
+
+switch(frequency) {
+case every:
+fill_start = 0;
+fill_increment = 1;
+break;
+case alt_sun:
+fill_start = 0;
+fill_increment = 2;
+break;
+case alt_mon:
+fill_start = 1;
+fill_increment = 2;
+break;
+}
+
+for (i = fill_start; i < 7; i += fill_increment) {
+if (dir == sat) {
+if (repetition == afternoon) {
+box_fill[i][0] = 0;
+box_fill[i][1] = 1;
+}
+else if (repetition == morning) {
+box_fill[i][0] = 1;
+box_fill[i][1] = 0;
+}
+else if (repetition == both) {
+box_fill[i][0] = 1;
+box_fill[i][1] = 1;
+}
+else {
+if (i == fill_start) {
+box_fill[i][0] = 1;
+box_fill[i][1] = 0;
+}
+else {
+box_fill[i][0] = !box_fill[i - fill_increment][0];
+box_fill[i][1] = !box_fill[i - fill_increment][1];
+}
+}
+}
+else if (dir == sun) {
+if (repetition == afternoon) {
+box_fill[i][0] = 1;
+box_fill[i][1] = 0;
+}
+else if (repetition == morning) {
+box_fill[i][0] = 0;
+box_fill[i][1] = 1;
+}
+else if (repetition == both) {
+box_fill[i][0] = 1;
+box_fill[i][1] = 1;
+}
+else {
+if (i == fill_start) {
+box_fill[i][0] = 0;
+box_fill[i][1] = 1;
+}
+else {
+box_fill[i][0] = !box_fill[i - fill_increment][0];
+box_fill[i][1] = !box_fill[i - fill_increment][1];
+}
+}
+}
+}
+
+# 597
+I2C_Master_Start();
+I2C_Master_Write(0b11010001);
+for(i = 0; i < 6; i++){
+end_time[i] = I2C_Master_Read(0);
+}
+end_time[6] = I2C_Master_Read(1);
+I2C_Master_Stop();
+
+total_time = (3600 * end_time[2]) + (60 * end_time[1]) + end_time[0] - (3600 * start_time[2]) - (60 * start_time[1]) - start_time[0];
+
+
 lcdInst(0x01);_delay((unsigned long)((15)*(40000000/4000.0)));;
-lcdInst(0xC0);;
 printf(" OPERATION COMPLETE ");
 lcdInst(0x94);;
 printf("  PRESS ANY KEY...  ");

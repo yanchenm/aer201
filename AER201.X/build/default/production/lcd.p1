@@ -1,5 +1,5 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"1220 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+"1220 /opt/microchip/xc8/v1.45/include/pic18f4620.h
 [s S47 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S47 . LATD0 LATD1 LATD2 LATD3 LATD4 LATD5 LATD6 LATD7 ]
 "1230
@@ -13,10 +13,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "70 lcd.h
 [v _lcdNibble `(v ~T0 @X0 0 ef1`uc ]
 [v F2882 `(v ~T0 @X0 1 tf1`ul ]
-"164 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18.h
+"164 /opt/microchip/xc8/v1.45/include/pic18.h
 [v __delay `JF2882 ~T0 @X0 0 e ]
 [p i __delay ]
-"1214 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+"1214 /opt/microchip/xc8/v1.45/include/pic18f4620.h
 [v _LATD `Vuc ~T0 @X0 0 e@3980 ]
 "6378
 [s S258 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -38,7 +38,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
 [; ;pic18f4620.h: 50: extern volatile unsigned char PORTA @ 0xF80;
-"52 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+"52 /opt/microchip/xc8/v1.45/include/pic18f4620.h
 [; ;pic18f4620.h: 52: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f4620.h: 55: typedef union {

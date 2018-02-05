@@ -3,54 +3,60 @@
 [d edition pro ]
 [d chip 18F4620 ]
 [d frameptr 4065 ]
-"134 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
-[e E3002 rep `uc
+"136 /home/yanchen/Documents/aer201/AER201.X/main.c
+[e E3004 rep `uc
 morning 0
 afternoon 1
 alt 2
 both 3
 na_rep 4
 ]
-"135
-[e E3008 freq `uc
+"137
+[e E3010 freq `uc
 every 0
 alt_sun 1
 alt_mon 2
 na_freq 3
 ]
-"464 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\doprnt.c
+"138
+[e E3015 orientation `uc
+sat 0
+sun 1
+na 2
+]
+"464 /opt/microchip/xc8/v1.45/sources/common/doprnt.c
 [v _printf printf `(i  1 e 2 0 ]
-"62 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\float.c
+"62 /opt/microchip/xc8/v1.45/sources/common/float.c
 [v ___ftpack __ftpack `(f  1 e 3 0 ]
-"86 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftadd.c
+"86 /opt/microchip/xc8/v1.45/sources/common/ftadd.c
 [v ___ftadd __ftadd `(f  1 e 3 0 ]
-"54 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftdiv.c
+"54 /opt/microchip/xc8/v1.45/sources/common/ftdiv.c
 [v ___ftdiv __ftdiv `(f  1 e 3 0 ]
-"62 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftmul.c
+"62 /opt/microchip/xc8/v1.45/sources/common/ftmul.c
 [v ___ftmul __ftmul `(f  1 e 3 0 ]
-"20 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\ftsub.c
+"20 /opt/microchip/xc8/v1.45/sources/common/ftsub.c
 [v ___ftsub __ftsub `(f  1 e 3 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\isdigit.c
+"8 /opt/microchip/xc8/v1.45/sources/common/isdigit.c
 [v _isdigit isdigit `(b  1 e 0 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lldiv.c
+"8 /opt/microchip/xc8/v1.45/sources/common/lldiv.c
 [v ___lldiv __lldiv `(ul  1 e 4 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lwdiv.c
+"8 /opt/microchip/xc8/v1.45/sources/common/lwdiv.c
 [v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lwmod.c
+"8 /opt/microchip/xc8/v1.45/sources/common/lwmod.c
 [v ___lwmod __lwmod `(ui  1 e 2 0 ]
-"10 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcadd.c
+"10 /opt/microchip/xc8/v1.45/sources/common/sprcadd.c
 [v ___fladd __fladd `(d  1 e 3 0 ]
 "245
 [v ___flsub __flsub `(d  1 e 3 0 ]
-"11 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcdiv.c
+"11 /opt/microchip/xc8/v1.45/sources/common/sprcdiv.c
 [v ___fldiv __fldiv `(d  1 e 3 0 ]
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\sprcmul.c
+"8 /opt/microchip/xc8/v1.45/sources/common/sprcmul.c
 [v ___flmul __flmul `(d  1 e 3 0 ]
-"15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul16.c
+"15 /opt/microchip/xc8/v1.45/sources/common/Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
-"15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul32.c
+"15 /opt/microchip/xc8/v1.45/sources/common/Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
-"14 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\I2C.c
+"14 /home/yanchen/Documents/aer201/AER201.X/I2C.c
 [v _I2C_Master_Init I2C_Master_Init `(v  1 e 1 0 ]
 "51
 [v _I2C_Master_Wait I2C_Master_Wait `(v  1 s 1 I2C_Master_Wait ]
@@ -62,7 +68,7 @@ na_freq 3
 [v _I2C_Master_Write I2C_Master_Write `(v  1 e 1 0 ]
 "120
 [v _I2C_Master_Read I2C_Master_Read `(uc  1 e 1 0 ]
-"11 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
+"11 /home/yanchen/Documents/aer201/AER201.X/lcd.c
 [v _lcdInst lcdInst `(v  1 e 1 0 ]
 "24
 [v _putch putch `(v  1 e 1 0 ]
@@ -74,17 +80,17 @@ na_freq 3
 [v _lcd_set_cursor lcd_set_cursor `(v  1 e 1 0 ]
 "110
 [v _lcd_shift_cursor lcd_shift_cursor `(v  1 e 1 0 ]
-"39 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+"41 /home/yanchen/Documents/aer201/AER201.X/main.c
 [v _main main `(v  1 e 1 0 ]
-"129
+"131
 [v _operation operation `(v  1 e 1 0 ]
-"642
+"797
 [v _logging logging `(v  1 e 1 0 ]
-"659
+"814
 [v _interruptHandler interruptHandler `II(v  1 e 1 0 ]
-"187 C:\Program Files (x86)\Microchip\xc8\v1.45\include\pic18f4620.h
+"187 /opt/microchip/xc8/v1.45/include/pic18f4620.h
 [v _PORTB PORTB `VEuc  1 e 1 @3969 ]
-[s S263 . 1 `uc 1 RB0 1 0 :1:0 
+[s S267 . 1 `uc 1 RB0 1 0 :1:0 
 `uc 1 RB1 1 0 :1:1 
 `uc 1 RB2 1 0 :1:2 
 `uc 1 RB3 1 0 :1:3 
@@ -94,7 +100,7 @@ na_freq 3
 `uc 1 RB7 1 0 :1:7 
 ]
 "228
-[s S272 . 1 `uc 1 INT0 1 0 :1:0 
+[s S276 . 1 `uc 1 INT0 1 0 :1:0 
 `uc 1 INT1 1 0 :1:1 
 `uc 1 INT2 1 0 :1:2 
 `uc 1 CCP2 1 0 :1:3 
@@ -103,7 +109,7 @@ na_freq 3
 `uc 1 KBI2 1 0 :1:6 
 `uc 1 KBI3 1 0 :1:7 
 ]
-[s S281 . 1 `uc 1 AN12 1 0 :1:0 
+[s S285 . 1 `uc 1 AN12 1 0 :1:0 
 `uc 1 AN10 1 0 :1:1 
 `uc 1 AN8 1 0 :1:2 
 `uc 1 AN9 1 0 :1:3 
@@ -112,11 +118,11 @@ na_freq 3
 `uc 1 PGC 1 0 :1:6 
 `uc 1 PGD 1 0 :1:7 
 ]
-[s S290 . 1 `uc 1 . 1 0 :3:0 
+[s S294 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 CCP2_PA2 1 0 :1:3 
 ]
-[u S293 . 1 `S263 1 . 1 0 `S272 1 . 1 0 `S281 1 . 1 0 `S290 1 . 1 0 ]
-[v _PORTBbits PORTBbits `VES293  1 e 1 @3969 ]
+[u S297 . 1 `S267 1 . 1 0 `S276 1 . 1 0 `S285 1 . 1 0 `S294 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES297  1 e 1 @3969 ]
 "878
 [v _LATA LATA `VEuc  1 e 1 @3977 ]
 "990
@@ -154,7 +160,7 @@ na_freq 3
 [v _TRISB TRISB `VEuc  1 e 1 @3987 ]
 "1822
 [v _TRISC TRISC `VEuc  1 e 1 @3988 ]
-[s S475 . 1 `uc 1 TRISC0 1 0 :1:0 
+[s S487 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -164,7 +170,7 @@ na_freq 3
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "1854
-[s S484 . 1 `uc 1 RC0 1 0 :1:0 
+[s S496 . 1 `uc 1 RC0 1 0 :1:0 
 `uc 1 RC1 1 0 :1:1 
 `uc 1 RC2 1 0 :1:2 
 `uc 1 RC3 1 0 :1:3 
@@ -173,8 +179,8 @@ na_freq 3
 `uc 1 RC6 1 0 :1:6 
 `uc 1 RC7 1 0 :1:7 
 ]
-[u S493 . 1 `S475 1 . 1 0 `S484 1 . 1 0 ]
-[v _TRISCbits TRISCbits `VES493  1 e 1 @3988 ]
+[u S505 . 1 `S487 1 . 1 0 `S496 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES505  1 e 1 @3988 ]
 "2044
 [v _TRISD TRISD `VEuc  1 e 1 @3989 ]
 "2266
@@ -185,7 +191,7 @@ na_freq 3
 [v _ADCON0 ADCON0 `VEuc  1 e 1 @4034 ]
 "4667
 [v _SSPCON2 SSPCON2 `VEuc  1 e 1 @4037 ]
-[s S519 . 1 `uc 1 SEN 1 0 :1:0 
+[s S531 . 1 `uc 1 SEN 1 0 :1:0 
 `uc 1 RSEN 1 0 :1:1 
 `uc 1 PEN 1 0 :1:2 
 `uc 1 RCEN 1 0 :1:3 
@@ -195,24 +201,24 @@ na_freq 3
 `uc 1 GCEN 1 0 :1:7 
 ]
 "4684
-[u S528 . 1 `S519 1 . 1 0 ]
-[v _SSPCON2bits SSPCON2bits `VES528  1 e 1 @4037 ]
+[u S540 . 1 `S531 1 . 1 0 ]
+[v _SSPCON2bits SSPCON2bits `VES540  1 e 1 @4037 ]
 "4729
 [v _SSPCON1 SSPCON1 `VEuc  1 e 1 @4038 ]
-[s S449 . 1 `uc 1 SSPM 1 0 :4:0 
+[s S461 . 1 `uc 1 SSPM 1 0 :4:0 
 `uc 1 CKP 1 0 :1:4 
 `uc 1 SSPEN 1 0 :1:5 
 `uc 1 SSPOV 1 0 :1:6 
 `uc 1 WCOL 1 0 :1:7 
 ]
 "4749
-[s S455 . 1 `uc 1 SSPM0 1 0 :1:0 
+[s S467 . 1 `uc 1 SSPM0 1 0 :1:0 
 `uc 1 SSPM1 1 0 :1:1 
 `uc 1 SSPM2 1 0 :1:2 
 `uc 1 SSPM3 1 0 :1:3 
 ]
-[u S460 . 1 `S449 1 . 1 0 `S455 1 . 1 0 ]
-[v _SSPCON1bits SSPCON1bits `VES460  1 e 1 @4038 ]
+[u S472 . 1 `S461 1 . 1 0 `S467 1 . 1 0 ]
+[v _SSPCON1bits SSPCON1bits `VES472  1 e 1 @4038 ]
 "4799
 [v _SSPSTAT SSPSTAT `VEuc  1 e 1 @4039 ]
 "5020
@@ -248,13 +254,13 @@ na_freq 3
 [v _INT1IE INT1IE `VEb  1 e 0 @32643 ]
 "7021
 [v _INT1IF INT1IF `VEb  1 e 0 @32640 ]
-"354 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\doprnt.c
+"354 /opt/microchip/xc8/v1.45/sources/common/doprnt.c
 [v _dpowers dpowers `C[5]ui  1 s 10 dpowers ]
 "362
 [v _hexpowers hexpowers `C[4]ui  1 s 8 hexpowers ]
-"65 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.h
+"65 /home/yanchen/Documents/aer201/AER201.X/lcd.h
 [v _LCDinterruptState LCDinterruptState `uc  1 s 1 LCDinterruptState ]
-"17 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+"17 /home/yanchen/Documents/aer201/AER201.X/main.c
 [v _keys keys `C[17]uc  1 e 17 0 ]
 "18
 [v _currDate currDate `C[7]uc  1 e 7 0 ]
@@ -265,52 +271,66 @@ na_freq 3
 "30
 [v _num_runs num_runs `i  1 e 2 0 ]
 "31
-[v _total_time total_time `i  1 e 2 0 ]
-"39
+[v _total_time total_time `uc  1 e 1 0 ]
+"32
+[v _box_fill box_fill `[7][2]i  1 e 28 0 ]
+"41
 [v _main main `(v  1 e 1 0 ]
 {
-"83
-[v main@time time `[7]uc  1 a 7 82 ]
-"84
-[v main@i i `uc  1 a 1 89 ]
-"127
-} 0
+"85
+[v main@time time `[7]uc  1 a 7 69 ]
+"86
+[v main@i i `uc  1 a 1 76 ]
 "129
+} 0
+"131
 [v _operation operation `(v  1 e 1 0 ]
 {
-"243
-[v operation@keypress_384 keypress `uc  1 a 1 72 ]
-"206
-[v operation@keypress_383 keypress `uc  1 a 1 70 ]
-"169
-[v operation@keypress keypress `uc  1 a 1 69 ]
-"624
-[v operation@keypress_438 keypress `uc  1 a 1 66 ]
-"596
-[v operation@keypress_433 keypress `uc  1 a 1 65 ]
-"556
-[v operation@keypress_426 keypress `uc  1 a 1 64 ]
-"513
-[v operation@keypress_418 keypress `uc  1 a 1 63 ]
-"487
-[v operation@keypress_414 keypress `uc  1 a 1 62 ]
-"463
-[v operation@keypress_410 keypress `uc  1 a 1 61 ]
-"367
-[v operation@keypress_396 keypress `uc  1 a 1 71 ]
-"310
-[v operation@keypress_391 keypress `uc  1 a 1 73 ]
-"133
-[v operation@prescription prescription `[3]i  1 a 6 74 ]
-"134
-[v operation@repetition repetition `E3002  1 a 1 68 ]
+"249
+[v operation@keypress_393 keypress `uc  1 a 1 29 ]
+"212
+[v operation@keypress_392 keypress `uc  1 a 1 27 ]
+"175
+[v operation@keypress keypress `uc  1 a 1 26 ]
+"779
+[v operation@keypress_450 keypress `uc  1 a 1 19 ]
+"751
+[v operation@keypress_445 keypress `uc  1 a 1 18 ]
+"711
+[v operation@keypress_438 keypress `uc  1 a 1 17 ]
+"668
+[v operation@keypress_430 keypress `uc  1 a 1 16 ]
+"642
+[v operation@keypress_426 keypress `uc  1 a 1 15 ]
+"618
+[v operation@keypress_422 keypress `uc  1 a 1 0 ]
+"373
+[v operation@keypress_405 keypress `uc  1 a 1 28 ]
+"316
+[v operation@keypress_400 keypress `uc  1 a 1 30 ]
+"141
+[v operation@end_time end_time `[7]uc  1 a 7 8 ]
+"140
+[v operation@start_time start_time `[7]uc  1 a 7 1 ]
 "135
-[v operation@frequency frequency `E3008  1 a 1 67 ]
-"131
-[v operation@F3021 F3021 `[3]i  1 s 6 F3021 ]
-"640
+[v operation@prescription prescription `[3]i  1 a 6 31 ]
+"476
+[v operation@fill_increment fill_increment `i  1 a 2 24 ]
+"475
+[v operation@fill_start fill_start `i  1 a 2 21 ]
+"447
+[v operation@i i `uc  1 a 1 38 ]
+"136
+[v operation@repetition repetition `E3004  1 a 1 37 ]
+"137
+[v operation@frequency frequency `E3010  1 a 1 23 ]
+"138
+[v operation@dir dir `E3015  1 a 1 20 ]
+"133
+[v operation@F3027 F3027 `[3]i  1 s 6 F3027 ]
+"795
 } 0
-"464 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\doprnt.c
+"464 /opt/microchip/xc8/v1.45/sources/common/doprnt.c
 [v _printf printf `(i  1 e 2 0 ]
 {
 "1500
@@ -331,7 +351,7 @@ na_freq 3
 [v printf@f f `*.25Cuc  1 p 2 31 ]
 "1541
 } 0
-"24 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
+"24 /home/yanchen/Documents/aer201/AER201.X/lcd.c
 [v _putch putch `(v  1 e 1 0 ]
 {
 [v putch@data data `uc  1 a 1 wreg ]
@@ -340,7 +360,7 @@ na_freq 3
 [v putch@data data `uc  1 a 1 21 ]
 "35
 } 0
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\isdigit.c
+"8 /opt/microchip/xc8/v1.45/sources/common/isdigit.c
 [v _isdigit isdigit `(b  1 e 0 0 ]
 {
 [v isdigit@c c `uc  1 a 1 wreg ]
@@ -349,7 +369,7 @@ na_freq 3
 [v isdigit@c c `uc  1 a 1 21 ]
 "15
 } 0
-"15 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\Umul16.c
+"15 /opt/microchip/xc8/v1.45/sources/common/Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
 {
 "17
@@ -359,7 +379,7 @@ na_freq 3
 [v ___wmul@multiplicand multiplicand `ui  1 p 2 21 ]
 "53
 } 0
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lwmod.c
+"8 /opt/microchip/xc8/v1.45/sources/common/lwmod.c
 [v ___lwmod __lwmod `(ui  1 e 2 0 ]
 {
 "11
@@ -369,19 +389,19 @@ na_freq 3
 [v ___lwmod@divisor divisor `ui  1 p 2 28 ]
 "26
 } 0
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lwdiv.c
+"8 /opt/microchip/xc8/v1.45/sources/common/lwdiv.c
 [v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
 {
 "11
-[v ___lwdiv@quotient quotient `ui  1 a 2 23 ]
+[v ___lwdiv@quotient quotient `ui  1 a 2 24 ]
 "12
-[v ___lwdiv@counter counter `uc  1 a 1 25 ]
+[v ___lwdiv@counter counter `uc  1 a 1 23 ]
 "8
 [v ___lwdiv@dividend dividend `ui  1 p 2 19 ]
 [v ___lwdiv@divisor divisor `ui  1 p 2 21 ]
 "31
 } 0
-"80 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
+"80 /home/yanchen/Documents/aer201/AER201.X/lcd.c
 [v _lcd_set_cursor lcd_set_cursor `(v  1 e 1 0 ]
 {
 [v lcd_set_cursor@x x `uc  1 a 1 wreg ]
@@ -404,38 +424,7 @@ na_freq 3
 [v lcd_shift_cursor@numChars numChars `uc  1 a 1 23 ]
 "127
 } 0
-"642 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
-[v _logging logging `(v  1 e 1 0 ]
-{
-"644
-} 0
-"60 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\lcd.c
-[v _initLCD initLCD `(v  1 e 1 0 ]
-{
-"78
-} 0
-"11
-[v _lcdInst lcdInst `(v  1 e 1 0 ]
-{
-[v lcdInst@data data `uc  1 a 1 wreg ]
-[v lcdInst@data data `uc  1 a 1 wreg ]
-"19
-[v lcdInst@data data `uc  1 a 1 21 ]
-"22
-} 0
-"37
-[v _lcdNibble lcdNibble `(v  1 e 1 0 ]
-{
-[v lcdNibble@data data `uc  1 a 1 wreg ]
-"45
-[v lcdNibble@temp temp `uc  1 a 1 19 ]
-"37
-[v lcdNibble@data data `uc  1 a 1 wreg ]
-"45
-[v lcdNibble@data data `uc  1 a 1 20 ]
-"58
-} 0
-"108 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\I2C.c
+"108 /home/yanchen/Documents/aer201/AER201.X/I2C.c
 [v _I2C_Master_Write I2C_Master_Write `(v  1 e 1 0 ]
 {
 [v I2C_Master_Write@byteToWrite byteToWrite `ui  1 p 2 20 ]
@@ -468,13 +457,44 @@ na_freq 3
 {
 "67
 } 0
-"14
+"797 /home/yanchen/Documents/aer201/AER201.X/main.c
+[v _logging logging `(v  1 e 1 0 ]
+{
+"799
+} 0
+"60 /home/yanchen/Documents/aer201/AER201.X/lcd.c
+[v _initLCD initLCD `(v  1 e 1 0 ]
+{
+"78
+} 0
+"11
+[v _lcdInst lcdInst `(v  1 e 1 0 ]
+{
+[v lcdInst@data data `uc  1 a 1 wreg ]
+[v lcdInst@data data `uc  1 a 1 wreg ]
+"19
+[v lcdInst@data data `uc  1 a 1 21 ]
+"22
+} 0
+"37
+[v _lcdNibble lcdNibble `(v  1 e 1 0 ]
+{
+[v lcdNibble@data data `uc  1 a 1 wreg ]
+"45
+[v lcdNibble@temp temp `uc  1 a 1 19 ]
+"37
+[v lcdNibble@data data `uc  1 a 1 wreg ]
+"45
+[v lcdNibble@data data `uc  1 a 1 20 ]
+"58
+} 0
+"14 /home/yanchen/Documents/aer201/AER201.X/I2C.c
 [v _I2C_Master_Init I2C_Master_Init `(v  1 e 1 0 ]
 {
 [v I2C_Master_Init@clockFreq clockFreq `Cul  1 p 4 32 ]
 "49
 } 0
-"8 C:\Program Files (x86)\Microchip\xc8\v1.45\sources\common\lldiv.c
+"8 /opt/microchip/xc8/v1.45/sources/common/lldiv.c
 [v ___lldiv __lldiv `(ul  1 e 4 0 ]
 {
 "11
@@ -486,10 +506,10 @@ na_freq 3
 [v ___lldiv@divisor divisor `ul  1 p 4 23 ]
 "31
 } 0
-"659 D:\OneDrive - University of Toronto\Second Year\AER201\AER201\AER201.X\main.c
+"814 /home/yanchen/Documents/aer201/AER201.X/main.c
 [v _interruptHandler interruptHandler `II(v  1 e 1 0 ]
 {
-"664
+"819
 [v interruptHandler@keypress keypress `uc  1 a 1 18 ]
-"679
+"834
 } 0
