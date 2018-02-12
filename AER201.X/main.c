@@ -12,6 +12,7 @@
 void RTC_setTime(void);
 void operation(void);
 void logging(void);
+void data_store(unsigned char[]);
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
@@ -398,16 +399,14 @@ void operation(void) {
             }           
         }
         else if (keypress == 14) {
-            if (repetition != na_freq) {
+            if (frequency != na_freq) {
                 break;
             }
         }
     }
     
-    // </editor-fold>
-    
-    
-    
+    // </editor-fold> 
+       
     __lcd_display_control(1, 0, 0);
     __lcd_clear();
     __lcd_home();
@@ -469,6 +468,8 @@ void operation(void) {
     // Advance stepper motor 1 (RA4, RA5, RE0, RE2)
     
     // Check colour for orientation (AN0 input)
+    
+    // <editor-fold defaultstate="expanded" desc="Pill Array Logic">
     
     dir = sat;
     
@@ -540,6 +541,8 @@ void operation(void) {
             }
         }
     }
+    
+    // </editor-fold>
     
     // while (i < 7) {
         // Advance stepper motor 1
@@ -830,5 +833,9 @@ void interrupt interruptHandler(void) {
             INT1IF = 0;
         }
     }
+    
+}
+
+void data_store(unsigned char data[9]) {
     
 }
