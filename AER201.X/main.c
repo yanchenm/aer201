@@ -606,6 +606,7 @@ void operation(void) {
     
     // <editor-fold defaultstate="expanded" desc="End of Operation Info">
     __lcd_clear();
+    __lcd_2line();
     printf(" OPERATION COMPLETE ");
     __lcd_3line();
     printf("  PRESS ANY KEY...  ");
