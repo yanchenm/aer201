@@ -445,6 +445,12 @@ void operation(void) {
     
     unsigned char i;
     
+    /* Reset RTC memory pointer. */
+    I2C_Master_Start(); // Start condition
+    I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
+    I2C_Master_Write(0x00); // Set memory pointer to seconds
+    I2C_Master_Stop(); // Stop condition
+    
     /* Read start time. */
     I2C_Master_Start(); // Start condition
     I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
@@ -595,6 +601,12 @@ void operation(void) {
     
     
     /****************************/
+    
+    /* Reset RTC memory pointer. */
+    I2C_Master_Start(); // Start condition
+    I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
+    I2C_Master_Write(0x00); // Set memory pointer to seconds
+    I2C_Master_Stop(); // Stop condition
     
     /* Read end time. */
     I2C_Master_Start(); // Start condition
@@ -833,9 +845,5 @@ void interrupt interruptHandler(void) {
             INT1IF = 0;
         }
     }
-    
-}
-
-void data_store(unsigned char data[9]) {
     
 }
