@@ -1,18 +1,18 @@
-int A = 8;
-int B = 9;
-int C = 10;
-int D = 11;
+#include <Stepper.h>
+
+int steps = 100;
+
+Stepper stepper(steps, 8, 9, 10, 11);
+
+int previous = 0;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(A, OUTPUT);
-  pinMode(B, OUTPUT);
-  pinMode(C, OUTPUT);
-  pinMode(D, OUTPUT);
+  stepper.setSpeed(90);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  stepper.step(10);
 }
