@@ -88,7 +88,7 @@ void dispense (int dispenser, int number) {
     dispenserServo[dispenser].write(90);
 
     if (!dispenseFlag) {
-      i--;
+      // i--;
     }
 
     delay(500);
