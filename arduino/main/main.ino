@@ -53,12 +53,13 @@ void receiveEvent(void) {
       break;
     case 1:
       dispense(servoNum, number);
+      Serial.println("Dispensing ");
+      Serial.println(servoNum);
+      Serial.println(number);
       break;
     case 2:
       flipGate();
-      break;
-    case 3:
-      finalDispense();
+      Serial.println("Flipping");
       break;
   }
 }
@@ -74,18 +75,20 @@ void dispense (int dispenser, int number) {
   for (i = 0; i < number; i++) {
     dispenserServo[dispenser].write(180);
 
-    for (j = 0; j < 50; j++) {
-      sensorRead = analogRead(dispenserSensor[dispenser]);
-      
-      if (sensorRead < (0.1 * sensorMax[dispenser])) {
-        dispenseFlag = 1;
-        break;
-      }
+    delay(1000);
 
-      delay(10);
-    }
+//    for (j = 0; j < 50; j++) {
+//      sensorRead = analogRead(dispenserSensor[dispenser]);
+//      
+//      if (sensorRead < (0.1 * sensorMax[dispenser])) {
+//        dispenseFlag = 1;
+//        break;
+//      }
+//
+//      delay(10);
+//    }
 
-    dispenserServo[dispenser].write(90);
+    dispenserServo[dispenser].write(0);
 
     if (!dispenseFlag) {
       // i--;
@@ -123,7 +126,7 @@ void rgb() {
   
     for (i = 0 ; i < 3 ; i ++)
     {
-      Percent[i] = readRGB[i] * 100.0 / total;                //  PRINT IN THE FORM OF PERCENTAGE      
+      Percent[i] = readRGB[i] * 100.0 / total;                //  STORE IN THE FORM OF PERCENTAGE      
     }
 
     if (Percent[0] > (Percent[2] + 10)) {
@@ -133,7 +136,7 @@ void rgb() {
       b++;
     }
     else {
-      j--;
+      // j--;
     }
     
     delay(300);
@@ -224,14 +227,12 @@ void flipGate() {
   if (gatePosition == 0) {
     gateServo.write(90);
     gatePosition = 1;
+    Serial.println("Gate 0");
   }
   else {
     gateServo.write(0);
     gatePosition = 0;
+    Serial.println("Gate 1");
   }
-}
-
-void finalDispense() {
-  
 }
 

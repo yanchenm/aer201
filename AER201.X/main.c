@@ -470,15 +470,16 @@ void operation(void) {
     printf("     DISPENSING     ");
     __lcd_3line();
     printf("      PILLS...      ");
-    __delay_ms(3600);
     
     /****** OPERATION CODE ******/
     
-    // Run current colour sensor calibration code (5 seconds)
-    // Spin reservoir agitator motors (RE2, RC0, RC1)
-    // Advance stepper motor 1 (RA4, RA5, RE0, RE2)
+    TRISEbits.RE0 = 0;
+    TRISEbits.RE1 = 0;
+    TRISEbits.RE2 = 0;
     
-    // Check colour for orientation (AN0 input)
+    LATEbits.LATE0 = 1;
+    LATEbits.LATE1 = 1;
+    LATEbits.LATE2 = 1;
     
     // <editor-fold defaultstate="expanded" desc="Pill Array Logic">
     
@@ -487,7 +488,10 @@ void operation(void) {
     
     stepperMove(200);
     
-    dir = orientation();
+    // printf("RGB\n");
+    // dir = orientation();
+    
+    dir = sun;
     
     int fill_start = 0;
     int fill_increment = 0;
@@ -558,12 +562,14 @@ void operation(void) {
         }
     }       
     
+    printf("Fill\n");
+    
     int j;
     
     for (i = 0; i < 7; i++) {
         for (j = 0; j < 2; j++) {
             if (box_fill[i][j]) {
-                if (!(j && gatePos)) {
+                if (j != gatePos) {
                     flipGate();
                 }
                 
@@ -846,7 +852,7 @@ void dispense(int dispenser, int number) {
     unsigned char servo = dispenser << 4;
     unsigned char num = number << 2;
     
-    command = action || servo || num;
+    command = action | servo | num;
     
     I2C_Master_Start();
     I2C_Master_Write(0b00010000);

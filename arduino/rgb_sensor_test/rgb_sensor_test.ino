@@ -1,4 +1,4 @@
-int sensor, minVal, Val[3] , colArray[3] = {9, 10, 11},  total;
+int sensor, minVal, Val[3] , colArray[3] = {4, 5, 6},  total;
 
 float Percent[3];
 
