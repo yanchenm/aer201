@@ -1,20 +1,22 @@
-MCLR,MCLR,,,KEYPAD,RB7
-AN0,RGB Sensor,,,KEYPAD,RB6
-AN1,Break beam 1,,,KEYPAD,RB5
-AN2,Break beam 2,,,KEYPAD,RB4
-AN3,Break beam 3,,,Dispenser 1,RB3
-RA4,Stepper 1,,,Dispenser 2,RB2
-RA5,Stepper 1,,,KEYPAD,RB1
-RE0,Stepper 1,,,Dispenser 3,RB0
-RE1,Stepper 1,,,VDD,VDD
-RE2,Agitator 1,,,VSS,VSS
-VDD,VDD,,,LCD D7,RD7
-VSS,VSS,,,LCD D6,RD6
-RA7,OSC,,,LCD D5,RD5
-RA6,OSC,,,LCD D4,RD4
-RC0,Agitator 2,,,,RC7
-RC1,Agitator 3,,,,RC6
-RC2,Dispenser 1,,,,RC5
-RC3,I2C,,,I2C,RC4
-RD0,Dispenser 2,,,LCD Enable,RD3
-RD1,Dispenser 3,,,LCD RS,RD2
+MCLR,MCLR,,,KEYPAD,RB7,,,,,,,,,
+AN0,,,,KEYPAD,RB6,,,,,,,,,
+AN1,,,,KEYPAD,RB5,,,,,TX1,,,,VIN
+AN2,,,,KEYPAD,RB4,,,,,RX0,,,,GND
+AN3,,,,,RB3,,,,,RST,,,,RST
+RA4,Stepper 1 Direction,,,,RB2,,,,,GND,,,,5V
+RA5,Stepper 1 Steps,,,KEYPAD,RB1,,,,,D2,,,,A7
+RE0,Agitator 1,,,,RB0,,,,,D3,Flip Gate,,,A6
+RE1,Agitator 2,,,VDD,VDD,,,,,D4,RGB,,I2C,A5
+RE2,Agitator 3,,,VSS,VSS,,,,,D5,RGB,,I2C,A4
+VDD,VDD,,,LCD D7,RD7,,,,,D6,RGB,,Light break 3,A3
+VSS,VSS,,,LCD D6,RD6,,,,,D7,,,Light break 2,A2
+RA7,OSC,,,LCD D5,RD5,,,,,D8,,,Light break 1,A1
+RA6,OSC,,,LCD D4,RD4,,,,,D9,Dispenser 1,,RGB IN,A0
+RC0,,,,,RC7,,,,,D10,Dispenser 2,,,REF
+RC1,,,,,RC6,,,,,D11,Dispenser 3,,,3V3
+RC2,,,,,RC5,,,,,D12,,,,D13
+RC3,I2C,,,I2C,RC4,,,,,,,,,
+RD0,,,,LCD Enable,RD3,,,,,,,,,
+RD1,,,,LCD RS,RD2,,,,,,,,,
+,,,,,,,,,,,,,,
+,PIC,,,,,,,,,,,,,
