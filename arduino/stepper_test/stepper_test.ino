@@ -1,18 +1,35 @@
-#include <Stepper.h>
-
-int steps = 100;
-
-Stepper stepper(steps, 8, 9, 10, 11);
-
-int previous = 0;
+int dirPin = 9;
+int stepPin = 9;
 
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(dirPin, OUTPUT);
+  pinMode(stepPin, OUTPUT);
+
   Serial.begin(9600);
-  stepper.setSpeed(90);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  stepper.step(10);
+  digitalWrite(dirPin, HIGH);
+
+  for (int i = 0; i < 400; i++) {
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(500);
+
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(500);
+  }
+
+  delay(1000);
+
+  digitalWrite(dirPin, LOW);
+
+  for (int i = 0; i < 400; i++) {
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(500);
+
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(500);
+  }
+
+  delay(1000);
 }
