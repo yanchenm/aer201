@@ -556,9 +556,9 @@ void operation(void) {
                 }
             }
         }
-    }
+    }       
     
-    int i, j;        
+    int j;
     
     for (i = 0; i < 7; i++) {
         for (j = 0; j < 2; j++) {
@@ -862,19 +862,20 @@ void flipGate() {
 }
 
 unsigned char orientation() {
-    unsigned char orientation = 1000;
+    unsigned char or;
     
     I2C_Master_Start();
     I2C_Master_Write(0b00010000);
     I2C_Master_Write(0b00000000);
     I2C_Master_Stop();
     
-    __delay_ms(10000);
+    __delay_ms(5000);
+    __delay_ms(5000);
     
     I2C_Master_Start();
     I2C_Master_Write(0b00010001);
-    orientation = I2C_Master_Read(NACK);
+    or = I2C_Master_Read(NACK);
     I2C_Master_Stop();
     
-    return orientation;
+    return or;
 }
