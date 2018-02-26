@@ -15,6 +15,6 @@ RA6,OSC,,,LCD D4,RD4
 RC0,Agitator 2,,,,RC7
 RC1,Agitator 3,,,,RC6
 RC2,Dispenser 1,,,,RC5
-RC3,Servo 1,,,RTC,RC4
+RC3,I2C,,,I2C,RC4
 RD0,Dispenser 2,,,LCD Enable,RD3
 RD1,Dispenser 3,,,LCD RS,RD2
