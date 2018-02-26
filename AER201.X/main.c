@@ -847,3 +847,19 @@ void interrupt interruptHandler(void) {
     }
     
 }
+
+void stepperMove(int distance) {
+    return;
+}
+
+void dispense(int dispenser, int number) {
+    return;
+}
+
+void flipGate() {
+    return;
+}
+
+int orientation() {
+    
+}
