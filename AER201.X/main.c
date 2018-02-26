@@ -16,7 +16,7 @@ void data_store(unsigned char[]);
 void stepperMove(int);
 void dispense(int, int);
 void flipGate();
-int orientation();
+unsigned char orientation();
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
@@ -35,6 +35,7 @@ int begin_logging = 0;
 int num_runs = 0;
 unsigned char total_time = 0;
 int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+int gatePos = 0;          // 0 -> gate left, 1 -> gate right
 
 /***** Enumerations *****/
 
@@ -481,7 +482,12 @@ void operation(void) {
     
     // <editor-fold defaultstate="expanded" desc="Pill Array Logic">
     
-    dir = sat;
+    TRISAbits.RA4 = 0;
+    TRISAbits.RA5 = 0;
+    
+    stepperMove(200);
+    
+    dir = orientation();
     
     int fill_start = 0;
     int fill_increment = 0;
@@ -552,59 +558,27 @@ void operation(void) {
         }
     }
     
-    // </editor-fold>
+    int i, j;        
     
-    // while (i < 7) {
-        // Advance stepper motor 1
-        // if box_fill[i][0], dispense prescription[0] number of pills
-        // Count pills as they fall (light break sensor AN1)
-        // Cross-check dispenser actuation & sensor count
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 2; j++) {
+            if (box_fill[i][j]) {
+                if (!(j && gatePos)) {
+                    flipGate();
+                }
+                
+                dispense(0, prescription[0]);
+                dispense(1, prescription[1]);
+                dispense(2, prescription[2]);
+            }
+        }
         
-        // // if box_fill[i][0], dispense prescription[1] number of pills
-        // Count pills as they fall (light break sensor AN1)
-        // Cross-check dispenser actuation & sensor count
-        
-        // // if box_fill[i][0], dispense prescription[2] number of pills
-        // Count pills as they fall (light break sensor AN1)
-        // Cross-check dispenser actuation & sensor count
-        
-        // Flip branch gate (RC3)
+        stepperMove(25);
+    }
     
-        // if box_fill[i][1], dispense prescription[0] number of pills
-        // Count pills as they fall (light break sensor AN1)
-        // Cross-check dispenser actuation & sensor count
-        
-        // // if box_fill[i][1], dispense prescription[1] number of pills
-        // Count pills as they fall (light break sensor AN1)
-        // Cross-check dispenser actuation & sensor count
-        
-        // // if box_fill[i][1], dispense prescription[2] number of pills
-        // Count pills as they fall (light break sensor AN1)
-        // Cross-check dispenser actuation & sensor count
-    
-        // i++
-    // }
-    
-    // Advance box to drop-off (stepper 1)
-    
-    // while (1) {
-        // Offload remaining pills
-        // While light-break sensor detects pills still falling through
-        // Keep rotating agitators and dispenser
-        // Break once no pills detected for 3 actuations
-        
-        // Count and store number of pills dropped
-        // using light-break sensors
-        
-    // }
-    
-    // Store run data to EEPROM
-    // Print to screen using existing interface
-
-// }
+    stepperMove(200);
     
     
-    /****************************/
     
     /* Reset RTC memory pointer. */
     I2C_Master_Start(); // Start condition
@@ -852,18 +826,55 @@ void interrupt interruptHandler(void) {
     
 }
 
-void stepperMove(int distance) {
-    return;
+void stepperMove(int distance_mm) {    
+    LATAbits.LA4 = 1;  // Set proper rotation direction
+    
+    int i;
+    
+    for (i = 0; i < 10 * distance_mm; i++) {
+        LATAbits.LA5 = 1;  // Step motor
+        __delay_us(500);
+        LATAbits.LA5 = 0;
+        __delay_us(500);
+    }    
 }
 
 void dispense(int dispenser, int number) {
-    return;
+    unsigned char command;
+    
+    unsigned char action = 0b01000000;
+    unsigned char servo = dispenser << 4;
+    unsigned char num = number << 2;
+    
+    command = action || servo || num;
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010000);
+    I2C_Master_Write(command);
+    I2C_Master_Stop();
 }
 
 void flipGate() {
-    return;
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010000);
+    I2C_Master_Write(0b10000000);
+    I2C_Master_Stop();
 }
 
-int orientation() {
+unsigned char orientation() {
+    unsigned char orientation = 1000;
     
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010000);
+    I2C_Master_Write(0b00000000);
+    I2C_Master_Stop();
+    
+    __delay_ms(10000);
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010001);
+    orientation = I2C_Master_Read(NACK);
+    I2C_Master_Stop();
+    
+    return orientation;
 }
