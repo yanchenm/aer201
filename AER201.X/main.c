@@ -13,6 +13,10 @@ void RTC_setTime(void);
 void operation(void);
 void logging(void);
 void data_store(unsigned char[]);
+void stepperMove(int);
+void dispense(int, int);
+void flipGate();
+int orientation();
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";

@@ -39,7 +39,7 @@ void loop() {
   
 }
 
-void receiveEvent() {
+void receiveEvent(void) {
   uint8_t x = Wire.read();
   Serial.println(x);
 
@@ -63,7 +63,7 @@ void receiveEvent() {
   }
 }
 
-void requestEvent() {
+void requestEvent(void) {
   Wire.write(orientation);
 }
 
