@@ -4,12 +4,15 @@
 #include "configBits.h"
 #include "lcd.h"
 #include "I2C.h"
+#include "I2C_devices.h"
 
 /***** Macros *****/
 #define __bcd_to_num(num) (num & 0x0F) + ((num & 0xF0)>>4)*10
+#define __FLIP_GATE 0b10000000
+#define __RGB 0b00000000
+#define __DUMP 0b11000000
 
 /***** Function Prototypes *****/
-void RTC_setTime(void);
 void operation(void);
 void logging(void);
 void data_store(unsigned char[]);
@@ -89,24 +92,10 @@ void main(void) {
     
     /* Declare local variables. */
     unsigned char time[7]; // Create a byte array to hold time read from RTC
-    unsigned char i; // Loop counter
     
     /* Main loop. */
     while(1) {
-        /* Reset RTC memory pointer. */
-        I2C_Master_Start(); // Start condition
-        I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
-        I2C_Master_Write(0x00); // Set memory pointer to seconds
-        I2C_Master_Stop(); // Stop condition
-
-        /* Read current time. */
-        I2C_Master_Start(); // Start condition
-        I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
-        for(i = 0; i < 6; i++){
-            time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
-        }
-        time[6] = I2C_Master_Read(NACK); // Final Read with NACK
-        I2C_Master_Stop(); // Stop condition
+        time = RTC_readTime();
         
         __lcd_display_control(1, 0, 0);
         
@@ -795,19 +784,6 @@ void operation(void) {
 
 void logging(void) {
     return;
-}
-
-void RTC_setTime(void){    
-    I2C_Master_Start(); // Start condition
-    I2C_Master_Write(0b11010000); //7 bit RTC address + Write
-    I2C_Master_Write(0x00); // Set memory pointer to seconds
-    
-    /* Write array. */
-    for(char i=0; i<7; i++){
-        I2C_Master_Write(currDate[i]);
-    }
-    
-    I2C_Master_Stop(); //Stop condition
 }
 
 void interrupt interruptHandler(void) {
