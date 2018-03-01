@@ -23,14 +23,7 @@ unsigned char orientation();
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
-const char currDate[7] = {  0x00, // 00 Seconds 
-                                0x20, // 28 Minutes
-                                0x02, // 24 hour mode, set to 5:00
-                                0x01, // Sunday
-                                0x026, // 4th
-                                0x02, // February
-                                0x18  // 2018
-};
+
 
 /***** Global Variables *****/
 int begin_operation = 0;
@@ -47,10 +40,7 @@ enum rep {morning, afternoon, alt, both, na_rep};
 enum freq {every, alt_sun, alt_mon, na_freq};
 enum orientation {sat, sun, na};
 
-void main(void) {
-
-    // <editor-fold defaultstate="collapsed" desc="Machine Configuration">
-    /********************************* PIN I/O ********************************/
+void initialize(void) {
     /* Write outputs to LATx, read inputs from PORTx. Here, all latches (LATx)
      * are being cleared (set low) to ensure a controlled start-up state. */  
     LATA = 0x00;
@@ -58,7 +48,7 @@ void main(void) {
     LATC = 0x00;
     LATD = 0x00;
     LATE = 0x00;
-
+    
     /* After the states of LATx are known, the data direction registers, TRISx
      * are configured. 0 --> output; 1 --> input. Default is  1. */
     TRISA = 0xFF; // All inputs (this is the default, but is explicated here for learning purposes)
@@ -70,6 +60,13 @@ void main(void) {
     TRISD = 0x00; // All output mode on port D for the LCD
     TRISE = 0x00;
     
+    /********************************* PIN I/O ********************************/
+    
+    TRISAbits.RA4 = 0;
+    TRISAbits.RA5 = 0;
+    
+        
+    
     /************************** A/D Converter Module **************************/
     ADCON0 = 0x00;  // Disable ADC
     ADCON1 = 0b00001111; // Set all A/D ports to digital (pg. 222)
@@ -77,50 +74,18 @@ void main(void) {
     INT1IE = 1;
     ei();
     
-    // </editor-fold>
-    
-    /* Initialize LCD. */
     initLCD();
+    I2C_Master_Init(100000);
+    
+    /* Uncomment to set time. Comment to keep time. */
+    // RTC_setTime(); 
+}
 
-    I2C_Master_Init(100000); //Initialize I2C Master with 100 kHz clock
+void main(void) {
     
-    /* Set the time in the RTC.
-     * 
-     * To see the RTC keep time, comment this line out after programming the PIC
-     * directly before with this line included. */
-    // RTC_setTime();
+    initialize();
     
-    /* Declare local variables. */
-    unsigned char time[7]; // Create a byte array to hold time read from RTC
-    
-    /* Main loop. */
-    while(1) {
-        time = RTC_readTime();
-        
-        __lcd_display_control(1, 0, 0);
-        
-        if (begin_operation || begin_logging) {
-            break;
-        }
-        
-        /* Print received data to LCD. */
-        __lcd_home();
-        printf("%02x/%02x/%02x    %02x:%02x:%02x", time[5],time[4],time[6],time[2],time[1],time[0]); // Print date in YY/MM/DD   HH:MM:SS
-        __lcd_3line();
-        printf("     * to BEGIN     ");
-        __lcd_4line();
-        printf("    # for LOGGING   ");
-        __delay_ms(1000);
-    }
-    
-    if (begin_operation) {
-        begin_operation = 0;
-        operation();
-    }
-    else if (begin_logging) {
-        begin_logging = 0;
-        logging();
-    }
+    standby();
 }
 
 void operation(void) {
@@ -784,28 +749,6 @@ void operation(void) {
 
 void logging(void) {
     return;
-}
-
-void interrupt interruptHandler(void) {
-    
-    if (INT1IF) {
-    /* Interrupt on change handler for RB1 (key press) */
-        
-        unsigned char keypress = (PORTB & 0xF0) >> 4;
-        
-        if (keypress == 12) {
-            begin_operation = 1;
-            INT1IF = 0;
-        }
-        else if (keypress == 14) {
-            begin_logging = 1;
-            INT1IF = 0;
-        }
-        else {
-            INT1IF = 0;
-        }
-    }
-    
 }
 
 void stepperMove(int distance_mm) {    

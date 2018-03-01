@@ -1,12 +1,3 @@
-/* 
- * File:   I2C.h
- * Author: Michael Ding
- *
- * Created summer 2016
- *
- * Edited by Tyler Gamvrelis, summer 2017
- */
-
 #ifndef I2C_H
 #define	I2C_H
 

@@ -1,10 +1,3 @@
-/* 
- * File:   I2C_devices.h
- * Author: Yanchen
- *
- * Created on February 28, 2018, 3:30 PM
- */
-
 #ifndef I2C_DEVICES_H
 #define	I2C_DEVICES_H
 
