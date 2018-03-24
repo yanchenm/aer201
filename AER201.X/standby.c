@@ -1,6 +1,7 @@
 void standby(void) {
     begin_operation = 0;
     begin_logging = 0;
+    debug = 0;
     
     unsigned char time[7];
     
@@ -32,6 +33,10 @@ void standby(void) {
         begin_logging = 0;
         logging();
     }
+    else if (debug) {
+        debug = 0;
+        debug_main();
+    }
 }
 
 void interrupt interruptHandler(void) {
@@ -47,6 +52,10 @@ void interrupt interruptHandler(void) {
         }
         else if (keypress == 14) {
             begin_logging = 1;
+            INT1IF = 0;
+        }
+        else if (keypress == 15) {
+            debug = 1;
             INT1IF = 0;
         }
         else {

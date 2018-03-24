@@ -12,15 +12,15 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   gateServo.attach(servoPin);
-  gateServo.write(60);
+  gateServo.write(180);
 
-  dispenseServo.attach(dispensePin);
-  dispenseServo.write(90);
+//  dispenseServo.attach(dispensePin);
+//  dispenseServo.write(90);
 }
 
 void loop() {
-  dispense();
-  flipGate();
+  //dispense();
+  //flipGate();
   delay(3000);
 }
 
