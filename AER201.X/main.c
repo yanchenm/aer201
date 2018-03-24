@@ -8,38 +8,8 @@
 #include "operation.h"
 #include "standby.h"
 
-/***** Macros *****/
-#define __bcd_to_num(num) (num & 0x0F) + ((num & 0xF0)>>4)*10
-#define __FLIP_GATE 0b10000000
-#define __RGB 0b00000000
-#define __DUMP 0b11000000
-
-/***** Function Prototypes *****/
-void operation(void);
-void logging(void);
-void data_store(unsigned char[]);
-void stepperMove(int);
-void dispense(int, int);
-void flipGate();
-unsigned char orientation();
-
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
-
-
-/***** Global Variables *****/
-unsigned char num_runs = 0;
-int total_time = 0;
-unsigned char box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
-unsigned char gatePos = 0;          // 0 -> gate left, 1 -> gate right
-
-/***** Enumerations *****/
-
-enum prescrip {R, F, L};
-enum rep {morning, afternoon, alt, both, na_rep};
-enum freq {every, alt_sun, alt_mon, na_freq};
-enum orientation {sat, sun, na};
-enum direction {backward, forward};
 
 void initialize(void) {
     /* Write outputs to LATx, read inputs from PORTx. Here, all latches (LATx)
@@ -86,62 +56,4 @@ void main(void) {
     
     initialize();    
     standby();
-}
-
-void logging(void) {
-    return;
-}
-
-void stepperMove(int distance_mm) {    
-    LATAbits.LA4 = 1;  // Set proper rotation direction
-    
-    int i;
-    
-    for (i = 0; i < 10 * distance_mm; i++) {
-        LATAbits.LA5 = 1;  // Step motor
-        __delay_us(500);
-        LATAbits.LA5 = 0;
-        __delay_us(500);
-    }    
-}
-
-void dispense(int dispenser, int number) {
-    unsigned char command;
-    
-    unsigned char action = 0b01000000;
-    unsigned char servo = dispenser << 4;
-    unsigned char num = number << 2;
-    
-    command = action | servo | num;
-    
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010000);
-    I2C_Master_Write(command);
-    I2C_Master_Stop();
-}
-
-void flipGate() {
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010000);
-    I2C_Master_Write(0b10000000);
-    I2C_Master_Stop();
-}
-
-unsigned char orientation() {
-    unsigned char or;
-    
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010000);
-    I2C_Master_Write(0b00000000);
-    I2C_Master_Stop();
-    
-    __delay_ms(5000);
-    __delay_ms(5000);
-    
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010001);
-    or = I2C_Master_Read(NACK);
-    I2C_Master_Stop();
-    
-    return or;
 }

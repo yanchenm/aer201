@@ -1,5 +1,9 @@
 #include "operation.h"
 
+int total_time = 0;
+unsigned char gatePos = 0;
+unsigned char box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+
 void operation(void) {
     
     di();
@@ -676,4 +680,45 @@ void stepper_move(unsigned char dir, unsigned char distance_mm) {
         LATAbits.LA5 = 0;
         __delay_us(500);
     } 
+}
+
+void dispense(unsigned char dispenser, unsigned char number) {
+    unsigned char command;
+    
+    unsigned char action = 0b01000000;
+    unsigned char servo = dispenser << 4;
+    unsigned char num = number << 2;
+    
+    command = action | servo | num;
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010000);
+    I2C_Master_Write(command);
+    I2C_Master_Stop();
+}
+
+void flipGate() {
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010000);
+    I2C_Master_Write(0b10000000);
+    I2C_Master_Stop();
+}
+
+unsigned char orientation() {
+    unsigned char or;
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010000);
+    I2C_Master_Write(0b00000000);
+    I2C_Master_Stop();
+    
+    __delay_ms(5000);
+    __delay_ms(5000);
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0b00010001);
+    or = I2C_Master_Read(NACK);
+    I2C_Master_Stop();
+    
+    return or;
 }

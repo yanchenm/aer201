@@ -1,7 +1,10 @@
+#include "standby.h"
+
+unsigned char begin_operation = 0;
+unsigned char begin_logging = 0;
+unsigned char begin_debug = 0;
+
 void standby(void) {
-    begin_operation = 0;
-    begin_logging = 0;
-    debug = 0;
     
     unsigned char time[7];
     
@@ -33,8 +36,8 @@ void standby(void) {
         begin_logging = 0;
         logging();
     }
-    else if (debug) {
-        debug = 0;
+    else if (begin_debug) {
+        begin_debug = 0;
         debug_main();
     }
 }
@@ -55,7 +58,7 @@ void interrupt interruptHandler(void) {
             INT1IF = 0;
         }
         else if (keypress == 15) {
-            debug = 1;
+            begin_debug = 1;
             INT1IF = 0;
         }
         else {
