@@ -16,6 +16,7 @@ int gatePosition = 0;
 int orientation = -1;
 
 Servo dispenserServo[3];
+Servo disR;
 Servo gateServo;
 
 void setup() {
@@ -23,14 +24,16 @@ void setup() {
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
 
-  dispenserServo[0].attach(9);
+
+  disR.attach(9);
+  //dispenserServo[0].attach(9);
   dispenserServo[1].attach(10);
   dispenserServo[2].attach(11);
 
   gateServo.attach(3);
 
-  sensorCalibrate();
-  rgbCalibrate();
+//  sensorCalibrate();
+//  rgbCalibrate();
 
   Serial.begin(9600);
 }
@@ -49,7 +52,7 @@ void receiveEvent(void) {
 
   switch (action) {
     case 0:
-      rgb();
+      // rgb();
       break;
     case 1:
       dispense(servoNum, number);
@@ -69,31 +72,16 @@ void requestEvent(void) {
 }
 
 void dispense (int dispenser, int number) {
-  int dispenseFlag = 0;
-  int sensorRead = 0;
-  
-  for (i = 0; i < number; i++) {
-    dispenserServo[dispenser].write(180);
 
+  int pills = 0;
+    
+  for (pills = 0; pills < number; pills++) {
+    disR.write(180);
+    //dispenserServo[dispenser].write(180);
     delay(1000);
 
-//    for (j = 0; j < 50; j++) {
-//      sensorRead = analogRead(dispenserSensor[dispenser]);
-//      
-//      if (sensorRead < (0.1 * sensorMax[dispenser])) {
-//        dispenseFlag = 1;
-//        break;
-//      }
-//
-//      delay(10);
-//    }
-
-    dispenserServo[dispenser].write(0);
-
-    if (!dispenseFlag) {
-      // i--;
-    }
-
+    disR.write(0);
+    //dispenserServo[dispenser].write(0);
     delay(500);
   }
 }
@@ -225,12 +213,12 @@ void sensorCalibrate() {
 
 void flipGate() {
   if (gatePosition == 0) {
-    gateServo.write(90);
+    gateServo.write(120);
     gatePosition = 1;
     Serial.println("Gate 0");
   }
   else {
-    gateServo.write(0);
+    gateServo.write(60);
     gatePosition = 0;
     Serial.println("Gate 1");
   }

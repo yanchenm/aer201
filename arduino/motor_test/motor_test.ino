@@ -1,29 +1,48 @@
 #include <Servo.h>
 
-Servo servo;
+Servo gateServo;
+Servo dispenseServo;
 
-int servoPin = 10;
+int servoPin = 3;
+int gatePosition = 0;
+
+int dispensePin = 5;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  servo.attach(servoPin);
-  pinMode(9, OUTPUT);
+  gateServo.attach(servoPin);
+  gateServo.write(60);
+
+  dispenseServo.attach(dispensePin);
+  dispenseServo.write(90);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-//
-//  servo.write(0);
-//  delay(1000);
-//  servo.write(45);
-//  delay(1000);
-//  servo.write(90);
-//  delay(1000);
-//  servo.write(135);
-//  delay(1000);
-//  servo.write(180);
-//  delay(1000);
-
-  digitalWrite(9, HIGH);
+  dispense();
+  flipGate();
+  delay(3000);
 }
+
+void flipGate() {
+  if (gatePosition == 0) {
+    gateServo.write(120);
+    delay(500);
+    gatePosition = 1;
+    Serial.println("Gate 0");
+  }
+  else {
+    gateServo.write(60);
+    delay(500);
+    gatePosition = 0;
+    Serial.println("Gate 1");
+  }
+}
+
+void dispense() {
+  dispenseServo.write(20);
+  delay(1000);
+  dispenseServo.write(90);
+  delay(500);
+}
+
