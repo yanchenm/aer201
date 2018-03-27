@@ -36,7 +36,8 @@ void initialize(void) {
     TRISAbits.RA4 = 0;
     TRISAbits.RA5 = 0;
     
-        
+    LATAbits.LA4 = 0;
+    LATAbits.LA5 = 0;
     
     /************************** A/D Converter Module **************************/
     ADCON0 = 0x00;  // Disable ADC

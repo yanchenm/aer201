@@ -1,8 +1,11 @@
 #include "operation.h"
+#include "logging.h"
 
 int total_time = 0;
 unsigned char gatePos = 0;
 unsigned char box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+
+const char keys[] = "123A456B789C*0#D";
 
 void operation(void) {
     
@@ -280,91 +283,12 @@ void operation(void) {
         }
     }
     
-    // </editor-fold> 
-       
-    __lcd_display_control(1, 0, 0);
-    __lcd_clear();
-    __lcd_home();
-    printf("Prescrip. details:");
-    __lcd_2line();
-    printf("- %dR %dF %dL", prescription[0], prescription[1], prescription[2]);;
-    __lcd_3line();    
-    switch (repetition) {
-        case morning:
-            printf("- Mornings");
-            break;
-        case afternoon:
-            printf("- Afternoons");
-            break;
-        case both:
-            printf("- Morn. & Afternoon");
-            break;
-        case alt:
-            printf("- Alternating");
-            break;            
-    }
-    
-    __lcd_4line();
-    switch (frequency) {
-        case every:
-            printf("- Everyday");
-            break;
-        case alt_sun:
-            printf("- Alternate (Sun)");
-            break;
-        case alt_mon:
-            printf("- Alternate (Mon)");
-            break;            
-    }
-    __delay_ms(3000);
-    
-    unsigned char i;
-    
-    /* Reset RTC memory pointer. */
-    I2C_Master_Start(); // Start condition
-    I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
-    I2C_Master_Write(0x00); // Set memory pointer to seconds
-    I2C_Master_Stop(); // Stop condition
-    
-    /* Read start time. */
-    I2C_Master_Start(); // Start condition
-    I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
-    for(i = 0; i < 6; i++){
-        start_time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
-    }
-    start_time[6] = I2C_Master_Read(NACK); // Final Read with NACK
-    I2C_Master_Stop(); // Stop condition
-    
-    __lcd_clear();
-    __lcd_2line();
-    printf("     DISPENSING     ");
-    __lcd_3line();
-    printf("      PILLS...      ");
-    
-    /****** OPERATION CODE ******/
-    
-    TRISEbits.RE0 = 0;
-    TRISEbits.RE1 = 0;
-    TRISEbits.RE2 = 0;
-    
-    LATEbits.LATE0 = 1;
-    LATEbits.LATE1 = 1;
-    LATEbits.LATE2 = 1;
-    
-    // <editor-fold defaultstate="expanded" desc="Pill Array Logic">
-    
-    TRISAbits.RA4 = 0;
-    TRISAbits.RA5 = 0;
-    
-    stepperMove(200);
-    
-    // printf("RGB\n");
-    // dir = orientation();
+    // </editor-fold>
     
     dir = sun;
     
-    int fill_start = 0;
-    int fill_increment = 0;
+    unsigned char fill_start = 0;
+    unsigned char fill_increment = 0;
     
     switch(frequency) {
         case every:
@@ -380,6 +304,8 @@ void operation(void) {
             fill_increment = 2;
             break;
     }
+    
+    unsigned char i = 0;
     
     for (i = fill_start; i < 7; i += fill_increment) {
         if (dir == sat) {
@@ -431,16 +357,87 @@ void operation(void) {
             }
         }
     }       
+       
+    __lcd_display_control(1, 0, 0);
+    __lcd_clear();
+    __lcd_home();
+    printf("Prescrip. details:");
+    __lcd_2line();
+    printf("- %dR %dF %dL", prescription[0], prescription[1], prescription[2]);;
+    __lcd_3line();    
+    switch (repetition) {
+        case morning:
+            printf("- Mornings");
+            break;
+        case afternoon:
+            printf("- Afternoons");
+            break;
+        case both:
+            printf("- Morn. & Afternoon");
+            break;
+        case alt:
+            printf("- Alternating");
+            break;            
+    }
     
-    printf("Fill\n");
+    __lcd_4line();
+    switch (frequency) {
+        case every:
+            printf("- Everyday");
+            break;
+        case alt_sun:
+            printf("- Alternate (Sun)");
+            break;
+        case alt_mon:
+            printf("- Alternate (Mon)");
+            break;            
+    }
+    __delay_ms(3000);
+    
+    /* Reset RTC memory pointer. */
+    I2C_Master_Start(); // Start condition
+    I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
+    I2C_Master_Write(0x00); // Set memory pointer to seconds
+    I2C_Master_Stop(); // Stop condition
+    
+    /* Read start time. */
+    I2C_Master_Start(); // Start condition
+    I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
+    for(i = 0; i < 6; i++){
+        start_time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
+    }
+    start_time[6] = I2C_Master_Read(NACK); // Final Read with NACK
+    I2C_Master_Stop(); // Stop condition
+    
+    __lcd_clear();
+    __lcd_2line();
+    printf("     DISPENSING     ");
+    __lcd_3line();
+    printf("      PILLS...      ");
+    
+    /****** OPERATION CODE ******/
+    
+    TRISEbits.RE0 = 0;
+    TRISEbits.RE1 = 0;
+    TRISEbits.RE2 = 0;
+    
+    LATEbits.LATE0 = 1;
+    LATEbits.LATE1 = 1;
+    LATEbits.LATE2 = 1;
+    
+    TRISAbits.RA4 = 0;
+    TRISAbits.RA5 = 0;
+    
+    stepper_move(1, 110);
     
     int j;
     
     for (i = 0; i < 7; i++) {
         for (j = 0; j < 2; j++) {
-            if (box_fill[i][j]) {
+            if ((box_fill[i][j]) == 1) {
                 if (j != gatePos) {
-                    flipGate();
+                    flip_gate();
+                    gatePos = !gatePos;
                 }
                 
                 dispense(0, prescription[0]);
@@ -449,12 +446,14 @@ void operation(void) {
             }
         }
         
-        stepperMove(25);
+        stepper_move(1, 27);
     }
     
-    stepperMove(200);
+    stepper_move(1, 59);
     
-    
+    LATEbits.LATE0 = 0;
+    LATEbits.LATE1 = 0;
+    LATEbits.LATE2 = 0;
     
     /* Reset RTC memory pointer. */
     I2C_Master_Start(); // Start condition
@@ -658,16 +657,18 @@ void operation(void) {
         }
     }
     
+    stepper_move(0, 358);
+    
     // </editor-fold>
     
     return;
 }
 
-void stepper_move(unsigned char dir, unsigned char distance_mm) {
+void stepper_move(unsigned char dir, int distance_mm) {
     LATAbits.LA4 = dir;  // Set proper rotation direction
     
-    float rev;
-    unsigned char steps;
+    double rev;
+    long steps;
     
     rev = distance_mm * 0.125;
     steps = rev * 200;
@@ -680,9 +681,16 @@ void stepper_move(unsigned char dir, unsigned char distance_mm) {
         LATAbits.LA5 = 0;
         __delay_us(500);
     } 
+    
+    LATAbits.LA5 = 0;
 }
 
 void dispense(unsigned char dispenser, unsigned char number) {
+    
+    if (number == 0) {
+        return;
+    }
+    
     unsigned char command;
     
     unsigned char action = 0b01000000;
@@ -691,20 +699,28 @@ void dispense(unsigned char dispenser, unsigned char number) {
     
     command = action | servo | num;
     
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010000);
-    I2C_Master_Write(command);
-    I2C_Master_Stop();
+    int s = 0;
+    
+    for (s = 0; s < number; s++) {
+    
+        Arduino_command(command);
+        __delay_ms(1000);
+
+        Arduino_command(command | 0b10000000);
+        __delay_ms(1000);
+    }
 }
 
-void flipGate() {
+void flip_gate() {
     I2C_Master_Start();
     I2C_Master_Write(0b00010000);
     I2C_Master_Write(0b10000000);
     I2C_Master_Stop();
+    
+    __delay_ms(1000);
 }
 
-unsigned char orientation() {
+unsigned char rgb() {
     unsigned char or;
     
     I2C_Master_Start();
