@@ -6,40 +6,54 @@ int sensor, minVal, Val[3] , colArray[3] = {4, 5, 6},  total;
 
 float Percent[3];
 
-int i, j , readRGB[3] , readMax[3], Domin; 
+int i, j , readRGB[3] , readMax[3], Domin;
 
 int sensorMax[3] = {0, 0, 0};
 
-long calibtime, prevtime; 
+long calibtime, prevtime;
 
 int gatePosition = 0;
 int orientation = -1;
 
-Servo dispenserServo[3];
-Servo disR;
+Servo dispenserServo[3]; // 0 -> round, 1 -> flat, 2 -> long
 Servo gateServo;
 
+int box_position[3] = {20, 25, 0};
+int mid_position[3] = {90, 90, 75};
+int dump_position[3] = {150, 180, 140};
+
 void setup() {
+
+  Serial.begin(9600);
+  Serial.println("Setup");
+  
   Wire.begin(8);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
 
-
-  disR.attach(9);
-  //dispenserServo[0].attach(9);
+  dispenserServo[0].attach(9);
   dispenserServo[1].attach(10);
   dispenserServo[2].attach(11);
 
   gateServo.attach(3);
+  gateServo.write(60);
+  delay(500);
+  
+  dispenserServo[0].write(mid_position[0]);
+  delay(500);
+ 
+  dispenserServo[1].write(mid_position[1]);
+  delay(500);
+  
+  dispenserServo[2].write(mid_position[2]);
+  delay(500);
 
-//  sensorCalibrate();
-//  rgbCalibrate();
-
-  Serial.begin(9600);
+  //  sensorCalibrate();
+  //  rgbCalibrate();
 }
 
 void loop() {
-  
+
 }
 
 void receiveEvent(void) {
@@ -55,14 +69,15 @@ void receiveEvent(void) {
       // rgb();
       break;
     case 1:
-      dispense(servoNum, number);
-      Serial.println("Dispensing ");
-      Serial.println(servoNum);
-      Serial.println(number);
+      dispense(servoNum);
+      Serial.println("dispense\n");
       break;
     case 2:
       flipGate();
-      Serial.println("Flipping");
+      break;
+    case 3:
+      ret(servoNum);
+      Serial.println("return\n");
       break;
   }
 }
@@ -71,25 +86,20 @@ void requestEvent(void) {
   Wire.write(orientation);
 }
 
-void dispense (int dispenser, int number) {
+void dispense (int dispenser) {
+    dispenserServo[dispenser].write(box_position[dispenser]);
+    Serial.println(box_position[dispenser]);
+}
 
-  int pills = 0;
-    
-  for (pills = 0; pills < number; pills++) {
-    disR.write(180);
-    //dispenserServo[dispenser].write(180);
-    delay(1000);
-
-    disR.write(0);
-    //dispenserServo[dispenser].write(0);
-    delay(500);
-  }
+void ret (int dispenser) {
+  dispenserServo[dispenser].write(mid_position[dispenser]);
+  Serial.println(mid_position[dispenser]);
 }
 
 void rgb() {
   int r = 0;
   int b = 0;
-  
+
   for (j = 0; j < 3; j++) {
     total = 0 ;
 
@@ -102,19 +112,19 @@ void rgb() {
         readRGB[i] = 1024 - analogRead(0);
         delay(50);
       }
-  
+
       digitalWrite(colArray[i], 0);
-  
+
       prevtime = millis();                                         // RESET TIME
-  
+
       total = total + readRGB[i];
-  
+
     }
-  
-  
+
+
     for (i = 0 ; i < 3 ; i ++)
     {
-      Percent[i] = readRGB[i] * 100.0 / total;                //  STORE IN THE FORM OF PERCENTAGE      
+      Percent[i] = readRGB[i] * 100.0 / total;                //  STORE IN THE FORM OF PERCENTAGE
     }
 
     if (Percent[0] > (Percent[2] + 10)) {
@@ -126,7 +136,7 @@ void rgb() {
     else {
       // j--;
     }
-    
+
     delay(300);
   }
 
@@ -216,11 +226,15 @@ void flipGate() {
     gateServo.write(120);
     gatePosition = 1;
     Serial.println("Gate 0");
+
+    delay(1000);
   }
   else {
     gateServo.write(60);
     gatePosition = 0;
     Serial.println("Gate 1");
+
+    delay(1000);
   }
 }
 

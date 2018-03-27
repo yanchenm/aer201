@@ -56,4 +56,6 @@ void main(void) {
     
     initialize();    
     standby();
+    
+    return;
 }

@@ -15,10 +15,10 @@ void setup() {
 void loop() {
   int sensorValue = analogRead(sensorPin);
   
-  if (sensorValue < 50) {
+  //if (sensorValue < 50) {
     Serial.print(sensorValue);
     Serial.print('\n');
-  }
+  //}
   
   delay(10);
 }  
