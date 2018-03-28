@@ -657,9 +657,13 @@ void operation(void) {
         }
     }
     
-    stepper_move(0, 358);
+    __lcd_clear();
+    __lcd_2line();
+    printf("     RESETING       ");
+    __lcd_3line();
+    printf("     MACHINE...     ");
     
-    // </editor-fold>
+    stepper_move(0, 358);
     
     return;
 }
