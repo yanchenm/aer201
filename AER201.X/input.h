@@ -1,10 +1,13 @@
 #ifndef INPUT_H
 #define	INPUT_H
 
-extern unsigned char box_fill[7][2];
+#include "lcd.h"
+#include "operation.h"
 
-unsigned char readKey(unsigned char[]);
-void prescriptionInput(void);
+extern const char keys[];
+
+unsigned char read_key(unsigned char[]);
+void prescription_input(void);
 
 #endif	/* INPUT_H */
 
