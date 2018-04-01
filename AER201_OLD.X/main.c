@@ -19,6 +19,7 @@ void stepper_move(unsigned char, int);
 void dispense(unsigned char, unsigned char);
 void flipGate();
 unsigned char orientation();
+unsigned short readADC(char);
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
@@ -70,7 +71,7 @@ void Arduino_command(unsigned char command) {
     I2C_Master_Stop();
 }
 
-void initialize(void) {
+void initialize(void) {    
     /* Write outputs to LATx, read inputs from PORTx. Here, all latches (LATx)
      * are being cleared (set low) to ensure a controlled start-up state. */  
     LATA = 0x00;
@@ -88,18 +89,17 @@ void initialize(void) {
                          * RC5 is SDA (SPI),
                          * RC6 and RC7 are UART TX and RX, respectively. */
     TRISD = 0x00; // All output mode on port D for the LCD
-    TRISE = 0x00;
+    TRISE = 0x00000001;
     
     /********************************* PIN I/O ********************************/
     
     TRISAbits.RA4 = 0;
     TRISAbits.RA5 = 0;
     
-        
-    
     /************************** A/D Converter Module **************************/
     ADCON0 = 0x00;  // Disable ADC
-    ADCON1 = 0b00001111; // Set all A/D ports to digital (pg. 222)
+    ADCON1 = 0x09;  // RA0-3 are analog (pg. 222)
+    ADCON2bits.ADFM = 1;
     
     INT1IE = 1;
     ei();
@@ -867,6 +867,7 @@ void dispense(unsigned char dispenser, unsigned char number) {
     command = action | servo | num;
     
     int s = 0;
+    int timer = 0;
     
     for (s = 0; s < number; s++) {
     
@@ -875,15 +876,26 @@ void dispense(unsigned char dispenser, unsigned char number) {
         I2C_Master_Write(command);
         I2C_Master_Stop();
 
-        __delay_ms(1500);
+        __delay_ms(1000);
 
         I2C_Master_Start();
         I2C_Master_Write(0b00010000);
         I2C_Master_Write(command | 0b10000000);
         I2C_Master_Stop();
 
-        __delay_ms(1500);
+        __delay_ms(1000);
     }
+    
+//    while (s < number) {
+//        I2C_Master_Start();
+//        I2C_Master_Write(0b00010000);
+//        I2C_Master_Write(command);
+//        I2C_Master_Stop();
+//        
+//        for (timer = 0; timer < 150; timer++) {
+//            
+//        }
+//    }
 }
 
 void flipGate() {
@@ -912,6 +924,22 @@ unsigned char orientation() {
     I2C_Master_Stop();
     
     return or;
+}
+
+unsigned short readADC(char channel){
+    /* Reads the analog input from the specified analog channel.
+     *
+     * Arguments: channel, the byte corresponding to the channel to read
+     *
+     * Returns: the 10-bit value corresponding to the voltage read from
+     *          the specified channel
+     */
+    
+    ADCON0 = (channel & 0x0F) << 2; // Select ADC channel (i.e. pin)
+    ADON = 1; // Enable module
+    ADCON0bits.GO = 1; // Initiate sampling
+    while(ADCON0bits.GO_NOT_DONE){  continue;   } // Poll for acquisition completion
+    return (ADRESH << 8) | ADRESL; // Return result as a 16-bit value
 }
 
 void interrupt interruptHandler(void) {
