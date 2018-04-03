@@ -30,6 +30,7 @@ int num_runs = 0;
 unsigned char total_time = 0;
 int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 int gatePos = 0;          // 0 -> gate left, 1 -> gate right
+unsigned char box_sensors[3] = {0, 2, 4};
 
 unsigned char begin_operation = 0;
 unsigned char begin_logging = 0;
@@ -504,13 +505,13 @@ void operation(void) {
     
     /****** OPERATION CODE ******/
     
-    TRISEbits.RE0 = 0;
-    TRISEbits.RE1 = 0;
-    TRISEbits.RE2 = 0;
+    TRISCbits.RC0 = 0;
+    TRISCbits.RC1 = 0;
+    TRISCbits.RC2 = 0;
     
-    LATEbits.LATE0 = 1;
-    LATEbits.LATE1 = 1;
-    LATEbits.LATE2 = 1;
+    LATCbits.LATC0 = 1;
+    LATCbits.LATC1 = 1;
+    LATCbits.LATC2 = 1;
     
     // <editor-fold defaultstate="expanded" desc="Pill Array Logic">
     
@@ -518,9 +519,6 @@ void operation(void) {
     TRISAbits.RA5 = 0;
     
     stepper_move(1, 110);
-    
-    // printf("RGB\n");
-    // dir = orientation();
     
     dir = sun;
     
@@ -593,8 +591,6 @@ void operation(void) {
         }
     }       
     
-    printf("Fill\n");
-    
     int j;
     
     for (i = 0; i < 7; i++) {
@@ -616,7 +612,9 @@ void operation(void) {
     
     stepper_move(1, 59);
     
-    
+    LATCbits.LATC0 = 0;
+    LATCbits.LATC1 = 0;
+    LATCbits.LATC2 = 0;
     
     /* Reset RTC memory pointer. */
     I2C_Master_Start(); // Start condition
@@ -820,7 +818,11 @@ void operation(void) {
         }
     }
     
-    // </editor-fold>
+    __lcd_clear();
+    __lcd_2line();
+    printf("     RESETING       ");
+    __lcd_3line();
+    printf("     MACHINE...     ");
     
     stepper_move(0, 358);
     
@@ -864,38 +866,58 @@ void dispense(unsigned char dispenser, unsigned char number) {
     unsigned char servo = dispenser << 4;
     unsigned char num = number << 2;
     
+    unsigned char detected = 0;
+    
     command = action | servo | num;
     
     int s = 0;
     int timer = 0;
     
-    for (s = 0; s < number; s++) {
-    
-        I2C_Master_Start();
-        I2C_Master_Write(0b00010000);
-        I2C_Master_Write(command);
-        I2C_Master_Stop();
-
-        __delay_ms(1000);
-
-        I2C_Master_Start();
-        I2C_Master_Write(0b00010000);
-        I2C_Master_Write(command | 0b10000000);
-        I2C_Master_Stop();
-
-        __delay_ms(1000);
-    }
-    
-//    while (s < number) {
+//    for (s = 0; s < number; s++) {
+//    
 //        I2C_Master_Start();
 //        I2C_Master_Write(0b00010000);
 //        I2C_Master_Write(command);
 //        I2C_Master_Stop();
-//        
-//        for (timer = 0; timer < 150; timer++) {
-//            
-//        }
+//
+//        __delay_ms(1000);
+//
+//        I2C_Master_Start();
+//        I2C_Master_Write(0b00010000);
+//        I2C_Master_Write(command | 0b10000000);
+//        I2C_Master_Stop();
+//
+//        __delay_ms(1000);
 //    }
+    
+    while (s < number) {
+        
+        detected = 0;
+        
+        I2C_Master_Start();
+        I2C_Master_Write(0b00010000);
+        I2C_Master_Write(command);
+        I2C_Master_Stop();
+        
+        for (timer = 0; timer < 1500; timer++) {
+            if (readADC(box_sensors[dispenser]) < 150) {
+                detected = 1;
+                break;
+            }
+            __delay_ms(1);
+        }
+        
+        I2C_Master_Start();
+        I2C_Master_Write(0b00010000);
+        I2C_Master_Write(command | 0b10000000);
+        I2C_Master_Stop();
+        
+        __delay_ms(1000);
+        
+        if (detected == 1) {
+            s++;
+        }
+    }
 }
 
 void flipGate() {
