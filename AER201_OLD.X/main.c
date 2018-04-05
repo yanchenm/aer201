@@ -17,6 +17,7 @@ void logging(void);
 void data_store(unsigned char[]);
 void stepper_move(unsigned char, int);
 void dispense(unsigned char, unsigned char);
+unsigned char dump(unsigned char);
 void flipGate();
 unsigned char orientation();
 unsigned short readADC(char);
@@ -31,10 +32,15 @@ unsigned char total_time = 0;
 int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 int gatePos = 0;          // 0 -> gate left, 1 -> gate right
 unsigned char box_sensors[3] = {0, 2, 4};
+unsigned char dump_sensors[3] = {1, 3, 5};
 
 unsigned char begin_operation = 0;
 unsigned char begin_logging = 0;
 unsigned char begin_debug = 0;
+
+unsigned char num_r = 0;
+unsigned char num_f = 0;
+unsigned char num_l = 0;
 
 /***** Enumerations *****/
 
@@ -92,11 +98,6 @@ void initialize(void) {
     TRISD = 0x00; // All output mode on port D for the LCD
     TRISE = 0x00000001;
     
-    /********************************* PIN I/O ********************************/
-    
-    TRISAbits.RA4 = 0;
-    TRISAbits.RA5 = 0;
-    
     /************************** A/D Converter Module **************************/
     ADCON0 = 0x00;  // Disable ADC
     ADCON1 = 0x09;  // RA0-3 are analog (pg. 222)
@@ -105,8 +106,11 @@ void initialize(void) {
     INT1IE = 1;
     ei();
     
-    LATAbits.LA4 = 1;
-    LATAbits.LA5 = 0;
+    TRISBbits.RB2 = 0;
+    TRISBbits.RB3 = 0;
+    
+    LATBbits.LB2 = 1;
+    LATBbits.LB3 = 0;
     
     initLCD();
     I2C_Master_Init(100000);
@@ -515,8 +519,8 @@ void operation(void) {
     
     // <editor-fold defaultstate="expanded" desc="Pill Array Logic">
     
-    TRISAbits.RA4 = 0;
-    TRISAbits.RA5 = 0;
+    TRISBbits.RB2 = 0;
+    TRISBbits.RB3 = 0;
     
     stepper_move(1, 110);
     
@@ -616,6 +620,10 @@ void operation(void) {
     LATCbits.LATC1 = 0;
     LATCbits.LATC2 = 0;
     
+    num_r = dump(0);
+    num_f = dump(1);
+    num_l = dump(2);
+    
     /* Reset RTC memory pointer. */
     I2C_Master_Start(); // Start condition
     I2C_Master_Write(0b11010000); // 7 bit RTC address + Write
@@ -658,7 +666,7 @@ void operation(void) {
     __lcd_clear();
     __lcd_home();
     printf("Run %d", num_runs);
-    __lcd_2line();
+    __lcd_2line
     printf("Total time: %d s", total_time);
     __lcd_4line();
     printf("(# to continue...)");
@@ -796,7 +804,7 @@ void operation(void) {
     __lcd_2line();
     printf("Pills Remaining:");
     __lcd_3line();
-    printf("R: %d F: %d L: %d", 0, 0, 0);
+    printf("R: %d F: %d L: %d", num_r, num_f, num_l);
     __lcd_4line();
     printf("(# to continue...)");
 
@@ -834,7 +842,7 @@ void logging(void) {
 }
 
 void stepper_move(unsigned char dir, int distance_mm) {
-    LATAbits.LA4 = dir;  // Set proper rotation direction
+    LATBbits.LB2 = dir;  // Set proper rotation direction
     
     double rev;
     long steps;
@@ -845,13 +853,13 @@ void stepper_move(unsigned char dir, int distance_mm) {
     int i;
     
     for (i = 0; i < steps; i++) {
-        LATAbits.LA5 = 1;  // Step motor
+        LATBbits.LB3 = 1;  // Step motor
         __delay_us(500);
-        LATAbits.LA5 = 0;
+        LATBbits.LB3 = 0;
         __delay_us(500);
     } 
     
-    LATAbits.LA5 = 0;
+    LATBbits.LB3 = 0;
 }
 
 void dispense(unsigned char dispenser, unsigned char number) {
@@ -912,12 +920,67 @@ void dispense(unsigned char dispenser, unsigned char number) {
         I2C_Master_Write(command | 0b10000000);
         I2C_Master_Stop();
         
-        __delay_ms(1000);
+        __delay_ms(600);
         
         if (detected == 1) {
             s++;
         }
     }
+}
+
+unsigned char dump(unsigned char dispenser) {
+    unsigned char empty[3] = {1, 1, 1};
+    
+    unsigned char command;
+    
+    unsigned char action = 0b00000000;
+    unsigned char servo = dispenser << 4;
+    
+    unsigned char detected = 0;
+    
+    unsigned char number = 0;
+    
+    command = action | servo;
+    
+    int timer = 0;
+    unsigned char counter = 0;
+    
+    while (1) {
+        
+        detected = 0;
+        
+        I2C_Master_Start();
+        I2C_Master_Write(0b00010000);
+        I2C_Master_Write(command);
+        I2C_Master_Stop();
+        
+        for (timer = 0; timer < 1500; timer++) {
+            if (readADC(dump_sensors[dispenser]) < 150) {
+                detected = 1;
+                number++;
+                break;
+            }
+            
+            __delay_ms(1);
+        }
+        
+        empty[counter] = detected;
+        counter++;
+        counter = (counter == 3) ? 0 : counter;
+        
+        I2C_Master_Start();
+        I2C_Master_Write(0b00010000);
+        I2C_Master_Write(command | 0b11000000);
+        I2C_Master_Stop();
+        
+        __delay_ms(1000);
+        
+        if ((empty[0] == 0) && (empty[1] == 0) && (empty[2] == 0)) {
+            break;
+        }
+    }
+    
+    return number;
 }
 
 void flipGate() {
@@ -927,25 +990,6 @@ void flipGate() {
     I2C_Master_Stop();
     
     __delay_ms(1000);
-}
-
-unsigned char orientation() {
-    unsigned char or;
-    
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010000);
-    I2C_Master_Write(0b00000000);
-    I2C_Master_Stop();
-    
-    __delay_ms(5000);
-    __delay_ms(5000);
-    
-    I2C_Master_Start();
-    I2C_Master_Write(0b00010001);
-    or = I2C_Master_Read(NACK);
-    I2C_Master_Stop();
-    
-    return or;
 }
 
 unsigned short readADC(char channel){

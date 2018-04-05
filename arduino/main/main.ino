@@ -1,19 +1,9 @@
 #include <Wire.h>
 #include <Servo.h>
 
-int dispenserSensor[3] = {A1, A2, A3};
-int sensor, minVal, Val[3] , colArray[3] = {4, 5, 6},  total;
-
-float Percent[3];
-
-int i, j , readRGB[3] , readMax[3], Domin;
-
-int sensorMax[3] = {0, 0, 0};
-
-long calibtime, prevtime;
+int i, j;
 
 int gatePosition = 0;
-int orientation = -1;
 
 Servo dispenserServo[3]; // 0 -> round, 1 -> flat, 2 -> long
 Servo gateServo;
@@ -29,7 +19,6 @@ void setup() {
   
   Wire.begin(8);
   Wire.onReceive(receiveEvent);
-  Wire.onRequest(requestEvent);
 
   dispenserServo[0].attach(9);
   dispenserServo[1].attach(10);
@@ -47,9 +36,6 @@ void setup() {
   
   dispenserServo[2].write(mid_position[2]);
   delay(500);
-
-  //  sensorCalibrate();
-  //  rgbCalibrate();
 }
 
 void loop() {
@@ -66,7 +52,8 @@ void receiveEvent(void) {
 
   switch (action) {
     case 0:
-      // rgb();
+      dump(servoNum);
+      Serial.println("dump\n");
       break;
     case 1:
       dispense(servoNum);
@@ -82,10 +69,6 @@ void receiveEvent(void) {
   }
 }
 
-void requestEvent(void) {
-  Wire.write(orientation);
-}
-
 void dispense (int dispenser) {
     dispenserServo[dispenser].write(box_position[dispenser]);
     Serial.println(box_position[dispenser]);
@@ -96,129 +79,9 @@ void ret (int dispenser) {
   Serial.println(mid_position[dispenser]);
 }
 
-void rgb() {
-  int r = 0;
-  int b = 0;
-
-  for (j = 0; j < 3; j++) {
-    total = 0 ;
-
-    for ( i = 0 ; i < 3 ; i++)                        //  CHECK VALUES IN A LOOP
-    {
-      prevtime = millis();
-      while (millis() - prevtime < 1000)                   //  AVOID DELAY
-      {
-        analogWrite(colArray[i], Val[i]);                     //  WRITE THE CALIBRATED VALUES
-        readRGB[i] = 1024 - analogRead(0);
-        delay(50);
-      }
-
-      digitalWrite(colArray[i], 0);
-
-      prevtime = millis();                                         // RESET TIME
-
-      total = total + readRGB[i];
-
-    }
-
-
-    for (i = 0 ; i < 3 ; i ++)
-    {
-      Percent[i] = readRGB[i] * 100.0 / total;                //  STORE IN THE FORM OF PERCENTAGE
-    }
-
-    if (Percent[0] > (Percent[2] + 10)) {
-      r++;
-    }
-    else if (Percent[2] > Percent[0] + 10) {
-      b++;
-    }
-    else {
-      // j--;
-    }
-
-    delay(300);
-  }
-
-  if (r > b) {
-    orientation = 1;
-  }
-  else {
-    orientation = 0;
-  }
-}
-
-void rgbCalibrate()                                        //   CALIBRATE FUNCTION
-{
-  for (i = 0; i < 3; i++)
-  {
-    while (millis() - calibtime < 1000)                 //    FLASH EACH COLOR AT MAX FOR 1 SEC
-    {
-      analogWrite(colArray[i], 255);
-      readMax[i] = 1024 - analogRead(0);                     //    RECORD MAX VALUES
-    }
-
-    analogWrite(colArray[i], 0);
-    Serial.println(readMax[i]);
-    delay(10);
-
-    calibtime = millis();
-
-  }
-
-  if (readMax[0] < readMax[1] && readMax[0] < readMax[2])     //   GET THE MINIMUM VALUE FROM ARRAY
-
-    minVal = readMax[0];
-
-  else
-  {
-
-    if ( readMax[1] < readMax[0] && readMax[1] < readMax[2])
-
-      minVal = readMax[1];
-
-
-    else
-
-      minVal = readMax[2];
-
-  }
-
-
-  for (i = 0 ; i < 3 ; i++)
-  {
-
-    analogWrite(colArray[i], 10);
-    sensor = 1024 - analogRead(0);                                    // START CALIBRATION
-    delay(100);
-
-    while ( sensor - minVal <= -1 || sensor - minVal >= 1 )  //    GET THE DIFFERENCE BETWEEN CURRENT VALUE AND THRESHOLD
-    {
-      sensor = 1024 - analogRead(0);
-
-      if ( sensor > minVal )                                      //   INCREASE OR DECREASE THE VALUE TO EQUALIZE THE BRIGHTNESS
-        Val[i]--;
-
-      else
-        Val[i]++;
-
-      delay(50);
-
-      Val[i] = constrain(Val[i], 0, 255);               //   CONSTRAIN THE VALUE B/W  0  -- 255
-      analogWrite(colArray[i], Val[i]);
-    }
-
-    analogWrite(colArray[i], 0);
-    delay(50);
-
-  }
-
-}
-
-void sensorCalibrate() {
-  for (i = 0; i < 3; i++) {
-    sensorMax[i] = analogRead(dispenserSensor[i]);
-  }
+void dump (int dispenser) {
+    dispenserServo[dispenser].write(dump_position[dispenser]);
+    Serial.println(dump_position[dispenser]);
 }
 
 void flipGate() {
