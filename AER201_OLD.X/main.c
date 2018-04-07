@@ -20,9 +20,10 @@ void data_store(unsigned char[]);
 void stepper_move(unsigned char, int);
 void dispense(unsigned char, unsigned char);
 unsigned char dump(unsigned char);
-void flipGate();
+void flipGate(void);
 unsigned char orientation();
 unsigned short readADC(char);
+void ir_calibrate(void);
 
 /***** Constants *****/
 const char keys[] = "123A456B789C*0#D";
@@ -55,11 +56,11 @@ enum freq {every, alt_sun, alt_mon, na_freq};
 enum orientation {sat, sun, na};
 
 const char currDate[7] = {  0x00, // 00 Seconds 
-                                0x40, // 28 Minutes
-                                0x12, // 24 hour mode, set to 5:00
-                                0x02, // Sunday
-                                0x26, // 4th
-                                0x03, // February
+                                0x05, // 28 Minutes
+                                0x16, // 24 hour mode, set to 5:00
+                                0x06, // Sunday
+                                0x07, // 4th
+                                0x04, // February
                                 0x18  // 2018
 };
 
@@ -121,7 +122,7 @@ void initialize(void) {
     I2C_Master_Init(100000);
     
     /* Uncomment to set time. Comment to keep time. */
-    // RTC_setTime(); 
+    //RTC_setTime(); 
 }
 
 void main(void) {
@@ -529,6 +530,8 @@ void operation(void) {
     
     stepper_move(1, 110);
     
+    ir_calibrate();
+    
     dir = sun;
     
     int fill_start = 0;
@@ -622,7 +625,7 @@ void operation(void) {
     stepper_move(1, 59);
     
     num_r = dump(0);
-    //num_f = dump(1);
+    num_f = dump(1);
     //num_l = dump(2);
     
     LATCbits.LATC0 = 0;
@@ -983,7 +986,7 @@ unsigned char dump(unsigned char dispenser) {
         I2C_Master_Write(command | 0b11000000);
         I2C_Master_Stop();
         
-        __delay_ms(600);
+        __delay_ms(900);
         
         if ((empty[0] == 0) && (empty[1] == 0) && (empty[2] == 0)) {
             break;
@@ -1016,6 +1019,32 @@ unsigned short readADC(char channel){
     ADCON0bits.GO = 1; // Initiate sampling
     while(ADCON0bits.GO_NOT_DONE){  continue;   } // Poll for acquisition completion
     return (ADRESH << 8) | ADRESL; // Return result as a 16-bit value
+}
+
+void ir_calibrate(void) {
+    int timer = 0;
+    int sens = 0;
+    
+    double dump_avg = 0.0;
+    double box_avg = 0.0;
+    
+    for (sens = 0; sens < 3; sens++) {
+        dump_avg = 0.0;
+        box_avg = 0.0;
+        
+        for (timer = 0; timer < 150; timer++) {
+            box_avg += readADC(box_sensors[sens]);
+            dump_avg += readADC(dump_sensors[sens]);
+            
+            __delay_ms(10);
+        }
+        
+        box_avg = box_avg / 150;
+        dump_avg = dump_avg / 150;
+        
+        box_threshold[sens] = box_avg * 0.5;
+        dump_threshold[sens] = dump_avg * 0.5;
+    }
 }
 
 void interrupt interruptHandler(void) {
