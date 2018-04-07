@@ -11,6 +11,8 @@
 #define __RGB 0b00000000
 #define __DUMP 0b11000000
 
+#define __NO_SENS 0
+
 /***** Function Prototypes *****/
 void operation(void);
 void logging(void);
@@ -28,11 +30,14 @@ const char keys[] = "123A456B789C*0#D";
 
 /***** Global Variables *****/
 int num_runs = 0;
-unsigned char total_time = 0;
+int total_time = 0;
 int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 int gatePos = 0;          // 0 -> gate left, 1 -> gate right
 unsigned char box_sensors[3] = {0, 2, 4};
 unsigned char dump_sensors[3] = {1, 3, 5};
+
+unsigned char box_threshold[3] = {150, 150, 150};
+unsigned char dump_threshold[3] = {90, 90, 90};
 
 unsigned char begin_operation = 0;
 unsigned char begin_logging = 0;
@@ -179,8 +184,8 @@ void operation(void) {
     enum freq frequency = na_freq;
     enum orientation dir = na;
     
-    unsigned char start_time[7];
-    unsigned char end_time[7];
+    int start_time[7];
+    int end_time[7];
     
     __lcd_clear();
     __lcd_home();
@@ -616,13 +621,13 @@ void operation(void) {
     
     stepper_move(1, 59);
     
+    num_r = dump(0);
+    //num_f = dump(1);
+    //num_l = dump(2);
+    
     LATCbits.LATC0 = 0;
     LATCbits.LATC1 = 0;
-    LATCbits.LATC2 = 0;
-    
-    num_r = dump(0);
-    num_f = dump(1);
-    num_l = dump(2);
+    LATCbits.LATC2 = 0;    
     
     /* Reset RTC memory pointer. */
     I2C_Master_Start(); // Start condition
@@ -666,7 +671,7 @@ void operation(void) {
     __lcd_clear();
     __lcd_home();
     printf("Run %d", num_runs);
-    __lcd_2line
+    __lcd_2line();
     printf("Total time: %d s", total_time);
     __lcd_4line();
     printf("(# to continue...)");
@@ -881,49 +886,54 @@ void dispense(unsigned char dispenser, unsigned char number) {
     int s = 0;
     int timer = 0;
     
-//    for (s = 0; s < number; s++) {
-//    
-//        I2C_Master_Start();
-//        I2C_Master_Write(0b00010000);
-//        I2C_Master_Write(command);
-//        I2C_Master_Stop();
-//
-//        __delay_ms(1000);
-//
-//        I2C_Master_Start();
-//        I2C_Master_Write(0b00010000);
-//        I2C_Master_Write(command | 0b10000000);
-//        I2C_Master_Stop();
-//
-//        __delay_ms(1000);
-//    }
+    if (__NO_SENS) {
     
-    while (s < number) {
-        
-        detected = 0;
-        
-        I2C_Master_Start();
-        I2C_Master_Write(0b00010000);
-        I2C_Master_Write(command);
-        I2C_Master_Stop();
-        
-        for (timer = 0; timer < 1500; timer++) {
-            if (readADC(box_sensors[dispenser]) < 150) {
-                detected = 1;
-                break;
-            }
-            __delay_ms(1);
+        for (s = 0; s < number; s++) {
+
+            I2C_Master_Start();
+            I2C_Master_Write(0b00010000);
+            I2C_Master_Write(command);
+            I2C_Master_Stop();
+
+            __delay_ms(1000);
+
+            I2C_Master_Start();
+            I2C_Master_Write(0b00010000);
+            I2C_Master_Write(command | 0b10000000);
+            I2C_Master_Stop();
+
+            __delay_ms(1000);
         }
-        
-        I2C_Master_Start();
-        I2C_Master_Write(0b00010000);
-        I2C_Master_Write(command | 0b10000000);
-        I2C_Master_Stop();
-        
-        __delay_ms(600);
-        
-        if (detected == 1) {
-            s++;
+    }
+    
+    else {    
+        while (s < number) {
+
+            detected = 0;
+
+            I2C_Master_Start();
+            I2C_Master_Write(0b00010000);
+            I2C_Master_Write(command);
+            I2C_Master_Stop();
+
+            for (timer = 0; timer < 1500; timer++) {
+                if (readADC(box_sensors[dispenser]) < box_threshold[dispenser]) {
+                    detected = 1;
+                    break;
+                }
+                __delay_ms(1);
+            }
+
+            I2C_Master_Start();
+            I2C_Master_Write(0b00010000);
+            I2C_Master_Write(command | 0b10000000);
+            I2C_Master_Stop();
+
+            __delay_ms(600);
+
+            if (detected == 1) {
+                s++;
+            }
         }
     }
 }
@@ -955,7 +965,7 @@ unsigned char dump(unsigned char dispenser) {
         I2C_Master_Stop();
         
         for (timer = 0; timer < 1500; timer++) {
-            if (readADC(dump_sensors[dispenser]) < 150) {
+            if (readADC(dump_sensors[dispenser]) < dump_threshold[dispenser]) {
                 detected = 1;
                 number++;
                 break;
@@ -973,7 +983,7 @@ unsigned char dump(unsigned char dispenser) {
         I2C_Master_Write(command | 0b11000000);
         I2C_Master_Stop();
         
-        __delay_ms(1000);
+        __delay_ms(600);
         
         if ((empty[0] == 0) && (empty[1] == 0) && (empty[2] == 0)) {
             break;
