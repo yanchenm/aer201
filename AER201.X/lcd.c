@@ -1,11 +1,3 @@
-/*
- * File:   lcd.c
- * Author: Michael Ding
- *
- * Created on July 18, 2016, 12:11 PM
- * Edited by Tyler Gamvrelis, summer 2017
- */
-
 #include "lcd.h"
 
 void lcdInst(char data){

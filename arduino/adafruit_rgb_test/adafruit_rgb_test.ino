@@ -96,7 +96,6 @@ void get_Colors(void)
   Readi2cRegisters(8,ColorAddress);
   clear_color = (unsigned int)(i2cReadBuffer[1]<<8) + (unsigned int)i2cReadBuffer[0];
   red_color = (unsigned int)(i2cReadBuffer[3]<<8) + (unsigned int)i2cReadBuffer[2];
-  green_color = (unsigned int)(i2cReadBuffer[5]<<8) + (unsigned int)i2cReadBuffer[4];
   blue_color = (unsigned int)(i2cReadBuffer[7]<<8) + (unsigned int)i2cReadBuffer[6];
 
   // send register values to the serial monitor 
@@ -114,11 +113,9 @@ void get_Colors(void)
  // Basic RGB color differentiation can be accomplished by comparing the values and the largest reading will be 
  // the prominent color
 
-  if((red_color>blue_color) && (red_color>green_color))
+  if((red_color>blue_color))
     Serial.println("detecting red");
-  else if((green_color>blue_color) && (green_color>red_color))
-    Serial.println("detecting green");
-  else if((blue_color>red_color) && (blue_color>green_color))
+  else if((blue_color>red_color))
     Serial.println("detecting blue");
   else
     Serial.println("color not detectable");

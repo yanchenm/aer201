@@ -2,6 +2,7 @@
 #define	STANDBY_H
 
 #include <xc.h>
+#include "configBits.h"
 #include "operation.h"
 #include "logging.h"
 #include "debug.h"

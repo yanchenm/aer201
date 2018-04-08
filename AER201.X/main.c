@@ -2,14 +2,7 @@
 #include <xc.h>
 #include <stdio.h>
 #include "configBits.h"
-#include "lcd.h"
-#include "I2C.h"
-#include "I2C_devices.h"
-#include "operation.h"
 #include "standby.h"
-
-/***** Constants *****/
-const char keys[] = "123A456B789C*0#D";
 
 void initialize(void) {
     /* Write outputs to LATx, read inputs from PORTx. Here, all latches (LATx)
