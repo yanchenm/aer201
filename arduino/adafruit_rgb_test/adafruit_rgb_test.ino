@@ -125,8 +125,8 @@ void get_Colors(void)
 void setup() {
   Wire.begin();
   Serial.begin(9600);  // start serial for output
-  init_TCS34725();
-  get_TCS34725ID();     // get the device ID, this is just a test to see if we're connected
+  //init_TCS34725();
+  //get_TCS34725ID();     // get the device ID, this is just a test to see if we're connected
 }
 
 void loop() {
