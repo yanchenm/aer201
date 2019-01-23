@@ -1,3 +1,7 @@
+// Arduino Nano Co-processor Code
+// Controls all machine microservos
+// Takes commands through I2C connection to PIC
+
 #include <Wire.h>
 #include <Servo.h>
 

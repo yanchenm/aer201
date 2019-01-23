@@ -1,3 +1,9 @@
+/*
+ * File:   main.c
+ * Author: Yanchen Ma
+ *
+ */
+
 /***** Includes *****/
 #include <xc.h>
 #include <stdio.h>
@@ -21,7 +27,7 @@ void stepper_move(unsigned char, int);
 void dispense(unsigned char, unsigned char);
 unsigned char dump(unsigned char);
 void flipGate(void);
-unsigned char orientation();
+unsigned char orientation(void);
 unsigned short readADC(char);
 void ir_calibrate(void);
 
@@ -31,7 +37,7 @@ const char keys[] = "123A456B789C*0#D";
 
 /***** Global Variables *****/
 int num_runs = 0;
-int total_time = 0;
+long total_time = 0;
 int box_fill[7][2] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
 int gatePos = 0;          // 0 -> gate left, 1 -> gate right
 unsigned char box_sensors[3] = {0, 2, 4};
@@ -56,10 +62,10 @@ enum freq {every, alt_sun, alt_mon, na_freq};
 enum orientation {sat, sun, na};
 
 const char currDate[7] = {  0x00, // 00 Seconds 
-                                0x05, // 28 Minutes
-                                0x16, // 24 hour mode, set to 5:00
-                                0x06, // Sunday
-                                0x07, // 4th
+                                0x020, // 28 Minutes
+                                0x17, // 24 hour mode, set to 5:00
+                                0x02, // Sunday
+                                0x09, // 4th
                                 0x04, // February
                                 0x18  // 2018
 };
@@ -502,9 +508,9 @@ void operation(void) {
     I2C_Master_Start(); // Start condition
     I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
     for(i = 0; i < 6; i++){
-        start_time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
+        start_time[i] = __bcd_to_num(I2C_Master_Read(ACK)); // Read with ACK to continue reading
     }
-    start_time[6] = I2C_Master_Read(NACK); // Final Read with NACK
+    start_time[6] = __bcd_to_num(I2C_Master_Read(NACK)); // Final Read with NACK
     I2C_Master_Stop(); // Stop condition
     
     __lcd_clear();
@@ -532,7 +538,7 @@ void operation(void) {
     
     ir_calibrate();
     
-    dir = sun;
+    dir = orientation();
     
     int fill_start = 0;
     int fill_increment = 0;
@@ -626,7 +632,7 @@ void operation(void) {
     
     num_r = dump(0);
     num_f = dump(1);
-    //num_l = dump(2);
+    num_l = dump(2);
     
     LATCbits.LATC0 = 0;
     LATCbits.LATC1 = 0;
@@ -642,15 +648,16 @@ void operation(void) {
     I2C_Master_Start(); // Start condition
     I2C_Master_Write(0b11010001); // 7 bit RTC address + Read
     for(i = 0; i < 6; i++){
-        end_time[i] = I2C_Master_Read(ACK); // Read with ACK to continue reading
+        end_time[i] = __bcd_to_num(I2C_Master_Read(ACK)); // Read with ACK to continue reading
     }
-    end_time[6] = I2C_Master_Read(NACK); // Final Read with NACK
+    end_time[6] = __bcd_to_num(I2C_Master_Read(NACK)); // Final Read with NACK
     I2C_Master_Stop(); // Stop condition
     
     total_time = (3600 * end_time[2]) + (60 * end_time[1]) + end_time[0] - (3600 * start_time[2]) - (60 * start_time[1]) - start_time[0];
     
     // <editor-fold defaultstate="expanded" desc="End of Operation Info">
     __lcd_clear();
+    __lcd_2line();
     printf(" OPERATION COMPLETE ");
     __lcd_3line();
     printf("  PRESS ANY KEY...  ");
@@ -746,8 +753,6 @@ void operation(void) {
     __lcd_4line();
     printf("(# to continue...)");
     
-    
-
     while (1) {
         while (PORTBbits.RB1 == 0) {
             continue;
@@ -1044,6 +1049,77 @@ void ir_calibrate(void) {
         
         box_threshold[sens] = box_avg * 0.5;
         dump_threshold[sens] = dump_avg * 0.5;
+    }
+}
+
+unsigned char orientation(void) {
+    unsigned int red = 0;
+    unsigned int blue = 0;
+    
+    // Initialization code
+    I2C_Master_Start();
+    I2C_Master_Write(0x29);
+    I2C_Master_Write(0xa1);
+    I2C_Master_Write(0x10);
+    I2C_Master_Stop();
+    
+    __delay_us(100);
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0x29);
+    I2C_Master_Write(0xad);
+    I2C_Master_Write(0x00);
+    I2C_Master_Stop();
+    
+    __delay_us(100);
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0x29);
+    I2C_Master_Write(0xaf);
+    I2C_Master_Write(0x00);
+    I2C_Master_Stop();
+    
+    __delay_us(100);
+    
+    I2C_Master_Start();
+    I2C_Master_Write(0x29);
+    I2C_Master_Write(0xa0);
+    I2C_Master_Write(0x03);
+    I2C_Master_Stop();
+    
+    __delay_us(100);
+    
+    int i, j;
+    unsigned char colour_read[8];
+    
+    for (i = 0; i < 3; i++) {
+        I2C_Master_Start();
+        I2C_Master_Write(0x29);
+        I2C_Master_Write(0xb4);
+        I2C_Master_Stop();
+        
+        __delay_us(100);
+        
+        I2C_Master_Start();
+        I2C_Master_Write(0x29);
+        
+        for (j = 0; j < 7; j++) {
+            colour_read[j] = I2C_Master_Read(ACK);
+        }
+        colour_read[7] = I2C_Master_Read(NACK);
+        I2C_Master_Stop();
+        
+        red += (unsigned int)(colour_read[3] << 8) + (unsigned int)(colour_read[2]);
+        blue += (unsigned int)(colour_read[7] << 8) + (unsigned int)(colour_read[6]);
+        
+        __delay_ms(1000);
+    }
+    
+    if (red > blue) {
+        return 0;
+    }
+    else {
+        return 1;
     }
 }
 
